@@ -63,13 +63,12 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
 
-    // Material components
-    implementation 'com.google.android.material:material:1.6.0-alpha03'
+    // Material components - in alpha using only few components
+    implementation 'androidx.compose.material3:material3:1.0.0-alpha07'
 
     // Navigation
     def nav_version = "2.5.0-alpha03"
     implementation("androidx.navigation:navigation-compose:$nav_version")
-    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
     // ViewModel
@@ -85,5 +84,8 @@ dependencies {
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
     kapt 'androidx.hilt:hilt-compiler:1.0.0'
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+
+    // Glide - image loading
+    implementation "com.github.skydoves:landscapist-glide:1.5.0"
 
 }

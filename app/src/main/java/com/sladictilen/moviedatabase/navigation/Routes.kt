@@ -1,5 +1,9 @@
 package com.sladictilen.moviedatabase.navigation
 
-sealed class Routes(val route: String){
-    object WhatToWatchScreen : Routes("what_to_watch_screen")
+import android.graphics.drawable.VectorDrawable
+import androidx.annotation.StringRes
+import com.sladictilen.moviedatabase.R
+
+sealed class Screens(val route: String, val icon: VectorDrawable ){
+    object DiscoveScreen : Screens("discover", R.string.)
 }
