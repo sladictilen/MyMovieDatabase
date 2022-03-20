@@ -1,26 +1,73 @@
 package com.sladictilen.moviedatabase.navigation
 
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sladictilen.moviedatabase.R
 import com.sladictilen.moviedatabase.ui.presentation.discover.DiscoverScreen
+import com.sladictilen.moviedatabase.ui.presentation.search.SearchScreen
+import com.sladictilen.moviedatabase.ui.presentation.watchedmovies.WatchedMoviesScreen
+import com.sladictilen.moviedatabase.ui.presentation.watchlist.WatchListScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    val navItems = listOf<>()
+
+    var selectedItem by remember { mutableStateOf(0) }
+    val navItems = listOf(
+        Screens.DiscoverScreen,
+        Screens.SearchScreen,
+        Screens.WatchListScreen,
+        Screens.WatchedMovies
+    )
+
     Scaffold(
         bottomBar = {
+            NavigationBar(
+                modifier = Modifier.height(56.dp)
+            ) {
+                navItems.forEachIndexed { index, screen ->
+                    NavigationBarItem(
+                        selected = selectedItem == index,
+                        onClick = {
+                            selectedItem = index
+                            navController.navigate(screen.route)
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = screen.icon),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .padding(10.dp)
+                                    .size(24.dp)
+                            )
+                        })
+                }
 
+            }
         }
     ) {
-        NavHost(navController = navController, startDestination = Routes.WhatToWatchScreen.route) {
-            composable(route = Routes.WhatToWatchScreen.route) {
+        NavHost(navController = navController, startDestination = Screens.DiscoverScreen.route) {
+            composable(route = Screens.DiscoverScreen.route) {
                 DiscoverScreen()
+            }
+            composable(route = Screens.SearchScreen.route) {
+                SearchScreen()
+            }
+            composable(route = Screens.WatchListScreen.route) {
+                WatchListScreen()
+            }
+            composable(route = Screens.WatchedMovies.route) {
+                WatchedMoviesScreen()
             }
         }
     }
