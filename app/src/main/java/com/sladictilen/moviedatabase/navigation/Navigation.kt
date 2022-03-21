@@ -34,14 +34,6 @@ fun Navigation() {
     )
 
     Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(text = navItems[selectedItem].title)
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
-            )
-        },
         bottomBar = {
             NavigationBar(
                 modifier = Modifier.height(56.dp)
