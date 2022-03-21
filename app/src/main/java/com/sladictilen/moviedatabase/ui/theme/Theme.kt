@@ -7,9 +7,10 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = lightBlue,
+    primaryVariant = hotPink,
+    secondary = lightBlue,
+    background = backgroundColor
 )
 
 private val LightColorPalette = lightColors(
@@ -32,11 +33,12 @@ fun MovieDatabaseTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colors = if (darkTheme) {
+    val colors = DarkColorPalette
+    /*val colors = if (darkTheme) {
         DarkColorPalette
     } else {
         LightColorPalette
-    }
+    } */
 
     MaterialTheme(
         colors = colors,

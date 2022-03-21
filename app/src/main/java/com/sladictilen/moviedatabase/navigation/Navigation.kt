@@ -1,5 +1,6 @@
 package com.sladictilen.moviedatabase.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,6 +17,7 @@ import com.sladictilen.moviedatabase.ui.presentation.discover.DiscoverScreen
 import com.sladictilen.moviedatabase.ui.presentation.search.SearchScreen
 import com.sladictilen.moviedatabase.ui.presentation.watchedmovies.WatchedMoviesScreen
 import com.sladictilen.moviedatabase.ui.presentation.watchlist.WatchListScreen
+import com.sladictilen.moviedatabase.ui.theme.backgroundColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,6 +25,7 @@ fun Navigation() {
     val navController = rememberNavController()
 
     var selectedItem by remember { mutableStateOf(0) }
+
     val navItems = listOf(
         Screens.DiscoverScreen,
         Screens.SearchScreen,
@@ -31,6 +34,14 @@ fun Navigation() {
     )
 
     Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(text = navItems[selectedItem].title)
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
+            )
+        },
         bottomBar = {
             NavigationBar(
                 modifier = Modifier.height(56.dp)
