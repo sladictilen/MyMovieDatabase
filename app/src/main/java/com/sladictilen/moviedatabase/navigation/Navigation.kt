@@ -1,25 +1,22 @@
 package com.sladictilen.moviedatabase.navigation
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.*
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.sladictilen.moviedatabase.R
 import com.sladictilen.moviedatabase.ui.presentation.discover.DiscoverScreen
 import com.sladictilen.moviedatabase.ui.presentation.search.SearchScreen
 import com.sladictilen.moviedatabase.ui.presentation.watchedmovies.WatchedMoviesScreen
 import com.sladictilen.moviedatabase.ui.presentation.watchlist.WatchListScreen
-import com.sladictilen.moviedatabase.ui.theme.backgroundColor
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
@@ -35,11 +32,12 @@ fun Navigation() {
 
     Scaffold(
         bottomBar = {
-            NavigationBar(
-                modifier = Modifier.height(56.dp)
+            BottomNavigation(
+                modifier = Modifier.height(56.dp),
+                backgroundColor = MaterialTheme.colors.background
             ) {
                 navItems.forEachIndexed { index, screen ->
-                    NavigationBarItem(
+                    BottomNavigationItem(
                         selected = selectedItem == index,
                         onClick = {
                             selectedItem = index
@@ -53,7 +51,10 @@ fun Navigation() {
                                     .padding(10.dp)
                                     .size(24.dp)
                             )
-                        })
+                        },
+                        unselectedContentColor = Color.DarkGray,
+                        selectedContentColor = MaterialTheme.colors.primary
+                    )
                 }
 
             }

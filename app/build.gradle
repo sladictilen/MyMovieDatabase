@@ -64,7 +64,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
 
     // Material components - in alpha using only few components
-    implementation 'androidx.compose.material3:material3:1.0.0-alpha07'
+    // implementation 'androidx.compose.material3:material3:1.0.0-alpha07'
 
     // Navigation
     def nav_version = "2.5.0-alpha03"
