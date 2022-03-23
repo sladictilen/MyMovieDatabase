@@ -1,7 +1,8 @@
 package com.sladictilen.moviedatabase.util
 
-sealed class Constants{
-    val API_KEY = "938244be"
-    val API_URL_TITLE = "http://www.omdbapi.com/?apikey=$API_KEY&t="
-
+class Constants {
+    companion object {
+        private const val API_KEY = "a45d21208d507b4fa85de6f10cf9b30e"
+        const val BASE_URL = "https://api.themoviedb.org/3/movie/550?api_key=$API_KEY"
+    }
 }

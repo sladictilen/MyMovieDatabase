@@ -9,10 +9,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.sladictilen.moviedatabase.ui.presentation.discover.DiscoverScreen
+import com.sladictilen.moviedatabase.ui.presentation.movieprofile.MovieProfileScreen
 import com.sladictilen.moviedatabase.ui.presentation.search.SearchScreen
 import com.sladictilen.moviedatabase.ui.presentation.watchedmovies.WatchedMoviesScreen
 import com.sladictilen.moviedatabase.ui.presentation.watchlist.WatchListScreen
@@ -24,10 +27,10 @@ fun Navigation() {
     var selectedItem by remember { mutableStateOf(0) }
 
     val navItems = listOf(
-        Screens.DiscoverScreen,
-        Screens.SearchScreen,
-        Screens.WatchListScreen,
-        Screens.WatchedMovies
+        BottomNavScreens.DiscoverScreen,
+        BottomNavScreens.SearchScreen,
+        BottomNavScreens.WatchListScreen,
+        BottomNavScreens.WatchedMovies
     )
 
     Scaffold(
@@ -60,18 +63,31 @@ fun Navigation() {
             }
         }
     ) {
-        NavHost(navController = navController, startDestination = Screens.DiscoverScreen.route) {
-            composable(route = Screens.DiscoverScreen.route) {
+        NavHost(
+            navController = navController,
+            startDestination = BottomNavScreens.DiscoverScreen.route
+        ) {
+            composable(route = BottomNavScreens.DiscoverScreen.route) {
                 DiscoverScreen()
             }
-            composable(route = Screens.SearchScreen.route) {
-                SearchScreen()
+            composable(route = BottomNavScreens.SearchScreen.route) {
+                SearchScreen(onNavigate = { navController.navigate(route = it.route) })
             }
-            composable(route = Screens.WatchListScreen.route) {
+            composable(route = BottomNavScreens.WatchListScreen.route) {
                 WatchListScreen()
             }
-            composable(route = Screens.WatchedMovies.route) {
+            composable(route = BottomNavScreens.WatchedMovies.route) {
                 WatchedMoviesScreen()
+            }
+            composable(
+                route = Screens.MovieProfile.route + "?title={title}",
+                arguments = listOf(
+                    navArgument(name = "title") {
+                        type = NavType.StringType
+                        defaultValue = ""
+                    })
+            ) {
+                MovieProfileScreen()
             }
         }
     }

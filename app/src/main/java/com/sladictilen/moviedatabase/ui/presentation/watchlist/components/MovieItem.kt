@@ -1,18 +1,23 @@
-package com.sladictilen.moviedatabase.ui.presentation.discover.components
+package com.sladictilen.moviedatabase.ui.presentation.watchlist.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.glide.GlideImage
+import com.sladictilen.moviedatabase.R
 
 @Composable
 fun MovieItem(
@@ -24,11 +29,16 @@ fun MovieItem(
     imdbRating: String,
     rottentomatoRating: String
 ) {
-    Row(modifier = Modifier.padding(10.dp)) {
+    Row(
+        modifier = Modifier
+            .padding(10.dp)
+            .fillMaxWidth()
+    ) {
         // Poster
         Box(
             modifier = Modifier
                 .height(125.dp)
+                .fillMaxWidth()
         ) {
             Row(
                 modifier = Modifier
@@ -37,7 +47,9 @@ fun MovieItem(
             ) {
                 // Poster Image
                 Column(
-                    modifier = Modifier.width(90.dp)
+                    modifier = Modifier
+                        .width(90.dp)
+                        .fillMaxHeight()
                 ) {
                     GlideImage(
                         imageModel = poster,
@@ -46,7 +58,9 @@ fun MovieItem(
                 }
                 // Info Column
                 Column(
-                    modifier = Modifier.padding(10.dp)
+                    modifier = Modifier
+                        .padding(start = 10.dp, end = 10.dp)
+                        .width(220.dp)
                 ) {
                     // Year and runtime
                     Row() {
@@ -70,6 +84,43 @@ fun MovieItem(
                             fontSize = 14.sp
                         )
                     }
+                }
+                // Ratings
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.End
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(bottom = 5.dp)
+                    ) {
+                        Column(modifier = Modifier.padding(end = 5.dp)) {
+                            Text(text = imdbRating)
+                        }
+                        Column() {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_imdb),
+                                contentDescription = "Imdb logo",
+                                modifier = Modifier.size(30.dp)
+                            )
+                        }
+                    }
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(modifier = Modifier.padding(end = 5.dp)) {
+                            Text(text = rottentomatoRating)
+                        }
+                        Column() {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_rotten_tomatoes),
+                                contentDescription = "Rotten tomatoes logo",
+                                modifier = Modifier.size(30.dp)
+                            )
+                        }
+                    }
+
 
                 }
             }

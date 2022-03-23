@@ -62,9 +62,12 @@ dependencies {
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
-    // Material components - in alpha using only few components
-    // implementation 'androidx.compose.material3:material3:1.0.0-alpha07'
+    //okhttp3
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
+
 
     // Navigation
     def nav_version = "2.5.0-alpha03"
@@ -87,5 +90,11 @@ dependencies {
 
     // Glide - image loading
     implementation "com.github.skydoves:landscapist-glide:1.5.0"
+
+    // Room
+    def roomVersion = "2.4.2"
+
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
 
 }

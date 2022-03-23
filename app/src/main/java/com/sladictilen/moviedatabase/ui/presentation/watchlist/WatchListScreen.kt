@@ -11,7 +11,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sladictilen.moviedatabase.R
-import com.sladictilen.moviedatabase.ui.presentation.discover.components.MovieItem
+import com.sladictilen.moviedatabase.ui.presentation.watchlist.components.MovieItem
 
 @Composable
 fun WatchListScreen() {
@@ -30,7 +30,7 @@ fun WatchListScreen() {
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_sort),
-                        contentDescription = null,
+                        contentDescription = "Sort button",
                         modifier = Modifier.size(35.dp)
                     )
                 }
