@@ -1,6 +1,8 @@
 package com.sladictilen.moviedatabase.ui.presentation.search
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -12,13 +14,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.sladictilen.moviedatabase.R
 import com.sladictilen.moviedatabase.ui.presentation.search.components.SearchItem
 import com.sladictilen.moviedatabase.util.UiEvent
-import kotlinx.coroutines.flow.collect
 
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel(),
     onNavigate: (UiEvent.Navigate) -> Unit
 ) {
+
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
@@ -76,17 +78,24 @@ fun SearchScreen(
                 )
             )
         }
+
         Row(
             modifier = Modifier.padding(top = 10.dp)
         ) {
-            SearchItem(
-                title = "Deadpool",
-                year = "2016",
-                poster = "https://m.media-amazon.com/images/M/MV5BYzE5MjY1ZDgtMTkyNC00MTMyLThhMjAtZGI5OTE1NzFlZGJjXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
-                onClick = {
-                    viewModel.onEvent(SearchEvent.OnSearchedItemClick(it))
+            LazyColumn() {
+                items(viewModel.searchResults) {
+                    if (it.poster_path != null) {
+                        SearchItem(
+                            title = it.title,
+                            year = it.release_date,
+                            poster = it.poster_path,
+                            onClick = {}
+                        )
+                    }
                 }
-            )
+            }
         }
     }
 }
+
+

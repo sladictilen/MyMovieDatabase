@@ -1,12 +1,10 @@
 package com.sladictilen.moviedatabase.data.api
 
-import com.sladictilen.moviedatabase.util.Constants
 import com.sladictilen.moviedatabase.util.Constants.Companion.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 class RetrofitInstance {
     companion object {
