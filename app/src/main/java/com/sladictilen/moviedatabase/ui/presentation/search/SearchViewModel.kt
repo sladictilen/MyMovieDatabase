@@ -34,16 +34,17 @@ class SearchViewModel @Inject constructor(
     var cachedSearch = ""
     var cachedSearchResults = listOf<Result>()
 
-    val timer = 500L
+    private var timer = 500L
 
     init {
 
     }
 
 
-    fun startSearching() {
+    private fun startSearching() {
         if (searchText.length >= 3) {
             viewModelScope.launch {
+                delay(timer)
                 val result = repository.searchMovies(searchText, 1)
                 when (result) {
                     is Resource.Success -> {
@@ -65,13 +66,14 @@ class SearchViewModel @Inject constructor(
             is SearchEvent.OnSearchValueChange -> {
                 searchText = event.searchText
                 cachedSearch = searchText
+                timer = 500L
                 startSearching()
             }
             is SearchEvent.OnClearSearchClick -> {
                 searchText = ""
                 cachedSearch = ""
-                searchResults = listOf<Result>()
-                cachedSearchResults = listOf<Result>()
+                searchResults = listOf()
+                cachedSearchResults = listOf()
             }
             is SearchEvent.OnSearchedItemClick -> {
                 sendUiEvent(UiEvent.Navigate(Screens.MovieProfile.route + "?title=${event.title}"))

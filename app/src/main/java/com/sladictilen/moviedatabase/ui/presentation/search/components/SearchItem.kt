@@ -32,11 +32,17 @@ fun SearchItem(
             // Poster
             Column(modifier = Modifier.width(30.dp)) {
                 GlideImage(
-                    imageModel = "https://image.tmdb.org/t/p/original$poster",
+                    imageModel = "https://image.tmdb.org/t/p/w92$poster",
                     contentScale = ContentScale.FillBounds,
                 )
             }
             // Title & Year
+            // Fixing if year not annouced
+            val yearF = if (year == "") {
+                "TBA"
+            } else {
+                year.substring(0, 4)
+            }
             Column(
                 modifier = Modifier.padding(start = 5.dp)
             ) {
@@ -46,7 +52,7 @@ fun SearchItem(
                 modifier = Modifier.padding(start = 5.dp)
             ) {
                 Text(
-                    text = "($year)",
+                    text = "($yearF)",
                     color = Color.Gray,
                     fontWeight = FontWeight.ExtraLight,
                     fontSize = 16.sp

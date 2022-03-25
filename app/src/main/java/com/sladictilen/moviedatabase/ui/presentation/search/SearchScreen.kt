@@ -1,5 +1,6 @@
 package com.sladictilen.moviedatabase.ui.presentation.search
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -79,18 +80,24 @@ fun SearchScreen(
             )
         }
 
+        // Bottom padding so it wont go under bottom navbar
         Row(
-            modifier = Modifier.padding(top = 10.dp)
+            modifier = Modifier.padding(top = 10.dp, bottom = 40.dp)
         ) {
             LazyColumn() {
                 items(viewModel.searchResults) {
                     if (it.poster_path != null) {
-                        SearchItem(
-                            title = it.title,
-                            year = it.release_date,
-                            poster = it.poster_path,
-                            onClick = {}
-                        )
+                        Row(modifier = Modifier
+                            .padding(bottom = 10.dp)
+                            .fillMaxWidth()) {
+                            SearchItem(
+                                title = it.title,
+                                year = it.release_date,
+                                poster = it.poster_path,
+                                onClick = {}
+                            )
+                        }
+
                     }
                 }
             }
