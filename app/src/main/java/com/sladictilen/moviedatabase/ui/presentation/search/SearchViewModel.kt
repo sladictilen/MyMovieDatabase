@@ -7,11 +7,13 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sladictilen.moviedatabase.data.api.MoviesRepository
-import com.sladictilen.moviedatabase.data.api.Result
+import com.sladictilen.moviedatabase.data.api.moviesearch.Result
 import com.sladictilen.moviedatabase.navigation.Screens
 import com.sladictilen.moviedatabase.util.Resource
 import com.sladictilen.moviedatabase.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -34,7 +36,8 @@ class SearchViewModel @Inject constructor(
     var cachedSearch = ""
     var cachedSearchResults = listOf<Result>()
 
-    private var timer = 500L
+
+    private var job: Job? = null
 
     init {
 
@@ -42,9 +45,11 @@ class SearchViewModel @Inject constructor(
 
 
     private fun startSearching() {
+        // We cancel previous job
+        job?.cancel("Change happened.")
         if (searchText.length >= 3) {
-            viewModelScope.launch {
-                delay(timer)
+            job = viewModelScope.launch {
+                delay(500L)
                 val result = repository.searchMovies(searchText, 1)
                 when (result) {
                     is Resource.Success -> {
@@ -66,7 +71,7 @@ class SearchViewModel @Inject constructor(
             is SearchEvent.OnSearchValueChange -> {
                 searchText = event.searchText
                 cachedSearch = searchText
-                timer = 500L
+                //canceling so we don't put more "jobs" in queue
                 startSearching()
             }
             is SearchEvent.OnClearSearchClick -> {
@@ -76,7 +81,7 @@ class SearchViewModel @Inject constructor(
                 cachedSearchResults = listOf()
             }
             is SearchEvent.OnSearchedItemClick -> {
-                sendUiEvent(UiEvent.Navigate(Screens.MovieProfile.route + "?title=${event.title}"))
+                sendUiEvent(UiEvent.Navigate(Screens.MovieProfile.route + "?id=${event.id}"))
             }
         }
     }

@@ -87,14 +87,17 @@ fun SearchScreen(
             LazyColumn() {
                 items(viewModel.searchResults) {
                     if (it.poster_path != null) {
-                        Row(modifier = Modifier
-                            .padding(bottom = 10.dp)
-                            .fillMaxWidth()) {
+                        Row(
+                            modifier = Modifier
+                                .padding(bottom = 10.dp)
+                                .fillMaxWidth()
+                        ) {
                             SearchItem(
                                 title = it.title,
                                 year = it.release_date,
                                 poster = it.poster_path,
-                                onClick = {}
+                                onClick = { viewModel.onEvent(SearchEvent.OnSearchedItemClick(it.id))
+                                Log.d("Info", "id passed: ${it.id}")}
                             )
                         }
 

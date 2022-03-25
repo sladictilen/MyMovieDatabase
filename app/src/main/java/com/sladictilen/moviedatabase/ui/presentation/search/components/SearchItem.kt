@@ -18,14 +18,14 @@ fun SearchItem(
     title: String,
     year: String,
     poster: String,
-    onClick: (String) -> Unit
+    onClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(40.dp)
             .clickable {
-                onClick(title)
+                onClick()
             }
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -37,7 +37,7 @@ fun SearchItem(
                 )
             }
             // Title & Year
-            // Fixing if year not annouced
+            // Fixing if year not announced
             val yearF = if (year == "") {
                 "TBA"
             } else {
@@ -55,7 +55,7 @@ fun SearchItem(
                     text = "($yearF)",
                     color = Color.Gray,
                     fontWeight = FontWeight.ExtraLight,
-                    fontSize = 16.sp
+                    fontSize = 14.sp
                 )
             }
         }

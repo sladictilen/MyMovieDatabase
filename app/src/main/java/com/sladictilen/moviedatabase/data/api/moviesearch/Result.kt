@@ -1,4 +1,4 @@
-package com.sladictilen.moviedatabase.data.api
+package com.sladictilen.moviedatabase.data.api.moviesearch
 
 data class Result(
     val adult: Boolean,

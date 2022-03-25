@@ -80,11 +80,11 @@ fun Navigation() {
                 WatchedMoviesScreen()
             }
             composable(
-                route = Screens.MovieProfile.route + "?title={title}",
+                route = Screens.MovieProfile.route + "?id={id}",
                 arguments = listOf(
-                    navArgument(name = "title") {
-                        type = NavType.StringType
-                        defaultValue = ""
+                    navArgument(name = "id") {
+                        type = NavType.IntType
+                        defaultValue = -1
                     })
             ) {
                 MovieProfileScreen()
