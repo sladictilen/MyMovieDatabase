@@ -12,12 +12,9 @@ import com.sladictilen.moviedatabase.navigation.Screens
 import com.sladictilen.moviedatabase.util.Resource
 import com.sladictilen.moviedatabase.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -48,14 +45,19 @@ class SearchViewModel @Inject constructor(
         // We cancel previous job
         job?.cancel("Change happened.")
         if (searchText.length >= 3) {
-            job = viewModelScope.launch {
+            job = viewModelScope.launch(Dispatchers.IO) {
                 delay(500L)
-                val result = repository.searchMovies(searchText, 1)
-                when (result) {
+                when (val result = repository.searchMovies(searchText, 1)) {
                     is Resource.Success -> {
                         searchResults = result.data?.results!!
                         cachedSearchResults = searchResults
                         Log.d("Info", "Accessing API")
+                    }
+                    is Resource.Error -> {
+                        Log.d("Info", "Accessing API")
+                    }
+                    is Resource.Loading -> {
+                        /* TODO */
                     }
                 }
             }

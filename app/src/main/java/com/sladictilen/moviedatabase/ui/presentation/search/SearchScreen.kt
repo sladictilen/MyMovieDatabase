@@ -92,12 +92,14 @@ fun SearchScreen(
                                 .padding(bottom = 10.dp)
                                 .fillMaxWidth()
                         ) {
+                            Log.d("Info", "${it.title}year: ${it.release_date}")
                             SearchItem(
                                 title = it.title,
                                 year = it.release_date,
                                 poster = it.poster_path,
-                                onClick = { viewModel.onEvent(SearchEvent.OnSearchedItemClick(it.id))
-                                Log.d("Info", "id passed: ${it.id}")}
+                                onClick = {
+                                    viewModel.onEvent(SearchEvent.OnSearchedItemClick(it.id))
+                                }
                             )
                         }
 
