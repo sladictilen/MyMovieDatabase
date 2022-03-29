@@ -1,6 +1,7 @@
 package com.sladictilen.moviedatabase.data.api
 
 
+import com.sladictilen.moviedatabase.data.api.cast.CastResponse
 import com.sladictilen.moviedatabase.data.api.moviedetail.MovieDetailResponse
 import com.sladictilen.moviedatabase.data.api.moviesearch.MoviesSearchResponse
 import com.sladictilen.moviedatabase.util.Constants.Companion.API_KEY
@@ -22,4 +23,10 @@ interface OmdbAPI {
         @Path("id") id: Int,
         @Query("api_key") apiKey: String = API_KEY
     ): MovieDetailResponse
+
+    @GET("movie/{id}/credits")
+    suspend fun getCast(
+        @Path("id") id: Int,
+        @Query("api_key") apiKey: String = API_KEY
+    ): CastResponse
 }

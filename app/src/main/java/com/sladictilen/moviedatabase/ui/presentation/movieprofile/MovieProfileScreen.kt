@@ -1,6 +1,8 @@
 package com.sladictilen.moviedatabase.ui.presentation.movieprofile
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -16,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.skydoves.landscapist.glide.GlideImage
 import com.sladictilen.moviedatabase.R
+import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.ActorItem
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -73,11 +76,20 @@ fun MovieProfileScreen(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     GlideImage(
-                        imageModel = "https://image.tmdb.org/t/p/w154${viewModel.posterUrl}",
+                        imageModel = "https://image.tmdb.org/t/p/w185${viewModel.posterUrl}",
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier
                             .height(200.dp)
-                            .width(120.dp)
+                            .width(120.dp),
+                        loading = {
+                            Row(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                CircularProgressIndicator(color = MaterialTheme.colors.primary)
+                            }
+                        }
                     )
                 }
                 Row(
@@ -94,18 +106,29 @@ fun MovieProfileScreen(
                 }
                 Row() {
                     Column() {
-                        Text(text = "Release date: ", fontWeight = FontWeight.Bold)
+                        Text(text = "Genre: ", fontWeight = FontWeight.SemiBold)
                     }
                     Column() {
-                        Text(text = viewModel.releaseDate)
+                        Text(text = viewModel.genre, fontWeight = FontWeight.ExtraLight)
                     }
                 }
                 Row() {
                     Column() {
-                        Text(text = "Release date: ", fontWeight = FontWeight.Bold)
+                        Text(text = "Release date: ", fontWeight = FontWeight.SemiBold)
                     }
                     Column() {
-                        Text(text = viewModel.releaseDate)
+                        Text(text = viewModel.releaseDate, fontWeight = FontWeight.ExtraLight)
+                    }
+                }
+                Row() {
+                    Column() {
+                        Text(text = "Runtime: ", fontWeight = FontWeight.SemiBold)
+                    }
+                    Column() {
+                        Text(
+                            text = "${viewModel.runtime} minutes",
+                            fontWeight = FontWeight.ExtraLight
+                        )
                     }
                 }
                 Row(
@@ -123,6 +146,31 @@ fun MovieProfileScreen(
                 Row() {
                     Text(text = viewModel.overview)
                 }
+                Row(
+                    modifier = Modifier.padding(
+                        top = 10.dp,
+                    )
+                ) {
+                    Text(
+                        text = "Cast",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Light,
+                        color = Color.Gray
+                    )
+                }
+                Row() {
+                    LazyRow() {
+                        items(viewModel.cast) {
+                            ActorItem(
+                                name = it.name,
+                                characterName = it.character,
+                                profileImg = it.profile_path
+                            )
+                        }
+
+                    }
+                }
+
             }
         }
     )

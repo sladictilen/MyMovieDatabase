@@ -1,5 +1,6 @@
 package com.sladictilen.moviedatabase.data.api
 
+import com.sladictilen.moviedatabase.data.api.cast.CastResponse
 import com.sladictilen.moviedatabase.data.api.moviedetail.MovieDetailResponse
 import com.sladictilen.moviedatabase.data.api.moviesearch.MoviesSearchResponse
 import com.sladictilen.moviedatabase.util.Resource
@@ -25,6 +26,15 @@ class MoviesRepository @Inject constructor(
             api.getIdDetails(id)
         } catch (e: Exception) {
             return Resource.Error("Error getting movie details.")
+        }
+        return Resource.Success(response)
+    }
+
+    suspend fun getMovieCast(id: Int): Resource<CastResponse> {
+        val response = try {
+            api.getCast(id)
+        } catch (e: Exception) {
+            return Resource.Error("Error getting movie cast.")
         }
         return Resource.Success(response)
     }
