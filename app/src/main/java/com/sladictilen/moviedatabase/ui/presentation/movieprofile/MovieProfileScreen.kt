@@ -1,5 +1,6 @@
 package com.sladictilen.moviedatabase.ui.presentation.movieprofile
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -11,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -19,6 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.skydoves.landscapist.glide.GlideImage
 import com.sladictilen.moviedatabase.R
 import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.ActorItem
+import com.sladictilen.moviedatabase.util.components.CustomLinkButton
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -90,6 +93,39 @@ fun MovieProfileScreen(
                                 CircularProgressIndicator(color = MaterialTheme.colors.primary)
                             }
                         }
+                    )
+                }
+                // Watched?
+                Divider(Modifier.border(0.3.dp, Color.White))
+                Row() {
+                    Column() {
+                        Text(text = "Status: ")
+                    }
+                    Column() {
+                        Text(text = "Not watched")
+                    }
+                    Column(modifier = Modifier.padding(10.dp)) {
+                        CustomLinkButton(
+                            icon = R.drawable.ic_imdb,
+                            text = "Watch trailer",
+                            backgroundColor = Color.Red,
+                            onClick = {}
+                        )
+                    }
+                }
+                Divider(Modifier.border(0.1.dp, Color.White))
+                // Tagline
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = viewModel.tagline,
+                        fontStyle = FontStyle.Italic,
+                        fontWeight = FontWeight.ExtraLight,
+                        fontSize = 16.sp,
                     )
                 }
                 Row(

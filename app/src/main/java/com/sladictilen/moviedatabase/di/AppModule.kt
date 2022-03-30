@@ -1,8 +1,13 @@
 package com.sladictilen.moviedatabase.di
 
 
+import android.app.Application
+import androidx.room.Room
 import com.sladictilen.moviedatabase.data.api.MoviesRepository
 import com.sladictilen.moviedatabase.data.api.OmdbAPI
+import com.sladictilen.moviedatabase.data.database.Database
+import com.sladictilen.moviedatabase.data.database.LocalMoviesRepository
+import com.sladictilen.moviedatabase.data.database.LocalMoviesRepositoryImpl
 import com.sladictilen.moviedatabase.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -30,6 +35,22 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(OmdbAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDatabase(app: Application): Database {
+        return Room.databaseBuilder(
+            app,
+            Database::class.java,
+            "local_db"
+        ).fallbackToDestructiveMigration().build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideEmployeesRepository(db: Database): LocalMoviesRepository {
+        return LocalMoviesRepositoryImpl(dao = db.dao)
     }
 
 }

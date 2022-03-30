@@ -40,10 +40,16 @@ class MovieProfileViewModel @Inject constructor(
         private set
     var spokenLanguages by mutableStateOf(listOf<SpokenLanguage>())
         private set
+    var watched by mutableStateOf("Not watched")
+        private set
+    var youtubeTrailerURL by mutableStateOf("")
+        private set
 
     var cast by mutableStateOf(listOf<Cast>())
         private set
     var genre by mutableStateOf("")
+        private set
+    var tagline by mutableStateOf("")
         private set
 
 
@@ -60,8 +66,9 @@ class MovieProfileViewModel @Inject constructor(
                     runtime = movieDetails.runtime
                     status = movieDetails.status
                     spokenLanguages = movieDetails.spoken_languages
-                    val genreList = movieDetails.genres
-                    genresToText(genreList)
+                    tagline = movieDetails.tagline
+
+                    genresToText(movieDetails.genres)
 
                     Log.d("Info", "Got movie data")
                 }
@@ -94,7 +101,7 @@ class MovieProfileViewModel @Inject constructor(
             genre += if (index != genres.size - 1) {
                 "${element.name}, "
             } else {
-                "${element.name}"
+                element.name
             }
         }
     }
