@@ -13,9 +13,14 @@ import com.sladictilen.moviedatabase.data.api.cast.Cast
 import com.sladictilen.moviedatabase.data.api.moviedetail.Genre
 import com.sladictilen.moviedatabase.data.api.moviedetail.MovieDetailResponse
 import com.sladictilen.moviedatabase.data.api.moviedetail.SpokenLanguage
+import com.sladictilen.moviedatabase.data.api.similarmovies.SimilarMoviesData
+import com.sladictilen.moviedatabase.navigation.Screens
 import com.sladictilen.moviedatabase.util.Resource
+import com.sladictilen.moviedatabase.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -45,12 +50,18 @@ class MovieProfileViewModel @Inject constructor(
     var youtubeTrailerURL by mutableStateOf("")
         private set
 
+
     var cast by mutableStateOf(listOf<Cast>())
+        private set
+    var similarMovies by mutableStateOf(listOf<SimilarMoviesData>())
         private set
     var genre by mutableStateOf("")
         private set
     var tagline by mutableStateOf("")
         private set
+
+    private val _uiEvent = Channel<UiEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
 
 
     init {
@@ -94,7 +105,33 @@ class MovieProfileViewModel @Inject constructor(
                 }
             }
         }
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = repository.getSimilarMovies(savedStateHandle.get<Int>("id")!!)
+            when (result) {
+                is Resource.Success -> {
+                    similarMovies = result.data?.results!!
+                }
+                is Resource.Error -> {
+                    Log.d("Info", "Error getting similar movies.")
+                }
+                is Resource.Loading -> {
+                    /* TODO loading */
+                }
+            }
+        }
     }
+
+    fun onEvent(event: MovieProfileEvent) {
+        when (event) {
+            is MovieProfileEvent.OnSimilarMovieClick -> {
+                sendUiEvent(UiEvent.Navigate(Screens.MovieProfile.route + "?id=${event.id}"))
+            }
+            is MovieProfileEvent.OnBackPressed -> {
+                sendUiEvent(UiEvent.PopBackStack)
+            }
+        }
+    }
+
 
     private fun genresToText(genres: List<Genre>) {
         genres.forEachIndexed { index, element ->
@@ -103,6 +140,12 @@ class MovieProfileViewModel @Inject constructor(
             } else {
                 element.name
             }
+        }
+    }
+
+    fun sendUiEvent(event: UiEvent) {
+        viewModelScope.launch {
+            _uiEvent.send(event)
         }
     }
 }

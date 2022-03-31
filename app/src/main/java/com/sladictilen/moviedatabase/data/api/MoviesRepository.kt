@@ -3,6 +3,7 @@ package com.sladictilen.moviedatabase.data.api
 import com.sladictilen.moviedatabase.data.api.cast.CastResponse
 import com.sladictilen.moviedatabase.data.api.moviedetail.MovieDetailResponse
 import com.sladictilen.moviedatabase.data.api.moviesearch.MoviesSearchResponse
+import com.sladictilen.moviedatabase.data.api.similarmovies.SimilarMoviesResponse
 import com.sladictilen.moviedatabase.util.Resource
 import dagger.hilt.android.scopes.ActivityScoped
 import java.lang.Exception
@@ -35,6 +36,15 @@ class MoviesRepository @Inject constructor(
             api.getCast(id)
         } catch (e: Exception) {
             return Resource.Error("Error getting movie cast.")
+        }
+        return Resource.Success(response)
+    }
+
+    suspend fun getSimilarMovies(id: Int): Resource<SimilarMoviesResponse> {
+        val response = try {
+            api.getSimilarMovies(id)
+        } catch (e: Exception) {
+            return Resource.Error("Error getting similar movies.")
         }
         return Resource.Success(response)
     }

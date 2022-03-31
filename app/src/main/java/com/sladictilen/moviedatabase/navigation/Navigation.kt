@@ -87,7 +87,9 @@ fun Navigation() {
                         defaultValue = -1
                     })
             ) {
-                MovieProfileScreen()
+                MovieProfileScreen(
+                    onNavigate = { navController.navigate(route = it.route) },
+                    onPopBackStack = { navController.popBackStack() })
             }
         }
     }

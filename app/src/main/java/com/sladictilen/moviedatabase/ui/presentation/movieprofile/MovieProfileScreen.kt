@@ -1,12 +1,16 @@
 package com.sladictilen.moviedatabase.ui.presentation.movieprofile
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,13 +25,27 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.skydoves.landscapist.glide.GlideImage
 import com.sladictilen.moviedatabase.R
 import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.ActorItem
+import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.SimilarMovieItem
+import com.sladictilen.moviedatabase.util.UiEvent
 import com.sladictilen.moviedatabase.util.components.CustomLinkButton
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MovieProfileScreen(
-    viewModel: MovieProfileViewModel = hiltViewModel()
+    viewModel: MovieProfileViewModel = hiltViewModel(),
+    onNavigate: (UiEvent.Navigate) -> Unit,
+    onPopBackStack: () -> Unit
 ) {
+    LaunchedEffect(key1 = true) {
+        viewModel.uiEvent.collect { event ->
+            when (event) {
+                is UiEvent.Navigate -> onNavigate(event)
+                is UiEvent.PopBackStack -> onPopBackStack()
+            }
+
+        }
+    }
+
     BackdropScaffold(appBar = {
         TopAppBar(
             title = {
@@ -42,7 +60,7 @@ fun MovieProfileScreen(
 
             },
             navigationIcon = {
-                IconButton(onClick = { /* TODO popback */ }) {
+                IconButton(onClick = { viewModel.onEvent(MovieProfileEvent.OnBackPressed) }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_back),
                         contentDescription = null
@@ -73,6 +91,7 @@ fun MovieProfileScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(10.dp)
+                    .verticalScroll(rememberScrollState())
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -96,7 +115,6 @@ fun MovieProfileScreen(
                     )
                 }
                 // Watched?
-                Divider(Modifier.border(0.3.dp, Color.White))
                 Row() {
                     Column() {
                         Text(text = "Status: ")
@@ -106,14 +124,13 @@ fun MovieProfileScreen(
                     }
                     Column(modifier = Modifier.padding(10.dp)) {
                         CustomLinkButton(
-                            icon = R.drawable.ic_imdb,
+                            icon = R.drawable.ic_youtube,
                             text = "Watch trailer",
                             backgroundColor = Color.Red,
                             onClick = {}
                         )
                     }
                 }
-                Divider(Modifier.border(0.1.dp, Color.White))
                 // Tagline
                 Row(
                     modifier = Modifier
@@ -202,6 +219,43 @@ fun MovieProfileScreen(
                                 characterName = it.character,
                                 profileImg = it.profile_path
                             )
+                        }
+
+                    }
+                }
+                Row(
+                    modifier = Modifier.padding(
+                        top = 10.dp,
+                        bottom = 5.dp
+                    )
+                ) {
+                    Text(
+                        text = "Similar",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Light,
+                        color = Color.Gray
+                    )
+                }
+                Row(modifier = Modifier.padding(bottom = 60.dp)) {
+                    LazyRow() {
+                        items(viewModel.similarMovies) {
+                            Column(
+                                modifier = Modifier
+                                    .padding(end = 10.dp)
+                            ) {
+                                SimilarMovieItem(
+                                    posterUrl = it.poster_path,
+                                    title = it.title,
+                                    onClick = {
+                                        viewModel.onEvent(
+                                            MovieProfileEvent.OnSimilarMovieClick(
+                                                it.id
+                                            )
+                                        )
+                                    }
+                                )
+                            }
+
                         }
 
                     }

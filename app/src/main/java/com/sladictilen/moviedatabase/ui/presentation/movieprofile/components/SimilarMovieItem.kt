@@ -1,0 +1,35 @@
+package com.sladictilen.moviedatabase.ui.presentation.movieprofile.components
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
+import com.skydoves.landscapist.glide.GlideImage
+
+@Composable
+fun SimilarMovieItem(posterUrl: String, title: String, onClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .width(100.dp)
+            .clickable { onClick() }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Row() {
+                GlideImage(
+                    imageModel = "https://image.tmdb.org/t/p/w185$posterUrl",
+                    contentScale = ContentScale.FillWidth
+                )
+            }
+            Row() {
+                Text(text = title)
+            }
+        }
+    }
+
+}
