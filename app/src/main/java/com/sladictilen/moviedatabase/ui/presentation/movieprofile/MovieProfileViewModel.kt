@@ -147,20 +147,32 @@ class MovieProfileViewModel @Inject constructor(
                 sendUiEvent(UiEvent.PopBackStack)
             }
             is MovieProfileEvent.OnAddToWatchListButtonClick -> {
-                viewModelScope.launch(Dispatchers.IO) {
-                    localRepository.addToWatchList(
-                        toWatchData =
-                        ToWatchData(
-                            title = title,
-                            genre = genre,
-                            id_movie = savedStateHandle.get<Int>("id")!!,
-                            imdbRating = 6.6,
-                            tomatoRating = 88,
-                            posterUrl = "test"
+                if (!isOnWatchList) {
+                    viewModelScope.launch(Dispatchers.IO) {
+                        localRepository.addToWatchList(
+                            toWatchData =
+                            ToWatchData(
+                                title = title,
+                                genre = genre,
+                                id_movie = savedStateHandle.get<Int>("id")!!,
+                                imdbRating = 6.6,
+                                tomatoRating = 88,
+                                posterUrl = "test"
+                            )
                         )
-                    )
-                    isOnWatchList = true
-                    setWatchStatus(savedStateHandle.get<Int>("id")!!)
+                        isOnWatchList = true
+                        setWatchStatus(savedStateHandle.get<Int>("id")!!)
+                        sendUiEvent(UiEvent.ShowSnackbar("$title added to your To-Watch list!"))
+                    }
+                } else {
+                    isOnWatchList = false
+                    viewModelScope.launch(Dispatchers.IO){
+                        localRepository.getMovieFromToWatchListById(savedStateHandle.get<Int>("id")!!)
+                            ?.let { localRepository.deleteWatchListMovie(it) }
+                        setWatchStatus(savedStateHandle.get<Int>("id")!!)
+                    }
+                    sendUiEvent(UiEvent.ShowSnackbar("$title removed to your To-Watch list!", "Undo"))
+
                 }
             }
             is MovieProfileEvent.OnAddToWatchedListButtonClick -> {
@@ -171,16 +183,16 @@ class MovieProfileViewModel @Inject constructor(
 
 
     private suspend fun setWatchStatus(id: Int) {
-        if (localRepository.getMovieFromToWatchListById(id) != null){
+        if (localRepository.getMovieFromToWatchListById(id) != null) {
             watched = "On your To-Watch List"
             watchedColor = Color.Yellow
             isOnWatchList = true
         } else {
-            if (localRepository.getMovieFromWatchedListById(id) == null){
+            if (localRepository.getMovieFromWatchedListById(id) == null) {
                 watched = "Not watched"
                 watchedColor = Color.Red
                 isWatched = false
-            } else{
+            } else {
                 watched = "Watched"
                 watchedColor = Color.Green
                 isWatched = true

@@ -36,17 +36,26 @@ fun MovieProfileScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     onPopBackStack: () -> Unit
 ) {
+    val scaffoldState = rememberBackdropScaffoldState(initialValue = BackdropValue.Concealed)
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is UiEvent.Navigate -> onNavigate(event)
                 is UiEvent.PopBackStack -> onPopBackStack()
+                is UiEvent.ShowSnackbar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.message,
+                        actionLabel = event.action
+                    )
+                }
             }
 
         }
     }
 
-    BackdropScaffold(appBar = {
+    BackdropScaffold(
+        scaffoldState = scaffoldState,
+        appBar = {
         TopAppBar(
             title = {
                 Row(
@@ -123,7 +132,7 @@ fun MovieProfileScreen(
                     }
                     Column(modifier = Modifier.padding(10.dp)) {
                         IconButton(onClick = { viewModel.onEvent(MovieProfileEvent.OnAddToWatchListButtonClick) }) {
-                            when(viewModel.isOnWatchList){
+                            when (viewModel.isOnWatchList) {
                                 true -> {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_remove_bookmark),
