@@ -49,7 +49,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideEmployeesRepository(db: Database): LocalMoviesRepository {
+    fun provideLocalRepository(db: Database): LocalMoviesRepository {
         return LocalMoviesRepositoryImpl(dao = db.dao)
     }
 

@@ -2,9 +2,9 @@ package com.sladictilen.moviedatabase.ui.presentation.movieprofile
 
 import android.util.Log
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,12 +14,15 @@ import com.sladictilen.moviedatabase.data.api.moviedetail.Genre
 import com.sladictilen.moviedatabase.data.api.moviedetail.MovieDetailResponse
 import com.sladictilen.moviedatabase.data.api.moviedetail.SpokenLanguage
 import com.sladictilen.moviedatabase.data.api.similarmovies.SimilarMoviesData
+import com.sladictilen.moviedatabase.data.database.LocalMoviesRepository
 import com.sladictilen.moviedatabase.navigation.Screens
 import com.sladictilen.moviedatabase.util.Resource
 import com.sladictilen.moviedatabase.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,9 +30,11 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieProfileViewModel @Inject constructor(
     private val repository: MoviesRepository,
+    private val localRepository: LocalMoviesRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     lateinit var movieDetails: MovieDetailResponse
+
 
     var title by mutableStateOf("")
         private set
@@ -45,8 +50,13 @@ class MovieProfileViewModel @Inject constructor(
         private set
     var spokenLanguages by mutableStateOf(listOf<SpokenLanguage>())
         private set
+
+    // Watched status
     var watched by mutableStateOf("Not watched")
         private set
+    var watchedColor by mutableStateOf(Color.Red)
+        private set
+
     var youtubeTrailerURL by mutableStateOf("")
         private set
 
@@ -80,6 +90,8 @@ class MovieProfileViewModel @Inject constructor(
                     tagline = movieDetails.tagline
 
                     genresToText(movieDetails.genres)
+
+                    setWatchStatus(savedStateHandle.get<Int>("id")!!)
 
                     Log.d("Info", "Got movie data")
                 }
@@ -132,6 +144,28 @@ class MovieProfileViewModel @Inject constructor(
         }
     }
 
+
+    private suspend fun setWatchStatus(id: Int) {
+        val watchList = localRepository.getWatchList()
+        val watchedList = localRepository.getWatched()
+/* TODO
+        watchList.collectIndexed { index, value ->
+
+            if (value[index].id_movie == id) {
+                watched = "On your To-Watch list"
+                watchedColor = Color.Yellow
+            } else {
+                watched = "Not watched"
+                watchedColor = Color.Red
+            }
+            watchedList.collectIndexed { index2, value2 ->
+                if (value2[index2].id_movie == id) {
+                    watched = "Watched"
+                    watchedColor = Color.Green
+                }
+            }
+        } */
+    }
 
     private fun genresToText(genres: List<Genre>) {
         genres.forEachIndexed { index, element ->
