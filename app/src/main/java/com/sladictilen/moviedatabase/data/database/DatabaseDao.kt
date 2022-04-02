@@ -22,4 +22,10 @@ interface DatabaseDao {
 
     @Query("SELECT * FROM WatchedData")
     fun getWatched(): Flow<List<WatchedData>>
+
+    @Query("SELECT * FROM ToWatchData WHERE id_movie = :id")
+    suspend fun getMovieFromWatchedListById(id: Int): WatchedData?
+
+    @Query("SELECT * FROM ToWatchData WHERE id_movie = :id")
+    suspend fun getMovieFromToWatchListById(id: Int): ToWatchData?
 }

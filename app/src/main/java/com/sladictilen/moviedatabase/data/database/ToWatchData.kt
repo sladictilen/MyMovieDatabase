@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class ToWatchData(
-    @PrimaryKey(autoGenerate = true) val id: Int?,
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
     val id_movie: Int,
     val title: String,
     val genre: String,

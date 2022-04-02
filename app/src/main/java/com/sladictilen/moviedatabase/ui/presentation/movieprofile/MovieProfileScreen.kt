@@ -122,7 +122,9 @@ fun MovieProfileScreen(
                         Text(text = viewModel.watched, color = viewModel.watchedColor)
                     }
                     Column(modifier = Modifier.padding(10.dp)) {
-
+                        Button(onClick = { viewModel.onEvent(MovieProfileEvent.OnAddToWatchListButtonClick) }) {
+                            Text(text = "Add to To-Watch list")
+                        }
                     }
                 }
                 // Tagline

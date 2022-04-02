@@ -15,6 +15,7 @@ import com.sladictilen.moviedatabase.data.api.moviedetail.MovieDetailResponse
 import com.sladictilen.moviedatabase.data.api.moviedetail.SpokenLanguage
 import com.sladictilen.moviedatabase.data.api.similarmovies.SimilarMoviesData
 import com.sladictilen.moviedatabase.data.database.LocalMoviesRepository
+import com.sladictilen.moviedatabase.data.database.ToWatchData
 import com.sladictilen.moviedatabase.navigation.Screens
 import com.sladictilen.moviedatabase.util.Resource
 import com.sladictilen.moviedatabase.util.UiEvent
@@ -31,7 +32,7 @@ import javax.inject.Inject
 class MovieProfileViewModel @Inject constructor(
     private val repository: MoviesRepository,
     private val localRepository: LocalMoviesRepository,
-    savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     lateinit var movieDetails: MovieDetailResponse
 
@@ -55,6 +56,10 @@ class MovieProfileViewModel @Inject constructor(
     var watched by mutableStateOf("Not watched")
         private set
     var watchedColor by mutableStateOf(Color.Red)
+        private set
+    var isOnWatchList by mutableStateOf(false)
+        private set
+    var isWatched by mutableStateOf(false)
         private set
 
     var youtubeTrailerURL by mutableStateOf("")
@@ -141,30 +146,49 @@ class MovieProfileViewModel @Inject constructor(
             is MovieProfileEvent.OnBackPressed -> {
                 sendUiEvent(UiEvent.PopBackStack)
             }
+            is MovieProfileEvent.OnAddToWatchListButtonClick -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    localRepository.addToWatchList(
+                        toWatchData =
+                        ToWatchData(
+                            title = title,
+                            genre = genre,
+                            id_movie = savedStateHandle.get<Int>("id")!!,
+                            imdbRating = 6.6,
+                            tomatoRating = 88,
+                            posterUrl = "test"
+                        )
+                    )
+                    isOnWatchList = true
+                    setWatchStatus(savedStateHandle.get<Int>("id")!!)
+                }
+            }
+            is MovieProfileEvent.OnAddToWatchedListButtonClick -> {
+                /* TODO */
+            }
         }
     }
 
 
     private suspend fun setWatchStatus(id: Int) {
-        val watchList = localRepository.getWatchList()
-        val watchedList = localRepository.getWatched()
-/* TODO
-        watchList.collectIndexed { index, value ->
-
-            if (value[index].id_movie == id) {
-                watched = "On your To-Watch list"
-                watchedColor = Color.Yellow
-            } else {
+        if (localRepository.getMovieFromToWatchListById(id) != null){
+            watched = "On your To-Watch List"
+            watchedColor = Color.Yellow
+            isOnWatchList = true
+        } else {
+            if (localRepository.getMovieFromWatchedListById(id) == null){
                 watched = "Not watched"
                 watchedColor = Color.Red
+                isWatched = false
+            } else{
+                watched = "Watched"
+                watchedColor = Color.Green
+                isWatched = true
+                isOnWatchList = false
             }
-            watchedList.collectIndexed { index2, value2 ->
-                if (value2[index2].id_movie == id) {
-                    watched = "Watched"
-                    watchedColor = Color.Green
-                }
-            }
-        } */
+        }
+
+
     }
 
     private fun genresToText(genres: List<Genre>) {

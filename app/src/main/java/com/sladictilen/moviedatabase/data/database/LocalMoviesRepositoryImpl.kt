@@ -28,4 +28,12 @@ class LocalMoviesRepositoryImpl(
     override fun getWatched(): Flow<List<WatchedData>> {
         return dao.getWatched()
     }
+
+    override suspend fun getMovieFromToWatchListById(id: Int): ToWatchData? {
+        return dao.getMovieFromToWatchListById(id)
+    }
+
+    override suspend fun getMovieFromWatchedListById(id: Int): WatchedData? {
+        return dao.getMovieFromWatchedListById(id)
+    }
 }
