@@ -122,8 +122,25 @@ fun MovieProfileScreen(
                         Text(text = viewModel.watched, color = viewModel.watchedColor)
                     }
                     Column(modifier = Modifier.padding(10.dp)) {
-                        Button(onClick = { viewModel.onEvent(MovieProfileEvent.OnAddToWatchListButtonClick) }) {
-                            Text(text = "Add to To-Watch list")
+                        IconButton(onClick = { viewModel.onEvent(MovieProfileEvent.OnAddToWatchListButtonClick) }) {
+                            when(viewModel.isOnWatchList){
+                                true -> {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_remove_bookmark),
+                                        contentDescription = "Remove from to-watch list",
+                                        tint = MaterialTheme.colors.primary,
+                                        modifier = Modifier.size(30.dp)
+                                    )
+                                }
+                                false -> {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_add_bookmark),
+                                        contentDescription = "Add to to-watch list",
+                                        tint = MaterialTheme.colors.primary,
+                                        modifier = Modifier.size(30.dp)
+                                    )
+                                }
+                            }
                         }
                     }
                 }
