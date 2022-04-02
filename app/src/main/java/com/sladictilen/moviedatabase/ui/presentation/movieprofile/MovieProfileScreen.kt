@@ -75,7 +75,6 @@ fun MovieProfileScreen(
         frontLayerBackgroundColor = MaterialTheme.colors.background,
         backLayerBackgroundColor = MaterialTheme.colors.background,
         frontLayerScrimColor = MaterialTheme.colors.surface.copy(alpha = 0.2f),
-        //frontLayerShape = RoundedCornerShape(0.dp),
         backLayerContent = {
             Row(
                 modifier = Modifier
@@ -120,15 +119,10 @@ fun MovieProfileScreen(
                         Text(text = "Status: ")
                     }
                     Column() {
-                        Text(text = "Not watched")
+                        Text(text = viewModel.watched, color = viewModel.watchedColor)
                     }
                     Column(modifier = Modifier.padding(10.dp)) {
-                        CustomLinkButton(
-                            icon = R.drawable.ic_youtube,
-                            text = "Watch trailer",
-                            backgroundColor = Color.Red,
-                            onClick = {}
-                        )
+
                     }
                 }
                 // Tagline

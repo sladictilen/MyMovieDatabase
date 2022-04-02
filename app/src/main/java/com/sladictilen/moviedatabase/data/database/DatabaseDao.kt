@@ -1,12 +1,9 @@
 package com.sladictilen.moviedatabase.data.database
 
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
-
+@Dao
 interface DatabaseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addToWatchList(toWatchData: ToWatchData)
@@ -21,8 +18,8 @@ interface DatabaseDao {
     suspend fun deleteWatchedMovie(watchedData: WatchedData)
 
     @Query("SELECT * FROM ToWatchData")
-    fun getWatchList() : Flow<List<ToWatchData>>
+    fun getWatchList(): Flow<List<ToWatchData>>
 
     @Query("SELECT * FROM WatchedData")
-    fun getWatched() : Flow<List<WatchedData>>
+    fun getWatched(): Flow<List<WatchedData>>
 }
