@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.sladictilen.moviedatabase.ui.presentation.discover.DiscoverScreen
@@ -27,40 +28,45 @@ fun Navigation() {
 
     var selectedItem by remember { mutableStateOf(0) }
 
-    val navItems = listOf(
+    val bottomNavigationItems = listOf(
         BottomNavScreens.DiscoverScreen,
         BottomNavScreens.SearchScreen,
         BottomNavScreens.WatchListScreen,
         BottomNavScreens.WatchedMovies
     )
 
+    val showBottomBar =
+        navController.currentBackStackEntryAsState().value?.destination?.route in bottomNavigationItems.map { it.route }
+
     Scaffold(
         bottomBar = {
-            BottomNavigation(
-                modifier = Modifier.height(56.dp),
-                backgroundColor = MaterialTheme.colors.background
-            ) {
-                navItems.forEachIndexed { index, screen ->
-                    BottomNavigationItem(
-                        selected = selectedItem == index,
-                        onClick = {
-                            selectedItem = index
-                            navController.navigate(screen.route)
-                        },
-                        icon = {
-                            Icon(
-                                painter = painterResource(id = screen.icon),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .padding(10.dp)
-                                    .size(24.dp)
-                            )
-                        },
-                        unselectedContentColor = Color.DarkGray,
-                        selectedContentColor = MaterialTheme.colors.primary
-                    )
-                }
+            if (showBottomBar) {
+                BottomNavigation(
+                    modifier = Modifier.height(56.dp),
+                    backgroundColor = MaterialTheme.colors.background
+                ) {
+                    bottomNavigationItems.forEachIndexed { index, screen ->
+                        BottomNavigationItem(
+                            selected = selectedItem == index,
+                            onClick = {
+                                selectedItem = index
+                                navController.navigate(screen.route)
+                            },
+                            icon = {
+                                Icon(
+                                    painter = painterResource(id = screen.icon),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .padding(10.dp)
+                                        .size(24.dp)
+                                )
+                            },
+                            unselectedContentColor = Color.DarkGray,
+                            selectedContentColor = MaterialTheme.colors.primary
+                        )
+                    }
 
+                }
             }
         }
     ) {

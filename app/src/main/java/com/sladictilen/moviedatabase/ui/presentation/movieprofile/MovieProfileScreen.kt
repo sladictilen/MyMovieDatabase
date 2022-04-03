@@ -15,6 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.SubcomposeLayout
+import androidx.compose.ui.layout.SubcomposeLayoutState
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -26,6 +28,7 @@ import com.skydoves.landscapist.glide.GlideImage
 import com.sladictilen.moviedatabase.R
 import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.ActorItem
 import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.SimilarMovieItem
+import com.sladictilen.moviedatabase.ui.presentation.movieprofile.helpers.SubcomposeRow
 import com.sladictilen.moviedatabase.util.UiEvent
 import com.sladictilen.moviedatabase.util.components.CustomLinkButton
 
@@ -56,31 +59,31 @@ fun MovieProfileScreen(
     BackdropScaffold(
         scaffoldState = scaffoldState,
         appBar = {
-        TopAppBar(
-            title = {
-                Row(
-                    modifier = Modifier.padding(end = 10.dp)
-                ) {
-                    Text(
-                        text = viewModel.title,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
+            TopAppBar(
+                title = {
+                    Row(
+                        modifier = Modifier.padding(end = 10.dp)
+                    ) {
+                        Text(
+                            text = viewModel.title,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
 
-            },
-            navigationIcon = {
-                IconButton(onClick = { viewModel.onEvent(MovieProfileEvent.OnBackPressed) }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_back),
-                        contentDescription = null
-                    )
-                }
-            },
-            backgroundColor = MaterialTheme.colors.background,
-            modifier = Modifier.height(IntrinsicSize.Min),
-            contentColor = MaterialTheme.colors.primary
-        )
-    },
+                },
+                navigationIcon = {
+                    IconButton(onClick = { viewModel.onEvent(MovieProfileEvent.OnBackPressed) }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_back),
+                            contentDescription = null
+                        )
+                    }
+                },
+                backgroundColor = MaterialTheme.colors.background,
+                modifier = Modifier.height(IntrinsicSize.Min),
+                contentColor = MaterialTheme.colors.primary
+            )
+        },
         frontLayerBackgroundColor = MaterialTheme.colors.background,
         backLayerBackgroundColor = MaterialTheme.colors.background,
         frontLayerScrimColor = MaterialTheme.colors.surface.copy(alpha = 0.2f),
@@ -258,13 +261,15 @@ fun MovieProfileScreen(
                         color = Color.Gray
                     )
                 }
-                Row(modifier = Modifier.padding(bottom = 60.dp)) {
+                Row() {
                     LazyRow() {
+
                         items(viewModel.similarMovies) {
                             Column(
                                 modifier = Modifier
                                     .padding(end = 10.dp)
                             ) {
+
                                 SimilarMovieItem(
                                     posterUrl = it.poster_path,
                                     title = it.title,
@@ -276,9 +281,11 @@ fun MovieProfileScreen(
                                         )
                                     }
                                 )
+
                             }
 
                         }
+
 
                     }
                 }
