@@ -1,5 +1,6 @@
 package com.sladictilen.moviedatabase.navigation
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -63,33 +64,35 @@ fun Navigation() {
             }
         }
     ) {
-        NavHost(
-            navController = navController,
-            startDestination = BottomNavScreens.DiscoverScreen.route
-        ) {
-            composable(route = BottomNavScreens.DiscoverScreen.route) {
-                DiscoverScreen()
-            }
-            composable(route = BottomNavScreens.SearchScreen.route) {
-                SearchScreen(onNavigate = { navController.navigate(route = it.route) })
-            }
-            composable(route = BottomNavScreens.WatchListScreen.route) {
-                WatchListScreen()
-            }
-            composable(route = BottomNavScreens.WatchedMovies.route) {
-                WatchedMoviesScreen()
-            }
-            composable(
-                route = Screens.MovieProfile.route + "?id={id}",
-                arguments = listOf(
-                    navArgument(name = "id") {
-                        type = NavType.IntType
-                        defaultValue = -1
-                    })
+        Box(modifier = Modifier.padding(it)) {
+            NavHost(
+                navController = navController,
+                startDestination = BottomNavScreens.DiscoverScreen.route
             ) {
-                MovieProfileScreen(
-                    onNavigate = { navController.navigate(route = it.route) },
-                    onPopBackStack = { navController.popBackStack() })
+                composable(route = BottomNavScreens.DiscoverScreen.route) {
+                    DiscoverScreen()
+                }
+                composable(route = BottomNavScreens.SearchScreen.route) {
+                    SearchScreen(onNavigate = { navController.navigate(route = it.route) })
+                }
+                composable(route = BottomNavScreens.WatchListScreen.route) {
+                    WatchListScreen()
+                }
+                composable(route = BottomNavScreens.WatchedMovies.route) {
+                    WatchedMoviesScreen()
+                }
+                composable(
+                    route = Screens.MovieProfile.route + "?id={id}",
+                    arguments = listOf(
+                        navArgument(name = "id") {
+                            type = NavType.IntType
+                            defaultValue = -1
+                        })
+                ) {
+                    MovieProfileScreen(
+                        onNavigate = { navController.navigate(route = it.route) },
+                        onPopBackStack = { navController.popBackStack() })
+                }
             }
         }
     }
