@@ -3,6 +3,8 @@ package com.sladictilen.moviedatabase.ui.presentation.watchlist.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -96,28 +98,43 @@ fun MovieItem(
                         modifier = Modifier.padding(bottom = 5.dp)
                     ) {
                         Column(modifier = Modifier.padding(end = 5.dp)) {
-                            Text(text = imdbRating)
+
                         }
                         Column() {
+                            IconButton(onClick = { /*TODO*/ }) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_trash),
+                                    contentDescription = null
+                                )
+                            }
+                            /* imdb
                             Image(
                                 painter = painterResource(id = R.drawable.ic_imdb),
                                 contentDescription = "Imdb logo",
                                 modifier = Modifier.size(30.dp)
-                            )
+                            ) */
                         }
                     }
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Column(modifier = Modifier.padding(end = 5.dp)) {
-                            Text(text = rottentomatoRating)
+
                         }
                         Column() {
+                            IconButton(onClick = { /*TODO*/ }) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_trash),
+                                    contentDescription = null
+                                )
+                            }
+
+                            /* Rotten tomato
                             Image(
                                 painter = painterResource(id = R.drawable.ic_rotten_tomatoes),
                                 contentDescription = "Rotten tomatoes logo",
                                 modifier = Modifier.size(30.dp)
-                            )
+                            ) */
                         }
                     }
 

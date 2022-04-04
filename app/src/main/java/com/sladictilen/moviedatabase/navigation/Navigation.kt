@@ -35,6 +35,7 @@ fun Navigation() {
         BottomNavScreens.WatchedMovies
     )
 
+    // to show / hide bottom nav bar
     val showBottomBar =
         navController.currentBackStackEntryAsState().value?.destination?.route in bottomNavigationItems.map { it.route }
 
@@ -69,8 +70,8 @@ fun Navigation() {
                 }
             }
         }
-    ) {
-        Box(modifier = Modifier.padding(it)) {
+    ) { paddingValues ->
+        Box(modifier = Modifier.padding(paddingValues)) {
             NavHost(
                 navController = navController,
                 startDestination = BottomNavScreens.DiscoverScreen.route
