@@ -36,6 +36,7 @@ fun MovieItem(
     onRemove: () -> Unit,
     onWatched: () -> Unit
 ) {
+    // Used in ToWatchListScreen and WatchedListScreen
     val buttonState = remember {
         mutableStateOf(true)
     }
