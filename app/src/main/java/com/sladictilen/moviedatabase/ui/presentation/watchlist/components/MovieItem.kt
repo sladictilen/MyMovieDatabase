@@ -28,7 +28,9 @@ import kotlin.math.roundToInt
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MovieItem(
-    movie: MovieItemModel
+    movie: MovieItemModel,
+    onRemove: () -> Unit,
+    onWatched: () -> Unit
 ) {
     val swipeableState = rememberSwipeableState(initialValue = 0)
     val squareSize = 200.dp
@@ -70,7 +72,7 @@ fun MovieItem(
                         verticalArrangement = Arrangement.Center
                     ) {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                            IconButton(onClick = { /*TODO*/ }) {
+                            IconButton(onClick = { onRemove() }) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_trash),
                                     contentDescription = "remove from list",
@@ -90,7 +92,7 @@ fun MovieItem(
                         verticalArrangement = Arrangement.Center
                     ) {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                            IconButton(onClick = { /*TODO*/ }) {
+                            IconButton(onClick = { onWatched() }) {
                                 Image(
                                     painter = painterResource(id = R.drawable.ic_green_checkmark),
                                     contentDescription = "add to watched",
@@ -212,21 +214,4 @@ fun MovieItem(
 
         }
     }
-}
-
-
-@Preview
-@Composable
-fun Prev() {
-    MovieItem(
-        MovieItemModel(
-            title = "Deadpool",
-            year = 2016,
-            genre = "Action, Adventure, Comedy",
-            runtime = 108,
-            poster = "https://m.media-amazon.com/images/M/MV5BYzE5MjY1ZDgtMTkyNC00MTMyLThhMjAtZGI5OTE1NzFlZGJjXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
-            imdbRating = 8.0,
-            tomatoRating = 85
-        )
-    )
 }

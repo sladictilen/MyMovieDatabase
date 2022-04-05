@@ -18,6 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.sladictilen.moviedatabase.R
 import com.sladictilen.moviedatabase.ui.presentation.watchlist.components.MovieItem
 import com.sladictilen.moviedatabase.ui.presentation.watchlist.components.MovieItemModel
+import com.sladictilen.moviedatabase.ui.presentation.watchlist.components.WatchListEvent
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -60,7 +61,8 @@ fun WatchListScreen(
                             poster = "https://m.media-amazon.com/images/M/MV5BYzE5MjY1ZDgtMTkyNC00MTMyLThhMjAtZGI5OTE1NzFlZGJjXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
                             imdbRating = 8.0,
                             tomatoRating = 85
-                        )
+                        ),
+                        onRemove = viewModel.onEvent /*TODO*/
                     )
                 }
             }
