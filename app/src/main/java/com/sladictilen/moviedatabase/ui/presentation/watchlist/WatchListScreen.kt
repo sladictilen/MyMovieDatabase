@@ -17,8 +17,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sladictilen.moviedatabase.R
 import com.sladictilen.moviedatabase.ui.presentation.watchlist.components.MovieItem
-import com.sladictilen.moviedatabase.ui.presentation.watchlist.components.MovieItemModel
-import com.sladictilen.moviedatabase.ui.presentation.watchlist.components.WatchListEvent
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -34,7 +32,7 @@ fun WatchListScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(verticalArrangement = Arrangement.Center) {
-                Text(text = "WATCH LIST", fontSize = 20.sp)
+                Text(text = "Your To-Watch List", fontSize = 20.sp)
             }
             Column(verticalArrangement = Arrangement.Center) {
                 IconButton(onClick = { /*TODO*/ }) {
@@ -52,17 +50,9 @@ fun WatchListScreen(
             LazyColumn() {
                 items(watchList.value) {
                     MovieItem(
-                        movie =
-                        MovieItemModel(
-                            title = "Deadpool",
-                            year = 2016,
-                            genre = "Action, Adventure, Comedy",
-                            runtime = 108,
-                            poster = "https://m.media-amazon.com/images/M/MV5BYzE5MjY1ZDgtMTkyNC00MTMyLThhMjAtZGI5OTE1NzFlZGJjXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
-                            imdbRating = 8.0,
-                            tomatoRating = 85
-                        ),
-                        onRemove = viewModel.onEvent /*TODO*/
+                        movie = it,
+                        onRemove = { viewModel.onEvent(WatchListEvent.OnRemoveMovieClick(it.id_movie)) },
+                        onWatched = { viewModel.onEvent(WatchListEvent.OnMarkAsWatchedClicked(it.id_movie)) }
                     )
                 }
             }

@@ -9,6 +9,8 @@ data class ToWatchData(
     val id_movie: Int,
     val title: String,
     val genre: String,
+    val year: Int,
+    val runtime: Int,
     val imdbRating: Double,
     val tomatoRating: Int,
     val posterUrl: String,

@@ -1,5 +1,6 @@
 package com.sladictilen.moviedatabase.ui.presentation.watchlist.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -8,6 +9,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,15 +26,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.glide.GlideImage
 import com.sladictilen.moviedatabase.R
+import com.sladictilen.moviedatabase.data.database.ToWatchData
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MovieItem(
-    movie: MovieItemModel,
+    movie: ToWatchData,
     onRemove: () -> Unit,
     onWatched: () -> Unit
 ) {
+    val buttonState = remember {
+        mutableStateOf(true)
+    }
     val swipeableState = rememberSwipeableState(initialValue = 0)
     val squareSize = 200.dp
 
@@ -44,7 +51,7 @@ fun MovieItem(
                 anchors = anchors,
                 orientation = Orientation.Horizontal,
             )
-            .border(1.dp, Color.White)
+            .clip(RoundedCornerShape(5.dp))
     ) {
         Row(
             modifier = Modifier
@@ -56,6 +63,7 @@ fun MovieItem(
                 modifier = Modifier
                     .height(125.dp)
                     .fillMaxWidth()
+                    .clip(RoundedCornerShape(5.dp))
             ) {
                 // Back layer where the buttons go ;)
                 Row(
@@ -72,7 +80,7 @@ fun MovieItem(
                         verticalArrangement = Arrangement.Center
                     ) {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                            IconButton(onClick = { onRemove() }) {
+                            IconButton(onClick = { onRemove() }, enabled = buttonState.value) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_trash),
                                     contentDescription = "remove from list",
@@ -92,7 +100,7 @@ fun MovieItem(
                         verticalArrangement = Arrangement.Center
                     ) {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                            IconButton(onClick = { onWatched() }) {
+                            IconButton(onClick = { onWatched() }, enabled = buttonState.value) {
                                 Image(
                                     painter = painterResource(id = R.drawable.ic_green_checkmark),
                                     contentDescription = "add to watched",
@@ -109,9 +117,7 @@ fun MovieItem(
                     }
                 }
 
-
-
-
+                // Top Layer
                 Box(
                     modifier = Modifier
                         .offset {
@@ -125,7 +131,6 @@ fun MovieItem(
                         .fillMaxHeight()
                         .align(Alignment.CenterStart)
                 ) {
-                    // Top Layer
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -139,7 +144,7 @@ fun MovieItem(
                                 .fillMaxHeight()
                         ) {
                             GlideImage(
-                                imageModel = movie.poster,
+                                imageModel = "https://image.tmdb.org/t/p/w185${movie.posterUrl}",
                                 contentScale = ContentScale.FillBounds,
                             )
                         }
@@ -152,7 +157,7 @@ fun MovieItem(
                             // Year and runtime
                             Row() {
                                 Text(
-                                    text = "${movie.year} | ${movie.runtime}",
+                                    text = "${movie.year} | ${movie.runtime} min",
                                     fontWeight = FontWeight.ExtraLight,
                                     color = Color.Gray,
                                     fontSize = 14.sp
@@ -186,22 +191,25 @@ fun MovieItem(
                                     Text("${movie.imdbRating}")
                                 }
                                 Column() {
-                                    /* imdb
                                     Image(
                                         painter = painterResource(id = R.drawable.ic_imdb),
-                                        contentDescription = "Imdb logo",
-                                        modifier = Modifier.size(30.dp)
-                                    ) */
+                                        contentDescription = null,
+                                        modifier = Modifier.size(25.dp)
+                                    )
                                 }
                             }
                             Row(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Column(modifier = Modifier.padding(end = 5.dp)) {
-
+                                    Text(text = "${movie.tomatoRating}%")
                                 }
                                 Column() {
-
+                                    Image(
+                                        painter = painterResource(id = R.drawable.ic_rotten_tomatoes),
+                                        contentDescription = null,
+                                        modifier = Modifier.size(25.dp)
+                                    )
                                 }
                             }
 

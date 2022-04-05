@@ -150,6 +150,7 @@ class MovieProfileViewModel @Inject constructor(
                 if (!isOnWatchList) {
                     viewModelScope.launch(Dispatchers.IO) {
                         localRepository.addToWatchList(
+                            /* TODO connect with imdb rating and tomato */
                             toWatchData =
                             ToWatchData(
                                 title = title,
@@ -157,7 +158,9 @@ class MovieProfileViewModel @Inject constructor(
                                 id_movie = savedStateHandle.get<Int>("id")!!,
                                 imdbRating = 6.6,
                                 tomatoRating = 88,
-                                posterUrl = "test"
+                                posterUrl = posterUrl,
+                                year = releaseDate.substring(0, 4).toInt(),
+                                runtime = runtime
                             )
                         )
                         isOnWatchList = true
@@ -166,12 +169,17 @@ class MovieProfileViewModel @Inject constructor(
                     }
                 } else {
                     isOnWatchList = false
-                    viewModelScope.launch(Dispatchers.IO){
+                    viewModelScope.launch(Dispatchers.IO) {
                         localRepository.getMovieFromToWatchListById(savedStateHandle.get<Int>("id")!!)
                             ?.let { localRepository.deleteWatchListMovie(it) }
                         setWatchStatus(savedStateHandle.get<Int>("id")!!)
                     }
-                    sendUiEvent(UiEvent.ShowSnackbar("$title removed to your To-Watch list!", "Undo"))
+                    sendUiEvent(
+                        UiEvent.ShowSnackbar(
+                            "$title removed to your To-Watch list!",
+                            "Undo"
+                        )
+                    )
 
                 }
             }
