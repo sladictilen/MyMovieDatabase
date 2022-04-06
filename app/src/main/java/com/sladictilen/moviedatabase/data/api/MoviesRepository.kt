@@ -1,6 +1,7 @@
 package com.sladictilen.moviedatabase.data.api
 
 import com.sladictilen.moviedatabase.data.api.cast.CastResponse
+import com.sladictilen.moviedatabase.data.api.featuredmovies.TrendingWeeklyMoviesResponse
 import com.sladictilen.moviedatabase.data.api.moviedetail.MovieDetailResponse
 import com.sladictilen.moviedatabase.data.api.moviesearch.MoviesSearchResponse
 import com.sladictilen.moviedatabase.data.api.similarmovies.SimilarMoviesResponse
@@ -45,6 +46,15 @@ class MoviesRepository @Inject constructor(
             api.getSimilarMovies(id)
         } catch (e: Exception) {
             return Resource.Error("Error getting similar movies.")
+        }
+        return Resource.Success(response)
+    }
+
+    suspend fun getTrendingWeeklyMovies(): Resource<TrendingWeeklyMoviesResponse> {
+        val response = try {
+            api.getTrendingWeeklyMovies()
+        } catch (e: Exception) {
+            return Resource.Error("Error getting Weekly trending movies.")
         }
         return Resource.Success(response)
     }

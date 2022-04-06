@@ -2,6 +2,7 @@ package com.sladictilen.moviedatabase.data.api
 
 
 import com.sladictilen.moviedatabase.data.api.cast.CastResponse
+import com.sladictilen.moviedatabase.data.api.featuredmovies.TrendingWeeklyMoviesResponse
 import com.sladictilen.moviedatabase.data.api.moviedetail.MovieDetailResponse
 import com.sladictilen.moviedatabase.data.api.moviesearch.MoviesSearchResponse
 import com.sladictilen.moviedatabase.data.api.similarmovies.SimilarMoviesResponse
@@ -36,4 +37,16 @@ interface OmdbAPI {
         @Path("id") id: Int,
         @Query("api_key") apiKey: String = API_KEY
     ): SimilarMoviesResponse
+
+    @GET("trending/movie/week")
+    suspend fun getTrendingWeeklyMovies(
+        @Query("api_key") apiKey: String = API_KEY
+    ): TrendingWeeklyMoviesResponse
+
+
+    /*TODO ? */
+    @GET("trending/movie/day")
+    suspend fun getTrendingDailyMovies(
+        @Query("api_key") apiKey: String = API_KEY
+    ): TrendingWeeklyMoviesResponse
 }
