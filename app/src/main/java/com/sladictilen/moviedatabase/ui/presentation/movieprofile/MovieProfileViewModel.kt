@@ -22,8 +22,6 @@ import com.sladictilen.moviedatabase.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -159,7 +157,7 @@ class MovieProfileViewModel @Inject constructor(
                                 imdbRating = 6.6,
                                 tomatoRating = 88,
                                 posterUrl = posterUrl,
-                                year = releaseDate.substring(0, 4).toInt(),
+                                year = releaseDate.substring(0, 4),
                                 runtime = runtime
                             )
                         )
@@ -176,8 +174,7 @@ class MovieProfileViewModel @Inject constructor(
                     }
                     sendUiEvent(
                         UiEvent.ShowSnackbar(
-                            "$title removed to your To-Watch list!",
-                            "Undo"
+                            "$title removed from your To-Watch list!"
                         )
                     )
 
@@ -221,7 +218,7 @@ class MovieProfileViewModel @Inject constructor(
         }
     }
 
-    fun sendUiEvent(event: UiEvent) {
+    private fun sendUiEvent(event: UiEvent) {
         viewModelScope.launch {
             _uiEvent.send(event)
         }

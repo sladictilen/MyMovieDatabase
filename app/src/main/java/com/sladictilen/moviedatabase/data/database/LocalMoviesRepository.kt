@@ -15,7 +15,7 @@ interface LocalMoviesRepository {
 
     fun getWatched() : Flow<List<WatchedData>>
 
-    suspend fun getMovieFromWatchedListById(id: Int): WatchedData?
+    fun getMovieFromWatchedListById(id: Int): WatchedData?
 
-    suspend fun getMovieFromToWatchListById(id: Int): ToWatchData?
+    fun getMovieFromToWatchListById(id: Int): ToWatchData?
 }

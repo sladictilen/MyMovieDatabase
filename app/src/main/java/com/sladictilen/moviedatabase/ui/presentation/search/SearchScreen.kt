@@ -21,8 +21,6 @@ fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel(),
     onNavigate: (UiEvent.Navigate) -> Unit
 ) {
-
-
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {

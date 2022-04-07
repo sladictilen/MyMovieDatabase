@@ -77,7 +77,7 @@ fun Navigation() {
                 startDestination = BottomNavScreens.DiscoverScreen.route
             ) {
                 composable(route = BottomNavScreens.DiscoverScreen.route) {
-                    DiscoverScreen()
+                    DiscoverScreen(onNavigate = { navController.navigate(route = it.route) })
                 }
                 composable(route = BottomNavScreens.SearchScreen.route) {
                     SearchScreen(onNavigate = { navController.navigate(route = it.route) })
