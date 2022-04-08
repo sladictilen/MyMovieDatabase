@@ -4,6 +4,7 @@ import com.sladictilen.moviedatabase.data.api.cast.CastResponse
 import com.sladictilen.moviedatabase.data.api.featuredmovies.TrendingWeeklyMoviesResponse
 import com.sladictilen.moviedatabase.data.api.moviedetail.MovieDetailResponse
 import com.sladictilen.moviedatabase.data.api.moviesearch.MoviesSearchResponse
+import com.sladictilen.moviedatabase.data.api.popularmovies.PopularMoviesResponse
 import com.sladictilen.moviedatabase.data.api.similarmovies.SimilarMoviesResponse
 import com.sladictilen.moviedatabase.util.Resource
 import dagger.hilt.android.scopes.ActivityScoped
@@ -55,6 +56,15 @@ class MoviesRepository @Inject constructor(
             api.getTrendingWeeklyMovies()
         } catch (e: Exception) {
             return Resource.Error("Error getting Weekly trending movies.")
+        }
+        return Resource.Success(response)
+    }
+
+    suspend fun getPopularMovies(): Resource<PopularMoviesResponse> {
+        val response = try {
+            api.getPopularMovies()
+        } catch (e: Exception) {
+            return Resource.Error("Error getting Popular movies.")
         }
         return Resource.Success(response)
     }

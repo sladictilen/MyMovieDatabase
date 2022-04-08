@@ -6,6 +6,7 @@ import androidx.lifecycle.*
 import com.sladictilen.moviedatabase.data.api.MoviesRepository
 import com.sladictilen.moviedatabase.data.api.featuredmovies.TrendingWeeklyMovies
 import com.sladictilen.moviedatabase.data.api.moviedetail.Genre
+import com.sladictilen.moviedatabase.data.api.popularmovies.PopularMovie
 import com.sladictilen.moviedatabase.data.database.LocalMoviesRepository
 import com.sladictilen.moviedatabase.data.database.ToWatchData
 import com.sladictilen.moviedatabase.navigation.Screens
@@ -28,8 +29,8 @@ class DiscoverViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     var featuredWeeklyMovies by mutableStateOf(listOf<TrendingWeeklyMovies>())
+    var popularMovies by mutableStateOf(listOf<PopularMovie>())
     var toWatchList = localRepository.getWatchList()
-    private var listOfIds = arrayListOf<Int>()
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
@@ -52,14 +53,20 @@ class DiscoverViewModel @Inject constructor(
 
         }
 
-    }
-
-    fun isOnWatchList(id: Int): Boolean {
-        if (id in listOfIds) {
-            return true
-        } else {
-            return false
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = repository.getPopularMovies()) {
+                is Resource.Success -> {
+                    popularMovies = result.data?.results!!
+                }
+                is Resource.Error -> {
+                    Log.d("Error", result.message!!)
+                }
+                is Resource.Loading -> {
+                    /* TODO */
+                }
+            }
         }
+
     }
 
     fun onEvent(event: DiscoverEvent) {

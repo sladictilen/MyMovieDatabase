@@ -5,6 +5,7 @@ import com.sladictilen.moviedatabase.data.api.cast.CastResponse
 import com.sladictilen.moviedatabase.data.api.featuredmovies.TrendingWeeklyMoviesResponse
 import com.sladictilen.moviedatabase.data.api.moviedetail.MovieDetailResponse
 import com.sladictilen.moviedatabase.data.api.moviesearch.MoviesSearchResponse
+import com.sladictilen.moviedatabase.data.api.popularmovies.PopularMoviesResponse
 import com.sladictilen.moviedatabase.data.api.similarmovies.SimilarMoviesResponse
 import com.sladictilen.moviedatabase.util.Constants.Companion.API_KEY
 import retrofit2.http.GET
@@ -49,4 +50,9 @@ interface OmdbAPI {
     suspend fun getTrendingDailyMovies(
         @Query("api_key") apiKey: String = API_KEY
     ): TrendingWeeklyMoviesResponse
+
+    @GET("movie/popular")
+    suspend fun getPopularMovies(
+        @Query("api_key") apiKey: String = API_KEY
+    ): PopularMoviesResponse
 }

@@ -86,6 +86,48 @@ fun DiscoverScreen(
 
         }
         Divider()
+        Box() {
+            Column() {
+                Row(modifier = Modifier.padding(bottom = 10.dp)) {
+                    Text(
+                        text = "Popular movies",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 24.sp
+                    )
+                }
+                Row() {
+                    LazyRow() {
+                        items(viewModel.popularMovies) {
+                            Column(Modifier.padding(end = 10.dp)) {
+                                MoviePosterItem(
+                                    idMovie = it.id,
+                                    posterUrl = it.poster_path,
+                                    isWatched = false,
+                                    isOnWatchList = false,
+                                    onClick = { viewModel.onEvent(DiscoverEvent.OnMovieClick(it.id)) },
+                                    onAddToWatchListClick = {
+                                        viewModel.onEvent(
+                                            DiscoverEvent.OnAddToWatchListClick(
+                                                it.id
+                                            )
+                                        )
+                                    },
+                                    onRemoveFromToWatchListClick = {
+                                        viewModel.onEvent(
+                                            DiscoverEvent.OnRemoveFromToWatchListClick(
+                                                it.id
+                                            )
+                                        )
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+        Divider()
 
 
     }
