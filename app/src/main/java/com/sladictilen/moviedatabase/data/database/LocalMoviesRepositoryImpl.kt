@@ -29,11 +29,11 @@ class LocalMoviesRepositoryImpl(
         return dao.getWatched()
     }
 
-    override fun getMovieFromToWatchListById(id: Int): ToWatchData? {
+    override suspend fun getMovieFromToWatchListById(id: Int): ToWatchData? {
         return dao.getMovieFromToWatchListById(id)
     }
 
-    override fun getMovieFromWatchedListById(id: Int): WatchedData? {
+    override suspend fun getMovieFromWatchedListById(id: Int): WatchedData? {
         return dao.getMovieFromWatchedListById(id)
     }
 }

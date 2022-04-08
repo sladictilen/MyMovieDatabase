@@ -1,6 +1,7 @@
 package com.sladictilen.moviedatabase.ui.presentation.discover
 
 import android.util.Log
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,6 +17,7 @@ import com.sladictilen.moviedatabase.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -90,13 +92,12 @@ class DiscoverViewModel @Inject constructor(
         }
     }
 
-    fun isOnWatchList(id_movie: Int): Boolean {
-
-        val movie = localRepository.getMovieFromToWatchListById(id_movie)
-        if (movie == null) {
-            return false
-        } else {
-            return true
+    suspend fun isOnWatchList(id_movie: Int): Boolean {
+        viewModelScope.launch {
+            val movie = localRepository.getMovieFromToWatchListById(id_movie)
+            if (movie == null){
+                return false
+            }
         }
     }
 
