@@ -1,10 +1,7 @@
 package com.sladictilen.moviedatabase.ui.presentation.discover
 
 import android.util.Log
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.lifecycle.*
 import com.sladictilen.moviedatabase.data.api.MoviesRepository
 import com.sladictilen.moviedatabase.data.api.featuredmovies.TrendingWeeklyMovies
@@ -18,6 +15,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectIndexed
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,11 +29,14 @@ class DiscoverViewModel @Inject constructor(
 ) : ViewModel() {
     var featuredWeeklyMovies by mutableStateOf(listOf<TrendingWeeklyMovies>())
     var toWatchList = localRepository.getWatchList()
+    private var listOfIds = arrayListOf<Int>()
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
+
+
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = repository.getTrendingWeeklyMovies()) {
                 is Resource.Success -> {
@@ -47,8 +49,17 @@ class DiscoverViewModel @Inject constructor(
                     /* TODO */
                 }
             }
+
         }
 
+    }
+
+    fun isOnWatchList(id: Int): Boolean {
+        if (id in listOfIds) {
+            return true
+        } else {
+            return false
+        }
     }
 
     fun onEvent(event: DiscoverEvent) {
@@ -92,14 +103,6 @@ class DiscoverViewModel @Inject constructor(
         }
     }
 
-    suspend fun isOnWatchList(id_movie: Int): Boolean {
-        viewModelScope.launch {
-            val movie = localRepository.getMovieFromToWatchListById(id_movie)
-            if (movie == null){
-                return false
-            }
-        }
-    }
 
     private fun sendUiEvent(event: UiEvent) {
         viewModelScope.launch {

@@ -79,8 +79,7 @@ class MovieProfileViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = repository.getIdDetails(savedStateHandle.get<Int>("id")!!)
-            when (result) {
+            when (val result = repository.getIdDetails(savedStateHandle.get<Int>("id")!!)) {
                 is Resource.Success -> {
                     movieDetails = result.data!!
                     title = movieDetails.title
@@ -107,8 +106,7 @@ class MovieProfileViewModel @Inject constructor(
             }
         }
         viewModelScope.launch(Dispatchers.IO) {
-            val result = repository.getMovieCast(savedStateHandle.get<Int>("id")!!)
-            when (result) {
+            when (val result = repository.getMovieCast(savedStateHandle.get<Int>("id")!!)) {
                 is Resource.Success -> {
                     cast = result.data?.cast!!
                 }
@@ -121,8 +119,7 @@ class MovieProfileViewModel @Inject constructor(
             }
         }
         viewModelScope.launch(Dispatchers.IO) {
-            val result = repository.getSimilarMovies(savedStateHandle.get<Int>("id")!!)
-            when (result) {
+            when (val result = repository.getSimilarMovies(savedStateHandle.get<Int>("id")!!)) {
                 is Resource.Success -> {
                     similarMovies = result.data?.results!!
                 }

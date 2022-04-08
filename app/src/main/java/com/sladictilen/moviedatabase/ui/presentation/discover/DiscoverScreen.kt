@@ -6,9 +6,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -58,10 +56,12 @@ fun DiscoverScreen(
                     LazyRow() {
                         items(viewModel.featuredWeeklyMovies) {
                             Column(Modifier.padding(end = 10.dp)) {
+                                /* TODO somehow get isWatched and isOnWatchList values */
                                 MoviePosterItem(
+                                    idMovie = it.id,
                                     posterUrl = it.poster_path,
                                     isWatched = false,
-                                    isOnWatchList = viewModel.isOnWatchList(it.id),
+                                    isOnWatchList = false,
                                     onClick = { viewModel.onEvent(DiscoverEvent.OnMovieClick(it.id)) },
                                     onAddToWatchListClick = {
                                         viewModel.onEvent(

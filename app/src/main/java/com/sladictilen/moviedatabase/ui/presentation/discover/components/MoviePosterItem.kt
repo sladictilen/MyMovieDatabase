@@ -20,18 +20,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.skydoves.landscapist.glide.GlideImage
 import com.sladictilen.moviedatabase.R
-import com.sladictilen.moviedatabase.ui.presentation.discover.DiscoverEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 @Composable
 fun MoviePosterItem(
+    idMovie: Int,
     posterUrl: String,
     isWatched: Boolean,
     isOnWatchList: Boolean,
     onClick: () -> Unit,
     onAddToWatchListClick: () -> Unit,
-    onRemoveFromToWatchListClick: () -> Unit
+    onRemoveFromToWatchListClick: () -> Unit,
 ) {
     val watchlist = remember { mutableStateOf(isOnWatchList) }
     Box(
@@ -93,7 +95,6 @@ fun MoviePosterItem(
 
 @Composable
 private fun WatchedText() {
-    /*TODO */
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(30.dp))
