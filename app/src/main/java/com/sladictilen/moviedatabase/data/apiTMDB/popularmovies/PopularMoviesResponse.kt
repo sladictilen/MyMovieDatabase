@@ -1,4 +1,4 @@
-package com.sladictilen.moviedatabase.data.api.popularmovies
+package com.sladictilen.moviedatabase.data.apiTMDB.popularmovies
 
 data class PopularMoviesResponse(
     val page: Int,

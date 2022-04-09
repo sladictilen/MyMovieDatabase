@@ -1,11 +1,10 @@
-package com.sladictilen.moviedatabase.data.api.featuredmovies
+package com.sladictilen.moviedatabase.data.apiTMDB.popularmovies
 
-data class TrendingWeeklyMovies(
+data class PopularMovie(
     val adult: Boolean,
     val backdrop_path: String,
     val genre_ids: List<Int>,
     val id: Int,
-    val media_type: String,
     val original_language: String,
     val original_title: String,
     val overview: String,

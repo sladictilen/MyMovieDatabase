@@ -1,4 +1,4 @@
-package com.sladictilen.moviedatabase.data.api.cast
+package com.sladictilen.moviedatabase.data.apiTMDB.cast
 
 data class CastResponse(
     val cast: List<Cast>,

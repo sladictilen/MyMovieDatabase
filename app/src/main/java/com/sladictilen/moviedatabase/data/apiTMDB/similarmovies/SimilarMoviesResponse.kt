@@ -1,4 +1,4 @@
-package com.sladictilen.moviedatabase.data.api.similarmovies
+package com.sladictilen.moviedatabase.data.apiTMDB.similarmovies
 
 data class SimilarMoviesResponse(
     val page: Int,

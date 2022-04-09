@@ -3,10 +3,10 @@ package com.sladictilen.moviedatabase.ui.presentation.discover
 import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.*
-import com.sladictilen.moviedatabase.data.api.MoviesRepository
-import com.sladictilen.moviedatabase.data.api.featuredmovies.TrendingWeeklyMovies
-import com.sladictilen.moviedatabase.data.api.moviedetail.Genre
-import com.sladictilen.moviedatabase.data.api.popularmovies.PopularMovie
+import com.sladictilen.moviedatabase.data.apiTMDB.MoviesRepository
+import com.sladictilen.moviedatabase.data.apiTMDB.featuredmovies.TrendingWeeklyMovies
+import com.sladictilen.moviedatabase.data.apiTMDB.moviedetail.Genre
+import com.sladictilen.moviedatabase.data.apiTMDB.popularmovies.PopularMovie
 import com.sladictilen.moviedatabase.data.database.LocalMoviesRepository
 import com.sladictilen.moviedatabase.data.database.ToWatchData
 import com.sladictilen.moviedatabase.navigation.Screens
@@ -15,9 +15,6 @@ import com.sladictilen.moviedatabase.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectIndexed
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject

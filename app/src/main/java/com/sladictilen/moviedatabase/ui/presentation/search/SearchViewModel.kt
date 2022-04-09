@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sladictilen.moviedatabase.data.api.MoviesRepository
-import com.sladictilen.moviedatabase.data.api.moviesearch.Result
+import com.sladictilen.moviedatabase.data.apiTMDB.MoviesRepository
+import com.sladictilen.moviedatabase.data.apiTMDB.moviesearch.Result
 import com.sladictilen.moviedatabase.navigation.Screens
 import com.sladictilen.moviedatabase.util.Resource
 import com.sladictilen.moviedatabase.util.UiEvent

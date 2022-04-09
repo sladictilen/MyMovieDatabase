@@ -1,4 +1,4 @@
-package com.sladictilen.moviedatabase.data.api.featuredmovies
+package com.sladictilen.moviedatabase.data.apiTMDB.featuredmovies
 
 data class TrendingWeeklyMoviesResponse(
     val page: Int,

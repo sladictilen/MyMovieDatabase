@@ -1,4 +1,4 @@
-package com.sladictilen.moviedatabase.data.api.moviesearch
+package com.sladictilen.moviedatabase.data.apiTMDB.moviesearch
 
 data class MoviesSearchResponse(
     val page: Int,

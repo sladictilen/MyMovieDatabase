@@ -1,11 +1,11 @@
-package com.sladictilen.moviedatabase.data.api
+package com.sladictilen.moviedatabase.data.apiTMDB
 
-import com.sladictilen.moviedatabase.data.api.cast.CastResponse
-import com.sladictilen.moviedatabase.data.api.featuredmovies.TrendingWeeklyMoviesResponse
-import com.sladictilen.moviedatabase.data.api.moviedetail.MovieDetailResponse
-import com.sladictilen.moviedatabase.data.api.moviesearch.MoviesSearchResponse
-import com.sladictilen.moviedatabase.data.api.popularmovies.PopularMoviesResponse
-import com.sladictilen.moviedatabase.data.api.similarmovies.SimilarMoviesResponse
+import com.sladictilen.moviedatabase.data.apiTMDB.cast.CastResponse
+import com.sladictilen.moviedatabase.data.apiTMDB.featuredmovies.TrendingWeeklyMoviesResponse
+import com.sladictilen.moviedatabase.data.apiTMDB.moviedetail.MovieDetailResponse
+import com.sladictilen.moviedatabase.data.apiTMDB.moviesearch.MoviesSearchResponse
+import com.sladictilen.moviedatabase.data.apiTMDB.popularmovies.PopularMoviesResponse
+import com.sladictilen.moviedatabase.data.apiTMDB.similarmovies.SimilarMoviesResponse
 import com.sladictilen.moviedatabase.util.Resource
 import dagger.hilt.android.scopes.ActivityScoped
 import java.lang.Exception
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @ActivityScoped
 class MoviesRepository @Inject constructor(
-    private val api: OmdbAPI
+    private val api: TmdbAPI
 ) {
     suspend fun searchMovies(title: String, page: Int): Resource<MoviesSearchResponse> {
         val response = try {

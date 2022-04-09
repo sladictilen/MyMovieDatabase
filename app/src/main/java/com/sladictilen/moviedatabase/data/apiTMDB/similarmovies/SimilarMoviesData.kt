@@ -1,6 +1,6 @@
-package com.sladictilen.moviedatabase.data.api.popularmovies
+package com.sladictilen.moviedatabase.data.apiTMDB.similarmovies
 
-data class PopularMovie(
+data class SimilarMoviesData(
     val adult: Boolean,
     val backdrop_path: String,
     val genre_ids: List<Int>,

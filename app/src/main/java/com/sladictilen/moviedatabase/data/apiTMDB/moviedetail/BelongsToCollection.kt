@@ -1,4 +1,4 @@
-package com.sladictilen.moviedatabase.data.api.moviedetail
+package com.sladictilen.moviedatabase.data.apiTMDB.moviedetail
 
 data class BelongsToCollection(
     val backdrop_path: String,

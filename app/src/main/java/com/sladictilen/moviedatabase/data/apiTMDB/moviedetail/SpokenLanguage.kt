@@ -1,4 +1,4 @@
-package com.sladictilen.moviedatabase.data.api.moviedetail
+package com.sladictilen.moviedatabase.data.apiTMDB.moviedetail
 
 data class SpokenLanguage(
     val english_name: String,

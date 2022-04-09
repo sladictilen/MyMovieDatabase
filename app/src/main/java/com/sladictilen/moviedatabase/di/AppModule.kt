@@ -3,8 +3,9 @@ package com.sladictilen.moviedatabase.di
 
 import android.app.Application
 import androidx.room.Room
-import com.sladictilen.moviedatabase.data.api.MoviesRepository
-import com.sladictilen.moviedatabase.data.api.OmdbAPI
+import com.sladictilen.moviedatabase.data.apiOMDB.OmdbAPI
+import com.sladictilen.moviedatabase.data.apiTMDB.MoviesRepository
+import com.sladictilen.moviedatabase.data.apiTMDB.TmdbAPI
 import com.sladictilen.moviedatabase.data.database.Database
 import com.sladictilen.moviedatabase.data.database.LocalMoviesRepository
 import com.sladictilen.moviedatabase.data.database.LocalMoviesRepositoryImpl
@@ -24,14 +25,24 @@ object AppModule {
     @Singleton
     @Provides
     fun provideMoviesRepository(
-        api: OmdbAPI
+        api: TmdbAPI
     ) = MoviesRepository(api)
+
+    @Singleton
+    @Provides
+    fun provideTmdbApi(): TmdbAPI {
+        return Retrofit.Builder()
+            .baseUrl(Constants.TMDB_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(TmdbAPI::class.java)
+    }
 
     @Singleton
     @Provides
     fun provideOmdbApi(): OmdbAPI {
         return Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
+            .baseUrl(Constants.OMDB_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(OmdbAPI::class.java)
