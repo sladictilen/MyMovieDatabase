@@ -4,6 +4,7 @@ package com.sladictilen.moviedatabase.di
 import android.app.Application
 import androidx.room.Room
 import com.sladictilen.moviedatabase.data.apiOMDB.OmdbAPI
+import com.sladictilen.moviedatabase.data.apiOMDB.RatingsRepository
 import com.sladictilen.moviedatabase.data.apiTMDB.MoviesRepository
 import com.sladictilen.moviedatabase.data.apiTMDB.TmdbAPI
 import com.sladictilen.moviedatabase.data.database.Database
@@ -37,6 +38,12 @@ object AppModule {
             .build()
             .create(TmdbAPI::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun provideRatingsRepository(
+        api: OmdbAPI
+    ) = RatingsRepository(api)
 
     @Singleton
     @Provides

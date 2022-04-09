@@ -8,6 +8,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sladictilen.moviedatabase.data.apiOMDB.OmdbMovieResponse
+import com.sladictilen.moviedatabase.data.apiOMDB.RatingsRepository
 import com.sladictilen.moviedatabase.data.apiTMDB.MoviesRepository
 import com.sladictilen.moviedatabase.data.apiTMDB.cast.Cast
 import com.sladictilen.moviedatabase.data.apiTMDB.moviedetail.Genre
@@ -30,10 +32,12 @@ import javax.inject.Inject
 class MovieProfileViewModel @Inject constructor(
     private val repository: MoviesRepository,
     private val localRepository: LocalMoviesRepository,
+    private val ratingsRepository: RatingsRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    lateinit var movieDetails: MovieDetailResponse
+    private lateinit var movieDetails: MovieDetailResponse
 
+    private lateinit var movieRatings: OmdbMovieResponse
 
     var title by mutableStateOf("")
         private set
@@ -48,6 +52,16 @@ class MovieProfileViewModel @Inject constructor(
     var status by mutableStateOf("")
         private set
     var spokenLanguages by mutableStateOf(listOf<SpokenLanguage>())
+        private set
+    var backdropImageUrl by mutableStateOf("")
+        private set
+
+    // Ratings
+    var imdbId by mutableStateOf("")
+        private set
+    var imdbRating by mutableStateOf("0.0")
+        private set
+    var rottenTomatoesRating by mutableStateOf("0")
         private set
 
     // Watched status
@@ -90,10 +104,37 @@ class MovieProfileViewModel @Inject constructor(
                     status = movieDetails.status
                     spokenLanguages = movieDetails.spoken_languages
                     tagline = movieDetails.tagline
+                    backdropImageUrl = movieDetails.backdrop_path
 
                     genresToText(movieDetails.genres)
 
                     setWatchStatus(savedStateHandle.get<Int>("id")!!)
+
+                    imdbId = movieDetails.imdb_id
+
+
+                    Log.d("Info", imdbId)
+
+                    when (val ratings = ratingsRepository.getRatings(imdbId)) {
+                        is Resource.Success -> {
+                            val response = ratings.data!!
+                            imdbRating = response.imdbRating
+                            val ratings = response.Ratings
+                            for (x in ratings) {
+                                if (x.Source == "Rotten Tomatoes") {
+                                    rottenTomatoesRating = x.Value
+                                    break
+                                }
+                            }
+                            Log.d("Info", "RATING: $rottenTomatoesRating")
+                        }
+                        is Resource.Error -> {
+                            Log.d("Info", "${ratings.message}")
+                        }
+                        is Resource.Loading -> {
+                            /* todo */
+                        }
+                    }
 
                     Log.d("Info", "Got movie data")
                 }
@@ -151,8 +192,8 @@ class MovieProfileViewModel @Inject constructor(
                                 title = title,
                                 genre = genre,
                                 id_movie = savedStateHandle.get<Int>("id")!!,
-                                imdbRating = 6.6,
-                                tomatoRating = 88,
+                                imdbRating = imdbRating.toDouble(),
+                                tomatoRating = rottenTomatoesRating,
                                 posterUrl = posterUrl,
                                 year = releaseDate.substring(0, 4),
                                 runtime = runtime

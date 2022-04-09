@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [ToWatchData::class, WatchedData::class],
-    version = 3
+    version = 4
 )
 abstract class Database : RoomDatabase() {
     abstract val dao: DatabaseDao

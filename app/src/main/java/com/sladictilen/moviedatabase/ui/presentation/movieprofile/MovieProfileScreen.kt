@@ -1,5 +1,6 @@
 package com.sladictilen.moviedatabase.ui.presentation.movieprofile
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
@@ -109,11 +110,9 @@ fun MovieProfileScreen(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     GlideImage(
-                        imageModel = "https://image.tmdb.org/t/p/w185${viewModel.posterUrl}",
-                        contentScale = ContentScale.FillBounds,
-                        modifier = Modifier
-                            .height(200.dp)
-                            .width(120.dp),
+                        imageModel = "https://image.tmdb.org/t/p/w780${viewModel.backdropImageUrl}",
+                        contentScale = ContentScale.FillWidth,
+                        modifier = Modifier.fillMaxWidth(),
                         loading = {
                             Row(
                                 modifier = Modifier.fillMaxSize(),
@@ -124,6 +123,36 @@ fun MovieProfileScreen(
                             }
                         }
                     )
+                }
+                // Ratings
+                Row(
+                    Modifier
+                        .padding(5.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    Column(modifier = Modifier.padding(end = 5.dp)) {
+                        Row(modifier = Modifier.size(30.dp)) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_imdb),
+                                contentDescription = null
+                            )
+                        }
+                        Row(horizontalArrangement = Arrangement.Center) {
+                            Text(text = viewModel.imdbRating)
+                        }
+                    }
+                    Column() {
+                        Row(modifier = Modifier.size(30.dp)) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_rotten_tomatoes),
+                                contentDescription = null
+                            )
+                        }
+                        Row(horizontalArrangement = Arrangement.Center) {
+                            Text(text = viewModel.rottenTomatoesRating)
+                        }
+                    }
                 }
                 // Watched?
                 Row() {

@@ -12,6 +12,6 @@ data class ToWatchData(
     val year: String,
     val runtime: Int,
     val imdbRating: Double,
-    val tomatoRating: Int,
+    val tomatoRating: String,
     val posterUrl: String,
 )

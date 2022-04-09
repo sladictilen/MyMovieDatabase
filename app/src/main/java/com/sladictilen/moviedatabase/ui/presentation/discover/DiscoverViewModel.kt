@@ -82,7 +82,7 @@ class DiscoverViewModel @Inject constructor(
                             posterUrl = movie.data.poster_path,
                             title = movie.data.title,
                             genre = genresToText(movie.data.genres),
-                            tomatoRating = 55,
+                            tomatoRating = "55",
                             imdbRating = 7.6
                         )
                     )

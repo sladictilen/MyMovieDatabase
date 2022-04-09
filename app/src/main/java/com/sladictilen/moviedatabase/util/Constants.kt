@@ -6,7 +6,7 @@ class Constants {
         const val TMDB_BASE_URL = "https://api.themoviedb.org/3/"
 
         const val OMDB_API_KEY = "938244be"
-        const val OMDB_BASE_URL = "http://www.omdbapi.com/"
+        const val OMDB_BASE_URL = "https://www.omdbapi.com/"
 
     }
 }
