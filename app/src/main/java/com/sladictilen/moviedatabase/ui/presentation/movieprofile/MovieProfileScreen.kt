@@ -1,11 +1,13 @@
 package com.sladictilen.moviedatabase.ui.presentation.movieprofile
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -16,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
@@ -57,7 +60,7 @@ fun MovieProfileScreen(
     }
     val fraction = 0.3f
     val scrollState = rememberScrollState()
-    val imageOffset = (-scrollState.value * 0.2f)
+    val imageOffset = (-scrollState.value * 0.15f)
 
     val height = 200.dp
     Scaffold(
@@ -91,11 +94,15 @@ fun MovieProfileScreen(
                 val image = measurables[0].measure(constraints)
                 val title = measurables[1].measure(constraints)
 
-                /* TODO make it like TopAppBarDefaults.exitUntilCollapsedScrollBehavior
+                /* TODO make it like TopAppBarDefaults.exitUntilCollapsedScrollBehavior */
 
                 layout(constraints.maxWidth, constraints.maxHeight) {
                     image.place(0, 0)
-                    title.place(0,0)
+                    title.place(
+                        (constraints.maxWidth - title.width) / 2,
+                        image.height - 80
+                    )
+                    Log.d("Info", title.height.toString())
                 }
             }
             /*TopAppBar(
