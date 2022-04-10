@@ -98,4 +98,7 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 
+    // Test material 3 design
+    implementation("androidx.compose.material3:material3:1.0.0-alpha09")
+
 }

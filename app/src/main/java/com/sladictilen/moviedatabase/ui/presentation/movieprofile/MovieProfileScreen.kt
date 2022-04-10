@@ -2,26 +2,27 @@ package com.sladictilen.moviedatabase.ui.presentation.movieprofile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.SubcomposeLayout
-import androidx.compose.ui.layout.SubcomposeLayoutState
+import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -29,18 +30,16 @@ import com.skydoves.landscapist.glide.GlideImage
 import com.sladictilen.moviedatabase.R
 import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.ActorItem
 import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.SimilarMovieItem
-import com.sladictilen.moviedatabase.ui.presentation.movieprofile.helpers.SubcomposeRow
 import com.sladictilen.moviedatabase.util.UiEvent
-import com.sladictilen.moviedatabase.util.components.CustomLinkButton
+import kotlin.math.roundToInt
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MovieProfileScreen(
     viewModel: MovieProfileViewModel = hiltViewModel(),
     onNavigate: (UiEvent.Navigate) -> Unit,
     onPopBackStack: () -> Unit
 ) {
-    val scaffoldState = rememberBackdropScaffoldState(initialValue = BackdropValue.Concealed)
+    val scaffoldState = rememberScaffoldState()
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
@@ -56,11 +55,50 @@ fun MovieProfileScreen(
 
         }
     }
+    val fraction = 0.3f
+    val scrollState = rememberScrollState()
+    val imageOffset = (-scrollState.value * 0.2f)
 
-    BackdropScaffold(
+    val height = 200.dp
+    Scaffold(
         scaffoldState = scaffoldState,
-        appBar = {
-            TopAppBar(
+        topBar = {
+            Layout(
+                modifier = Modifier
+                    .height(height + imageOffset.dp),
+                content = {
+
+                    GlideImage(
+                        imageModel = "https://image.tmdb.org/t/p/w780${viewModel.backdropImageUrl}",
+                        contentScale = ContentScale.FillWidth,
+                        modifier = Modifier,
+                        loading = {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .graphicsLayer { translationY = imageOffset },
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                CircularProgressIndicator(color = MaterialTheme.colors.primary)
+                            }
+                        }
+                    )
+                    Text(text = viewModel.title)
+
+                }
+            ) { measurables, constraints ->
+                val image = measurables[0].measure(constraints)
+                val title = measurables[1].measure(constraints)
+
+                /* TODO make it like TopAppBarDefaults.exitUntilCollapsedScrollBehavior
+
+                layout(constraints.maxWidth, constraints.maxHeight) {
+                    image.place(0, 0)
+                    title.place(0,0)
+                }
+            }
+            /*TopAppBar(
                 title = {
                     Row(
                         modifier = Modifier.padding(end = 10.dp)
@@ -82,34 +120,23 @@ fun MovieProfileScreen(
                 },
                 backgroundColor = MaterialTheme.colors.background,
                 modifier = Modifier.height(IntrinsicSize.Min),
-                contentColor = MaterialTheme.colors.primary
-            )
+                contentColor = MaterialTheme.colors.primary,
+            )*/
+
         },
-        frontLayerBackgroundColor = MaterialTheme.colors.background,
-        backLayerBackgroundColor = MaterialTheme.colors.background,
-        frontLayerScrimColor = MaterialTheme.colors.surface.copy(alpha = 0.2f),
-        backLayerContent = {
-            Row(
-                modifier = Modifier
-                    .height(50.dp)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = "Available platforms: ")
-            }
-        },
-        frontLayerContent = {
+        content = {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(10.dp)
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(scrollState)
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    GlideImage(
+
+                    /*GlideImage(
                         imageModel = "https://image.tmdb.org/t/p/w780${viewModel.backdropImageUrl}",
                         contentScale = ContentScale.FillWidth,
                         modifier = Modifier.fillMaxWidth(),
@@ -122,7 +149,7 @@ fun MovieProfileScreen(
                                 CircularProgressIndicator(color = MaterialTheme.colors.primary)
                             }
                         }
-                    )
+                    )*/
                 }
                 // Ratings
                 Row(
