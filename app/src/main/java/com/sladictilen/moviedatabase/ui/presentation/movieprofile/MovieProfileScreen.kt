@@ -2,23 +2,16 @@ package com.sladictilen.moviedatabase.ui.presentation.movieprofile
 
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
@@ -34,7 +27,6 @@ import com.sladictilen.moviedatabase.R
 import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.ActorItem
 import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.SimilarMovieItem
 import com.sladictilen.moviedatabase.util.UiEvent
-import kotlin.math.roundToInt
 
 @Composable
 fun MovieProfileScreen(
