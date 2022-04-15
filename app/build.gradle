@@ -70,12 +70,12 @@ dependencies {
 
 
     // Navigation
-    def nav_version = "2.5.0-alpha03"
+    def nav_version = "2.5.0-alpha04"
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
     // ViewModel
-    def lifecycle_version = "2.5.0-alpha05"
+    def lifecycle_version = "2.5.0-alpha06"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
     // ViewModel utilities for Compose

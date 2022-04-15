@@ -8,8 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.skydoves.landscapist.glide.GlideImage
 import com.sladictilen.moviedatabase.R
 import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.ActorItem
+import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.MovieProfileHeader
 import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.SimilarMovieItem
 import com.sladictilen.moviedatabase.util.UiEvent
 
@@ -35,6 +35,9 @@ fun MovieProfileScreen(
     onPopBackStack: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
+    var progress by remember {
+        mutableStateOf(0f)
+    }
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
@@ -50,77 +53,16 @@ fun MovieProfileScreen(
 
         }
     }
-    val fraction = 0.3f
-    val scrollState = rememberScrollState()
-    val imageOffset = (-scrollState.value * 0.15f)
 
-    val height = 200.dp
+    val scrollState = rememberScrollState()
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            Layout(
-                modifier = Modifier
-                    .height(height + imageOffset.dp),
-                content = {
-
-                    GlideImage(
-                        imageModel = "https://image.tmdb.org/t/p/w780${viewModel.backdropImageUrl}",
-                        contentScale = ContentScale.FillWidth,
-                        modifier = Modifier,
-                        loading = {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .graphicsLayer { translationY = imageOffset },
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                CircularProgressIndicator(color = MaterialTheme.colors.primary)
-                            }
-                        }
-                    )
-                    Text(text = viewModel.title)
-
-                }
-            ) { measurables, constraints ->
-                val image = measurables[0].measure(constraints)
-                val title = measurables[1].measure(constraints)
-
-                /* TODO make it like TopAppBarDefaults.exitUntilCollapsedScrollBehavior */
-
-                layout(constraints.maxWidth, constraints.maxHeight) {
-                    image.place(0, 0)
-                    title.place(
-                        (constraints.maxWidth - title.width) / 2,
-                        image.height - 80
-                    )
-                    Log.d("Info", title.height.toString())
-                }
-            }
-            /*TopAppBar(
-                title = {
-                    Row(
-                        modifier = Modifier.padding(end = 10.dp)
-                    ) {
-                        Text(
-                            text = viewModel.title,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-
-                },
-                navigationIcon = {
-                    IconButton(onClick = { viewModel.onEvent(MovieProfileEvent.OnBackPressed) }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_back),
-                            contentDescription = null
-                        )
-                    }
-                },
-                backgroundColor = MaterialTheme.colors.background,
-                modifier = Modifier.height(IntrinsicSize.Min),
-                contentColor = MaterialTheme.colors.primary,
-            )*/
+            MovieProfileHeader(
+                progress = progress,
+                imageUrl = viewModel.backdropImageUrl,
+                title = viewModel.title
+            )
 
         },
         content = {
@@ -134,11 +76,12 @@ fun MovieProfileScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
-
-                    /*GlideImage(
-                        imageModel = "https://image.tmdb.org/t/p/w780${viewModel.backdropImageUrl}",
-                        contentScale = ContentScale.FillWidth,
-                        modifier = Modifier.fillMaxWidth(),
+                    GlideImage(
+                        imageModel = "https://image.tmdb.org/t/p/w780${viewModel.posterUrl}",
+                        contentScale = ContentScale.FillHeight,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(300.dp),
                         loading = {
                             Row(
                                 modifier = Modifier.fillMaxSize(),
@@ -148,7 +91,7 @@ fun MovieProfileScreen(
                                 CircularProgressIndicator(color = MaterialTheme.colors.primary)
                             }
                         }
-                    )*/
+                    )
                 }
                 // Ratings
                 Row(
@@ -158,6 +101,15 @@ fun MovieProfileScreen(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     Column(modifier = Modifier.padding(end = 5.dp)) {
+                        Row() {
+                            Slider(
+                                value = progress,
+                                onValueChange = {
+                                    progress = it
+                                },
+                                modifier = Modifier.padding(horizontal = 32.dp)
+                            )
+                        }
                         Row(modifier = Modifier.size(30.dp)) {
                             Image(
                                 painter = painterResource(id = R.drawable.ic_imdb),
