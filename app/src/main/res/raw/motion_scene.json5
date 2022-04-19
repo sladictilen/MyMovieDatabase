@@ -2,19 +2,27 @@
   ConstraintSets: {
     start: {
       image: {
-        width: "spread",
+        width: 'spread',
+        height: 230,
         start: ['parent', 'start', 0],
         end: ['parent', 'end', 0],
         top: ['parent', 'top', 0]
       },
       title: {
         top: ['poster', 'bottom', 16],
-        start: ['parent', 'start', 16]
+        start: ['parent', 'start', 16],
+      },
+      content: {
+        width: 'spread',
+        start: ['parent', 'start', 0],
+        end: ['parent', 'end', 0],
+        top: ['image', 'bottom', 16]
       }
+
     },
     end: {
       image: {
-        width: "spread",
+        width: 'spread',
         height: 56,
         start: ['parent', 'start', 0],
         end: ['parent', 'end', 0],
@@ -24,8 +32,15 @@
         top: ['parent', 'top', 0],
         start: ['parent', 'start', 0],
         end: ['parent', 'end', 0],
-        bottom: ['poster', 'bottom', 0]
+        bottom: ['image', 'bottom', 0],
+      },
+      content: {
+        width: 'spread',
+        start: ['parent', 'start', 0],
+        end: ['parent', 'end', 0],
+        top: ['image', 'bottom', 0],
       }
+
     }
   }
 }
