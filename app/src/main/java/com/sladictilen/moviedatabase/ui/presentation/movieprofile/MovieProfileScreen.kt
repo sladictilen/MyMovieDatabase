@@ -49,6 +49,41 @@ fun MovieProfileScreen(
         }
     }
 
+    val swipeableState = rememberSwipeableState(initialValue = States.EXPANDED)
+    BoxWithConstraints {
+        val constraintsScope = this
+        val maxHeight = with(LocalDensity.current) {
+            constraintsScope.maxHeight.toPx()
+        }
+        Box(
+            Modifier
+                .swipeable(
+                    state = swipeableState,
+                    orientation = Orientation.Vertical,
+                    anchors = mapOf(
+                        0f to States.EXPANDED,
+                        maxHeight to States.COLLAPSED,
+                    )
+                )
+                .nestedScroll(
+                    object : NestedScrollConnection {
+                        override fun onPreScroll(
+                            available: Offset,
+                            source: NestedScrollSource
+                        ): Offset {
+                            return super.onPreScroll(available, source)
+                        }
+                    }
+                )
+                    https://www.strv.com/blog/collapsing-toolbar-using-jetpack-compose-motion-layout-engineering
+        )
+    }
 
+
+}
+
+enum class States {
+    EXPANDED,
+    COLLAPSED
 }
 

@@ -1,6 +1,5 @@
 package com.sladictilen.moviedatabase.ui.presentation.movieprofile.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
