@@ -104,7 +104,7 @@ class MovieProfileViewModel @Inject constructor(
                     status = movieDetails.status
                     spokenLanguages = movieDetails.spoken_languages
                     tagline = movieDetails.tagline
-                    backdropImageUrl = movieDetails.backdrop_path
+                    backdropImageUrl = "https://image.tmdb.org/t/p/w780" + movieDetails.backdrop_path
 
                     genresToText(movieDetails.genres)
 
@@ -130,6 +130,7 @@ class MovieProfileViewModel @Inject constructor(
                         }
                         is Resource.Error -> {
                             Log.d("Info", "${ratings.message}")
+
                         }
                         is Resource.Loading -> {
                             /* todo */

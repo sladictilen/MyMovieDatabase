@@ -5,22 +5,23 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.skydoves.landscapist.glide.GlideImage
 import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.MovieProfileContent
 import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.MovieProfileHeader
 import com.sladictilen.moviedatabase.util.UiEvent
@@ -49,40 +50,43 @@ fun MovieProfileScreen(
         }
     }
 
-    val swipeableState = rememberSwipeableState(initialValue = States.EXPANDED)
-    BoxWithConstraints {
-        val constraintsScope = this
-        val maxHeight = with(LocalDensity.current) {
-            constraintsScope.maxHeight.toPx()
-        }
+
+    val swipingState = rememberSwipeableState(initialValue = SwipingStates.EXPANDED)
+    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+
+        val heightInPx =
+            with(LocalDensity.current) { maxHeight.toPx() } // Get height of the available space
+
         Box(
-            Modifier
+            modifier = Modifier
+                .fillMaxSize()
                 .swipeable(
-                    state = swipeableState,
+                    state = swipingState,
+                    thresholds = { _, _ -> FractionalThreshold(0.5f) }, // Threshold defining progress fraction in which should animation automatically snap to target anchor
                     orientation = Orientation.Vertical,
                     anchors = mapOf(
-                        0f to States.EXPANDED,
-                        maxHeight to States.COLLAPSED,
+                        // Maps anchor points (in px) to states
+                        0f to SwipingStates.COLLAPSED,
+                        heightInPx to SwipingStates.EXPANDED,
                     )
                 )
-                .nestedScroll(
-                    object : NestedScrollConnection {
-                        override fun onPreScroll(
-                            available: Offset,
-                            source: NestedScrollSource
-                        ): Offset {
-                            return super.onPreScroll(available, source)
-                        }
-                    }
-                )
-                    https://www.strv.com/blog/collapsing-toolbar-using-jetpack-compose-motion-layout-engineering
-        )
+        ) {
+
+                MovieProfileHeader(
+                    progress =
+                    if (swipingState.progress.to == SwipingStates.COLLAPSED) swipingState.progress.fraction
+                    else 1f - swipingState.progress.fraction
+                ) {
+
+                }
+
+        }
     }
 
 
 }
 
-enum class States {
+enum class SwipingStates {
     EXPANDED,
     COLLAPSED
 }

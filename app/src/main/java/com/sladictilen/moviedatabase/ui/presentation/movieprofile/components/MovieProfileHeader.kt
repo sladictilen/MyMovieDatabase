@@ -1,5 +1,6 @@
 package com.sladictilen.moviedatabase.ui.presentation.movieprofile.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -10,18 +11,23 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
+import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import com.skydoves.landscapist.glide.GlideImage
 import com.sladictilen.moviedatabase.R
+import com.sladictilen.moviedatabase.ui.presentation.movieprofile.MovieProfileViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 @OptIn(ExperimentalMotionApi::class)
 @Composable
 fun MovieProfileHeader(
     progress: Float,
-    imageUrl: String,
-    title: String,
+    viewModel: MovieProfileViewModel = hiltViewModel(),
     scrollableBody: @Composable () -> Unit
 ) {
     val context = LocalContext.current
@@ -34,13 +40,21 @@ fun MovieProfileHeader(
     MotionLayout(
         motionScene = MotionScene(content = motionScene),
         progress = progress,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxSize()
     ) {
         //val properties = motionProperties("movie_header")
+        /*SubcomposeAsyncImage(
+            model = "https://image.tmdb.org/t/p/w780${viewModel.backdropImageUrl}",
+            contentDescription = null,
+            loading = { CircularProgressIndicator() }
+        )*/
+
         GlideImage(
-            imageModel = "https://image.tmdb.org/t/p/w780${imageUrl}",
+            imageModel = viewModel.backdropImageUrl,
             contentScale = ContentScale.FillWidth,
-            modifier = Modifier.layoutId("image"),
+            modifier = Modifier
+                .layoutId("image")
+                .heightIn(min = 230.dp),
             loading = {
                 Row(
                     modifier = Modifier
@@ -50,16 +64,18 @@ fun MovieProfileHeader(
                 ) {
                     CircularProgressIndicator(color = MaterialTheme.colors.primary)
                 }
-            }
-        )
-        Text(text = title, modifier = Modifier.layoutId("title"))
+            },
+
+            )
+        Text(text = viewModel.title, modifier = Modifier.layoutId("title"))
+
 
         IconButton(onClick = { /*TODO*/ }, modifier = Modifier.layoutId("back")) {
             Icon(painter = painterResource(id = R.drawable.ic_back), contentDescription = null)
         }
-
-        Box(modifier = Modifier.layoutId("content")) {
-            scrollableBody()
-        }
+        /*
+    Box(modifier = Modifier.layoutId("content")) {
+        scrollableBody()
+    } */
     }
 }
