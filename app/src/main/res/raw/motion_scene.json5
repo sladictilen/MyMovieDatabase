@@ -12,6 +12,12 @@
         top: ['image', 'bottom', 16],
         start: ['parent', 'start', 16],
       },
+      content: {
+        width: "spread",
+        start: ['parent', 'start', 0],
+        end: ['parent', 'end', 0],
+        top: ['title', 'bottom', 16],
+      }
 
     },
     end: {
@@ -28,6 +34,12 @@
         end: ['parent', 'end', 0],
         bottom: ['image', 'bottom', 0],
       },
+      content: {
+        width: "spread",
+        start: ['parent', 'start', 0],
+        end: ['parent', 'end', 0],
+        top: ['poster', 'bottom', 0],
+      }
 
     }
   }

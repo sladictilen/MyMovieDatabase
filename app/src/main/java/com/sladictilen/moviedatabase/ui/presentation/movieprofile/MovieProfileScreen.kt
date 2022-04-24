@@ -1,27 +1,22 @@
 package com.sladictilen.moviedatabase.ui.presentation.movieprofile
 
-import android.util.Log
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Velocity
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.skydoves.landscapist.glide.GlideImage
 import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.MovieProfileContent
 import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.MovieProfileHeader
 import com.sladictilen.moviedatabase.util.UiEvent
@@ -52,6 +47,41 @@ fun MovieProfileScreen(
 
 
     val swipingState = rememberSwipeableState(initialValue = SwipingStates.EXPANDED)
+    val connection = remember {
+        object : NestedScrollConnection {
+
+            override fun onPreScroll( // Desides if use the sroll for parent (Swipe) or pass it to the childern
+                available: Offset,
+                source: NestedScrollSource
+            ): Offset {
+                val delta = available.y
+                return if (delta < 0) {
+                    swipingState.performDrag(delta).toOffset()
+                } else {
+                    Offset.Zero
+                }
+            }
+
+            override fun onPostScroll( // If there is any leftover sroll from childern, let's try to use it on parent swipe
+                consumed: Offset,
+                available: Offset,
+                source: NestedScrollSource
+            ): Offset {
+                val delta = available.y
+                return swipingState.performDrag(delta).toOffset()
+            }
+
+            override suspend fun onPostFling( // Let's try to use fling on parent and pass all leftover to children
+                consumed: Velocity,
+                available: Velocity
+            ): Velocity {
+                swipingState.performFling(velocity = available.y)
+                return super.onPostFling(consumed, available)
+            }
+
+            private fun Float.toOffset() = Offset(0f, this)
+        }
+    }
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
 
         val heightInPx =
@@ -70,14 +100,16 @@ fun MovieProfileScreen(
                         heightInPx to SwipingStates.EXPANDED,
                     )
                 )
+                .nestedScroll(connection)
         ) {
 
                 MovieProfileHeader(
                     progress =
                     if (swipingState.progress.to == SwipingStates.COLLAPSED) swipingState.progress.fraction
-                    else 1f - swipingState.progress.fraction
+                    else 1f - swipingState.progress.fraction,
+                    onBackClick = { viewModel.onEvent(MovieProfileEvent.OnBackPressed) }
                 ) {
-
+                    MovieProfileContent(viewModel = viewModel)
                 }
 
         }

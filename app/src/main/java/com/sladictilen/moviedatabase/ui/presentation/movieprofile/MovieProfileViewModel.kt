@@ -56,6 +56,9 @@ class MovieProfileViewModel @Inject constructor(
     var backdropImageUrl by mutableStateOf("")
         private set
 
+    var allLoaded by mutableStateOf(false)
+        private set
+
     // Ratings
     var imdbId by mutableStateOf("")
         private set
@@ -104,7 +107,8 @@ class MovieProfileViewModel @Inject constructor(
                     status = movieDetails.status
                     spokenLanguages = movieDetails.spoken_languages
                     tagline = movieDetails.tagline
-                    backdropImageUrl = "https://image.tmdb.org/t/p/w780" + movieDetails.backdrop_path
+                    backdropImageUrl =
+                        "https://image.tmdb.org/t/p/w780" + movieDetails.backdrop_path
 
                     genresToText(movieDetails.genres)
 
@@ -136,7 +140,7 @@ class MovieProfileViewModel @Inject constructor(
                             /* todo */
                         }
                     }
-
+                    allLoaded = true
                     Log.d("Info", "Got movie data")
                 }
                 is Resource.Error -> {

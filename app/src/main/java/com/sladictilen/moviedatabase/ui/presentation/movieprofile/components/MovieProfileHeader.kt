@@ -28,6 +28,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 fun MovieProfileHeader(
     progress: Float,
     viewModel: MovieProfileViewModel = hiltViewModel(),
+    onBackClick: () -> Unit,
     scrollableBody: @Composable () -> Unit
 ) {
     val context = LocalContext.current
@@ -37,45 +38,49 @@ fun MovieProfileHeader(
             .readBytes()
             .decodeToString()
     }
+
     MotionLayout(
         motionScene = MotionScene(content = motionScene),
         progress = progress,
         modifier = Modifier.fillMaxSize()
     ) {
-        //val properties = motionProperties("movie_header")
-        /*SubcomposeAsyncImage(
-            model = "https://image.tmdb.org/t/p/w780${viewModel.backdropImageUrl}",
-            contentDescription = null,
-            loading = { CircularProgressIndicator() }
-        )*/
-
-        GlideImage(
-            imageModel = viewModel.backdropImageUrl,
-            contentScale = ContentScale.FillWidth,
-            modifier = Modifier
-                .layoutId("image")
-                .heightIn(min = 230.dp),
-            loading = {
-                Row(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    CircularProgressIndicator(color = MaterialTheme.colors.primary)
+        when (viewModel.allLoaded) {
+            true -> {
+                Box(modifier = Modifier.layoutId("content")) {
+                    scrollableBody()
                 }
-            },
+                GlideImage(
+                    imageModel = viewModel.backdropImageUrl,
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier
+                        .layoutId("image")
+                        .heightIn(min = 230.dp),
+                    loading = {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            CircularProgressIndicator(color = MaterialTheme.colors.primary)
+                        }
+                    },
 
-            )
-        Text(text = viewModel.title, modifier = Modifier.layoutId("title"))
+                    )
+                Text(text = viewModel.title, modifier = Modifier.layoutId("title"))
 
 
-        IconButton(onClick = { /*TODO*/ }, modifier = Modifier.layoutId("back")) {
-            Icon(painter = painterResource(id = R.drawable.ic_back), contentDescription = null)
+                IconButton(onClick = { onBackClick() }, modifier = Modifier.layoutId("back")) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_back),
+                        contentDescription = null
+                    )
+                }
+
+
+            }
+            else -> {}
         }
-        /*
-    Box(modifier = Modifier.layoutId("content")) {
-        scrollableBody()
-    } */
+
     }
 }
