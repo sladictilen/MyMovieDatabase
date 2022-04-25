@@ -180,16 +180,7 @@ fun MovieProfileContent(viewModel: MovieProfileViewModel){
             )
         }
         Row() {
-            LazyRow() {
-                items(viewModel.cast) {
-                    ActorItem(
-                        name = it.name,
-                        characterName = it.character,
-                        profileImg = it.profile_path
-                    )
-                }
-
-            }
+            CastSection(cast = viewModel.cast)
         }
         Row(
             modifier = Modifier.padding(
