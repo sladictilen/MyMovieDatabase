@@ -25,11 +25,6 @@ import com.sladictilen.moviedatabase.ui.presentation.movieprofile.MovieProfileVi
 
 @Composable
 fun MovieProfileContent(viewModel: MovieProfileViewModel){
-    LazyColumn(){
-        item {
-
-        }
-    }
     Column(
         modifier = Modifier
             .fillMaxSize()
