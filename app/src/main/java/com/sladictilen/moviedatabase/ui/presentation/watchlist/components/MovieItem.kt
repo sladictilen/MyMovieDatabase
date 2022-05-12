@@ -34,9 +34,17 @@ fun MovieItem(
 ) {
     // Used in ToWatchListScreen and WatchedListScreen
     val buttonState = remember {
-        mutableStateOf(true)
+        mutableStateOf(false)
     }
     val swipeableState = rememberSwipeableState(initialValue = 0)
+    when (swipeableState.currentValue) {
+        1 -> {
+            buttonState.value = true
+        }
+        else -> {
+            buttonState.value = false
+        }
+    }
     val squareSize = 200.dp
 
     val sizePx = with(LocalDensity.current) { squareSize.toPx() }
