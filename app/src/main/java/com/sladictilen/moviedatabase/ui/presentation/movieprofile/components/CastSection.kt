@@ -15,7 +15,7 @@ fun CastSection(cast: List<Cast>) {
     // Data from MovieProfileViewModel
     LazyRow(Modifier.wrapContentSize()) {
         items(cast) {
-            ActorItem2(
+            ActorItem(
                 name = it.name,
                 characterName = it.character,
                 profileImg = it.profile_path

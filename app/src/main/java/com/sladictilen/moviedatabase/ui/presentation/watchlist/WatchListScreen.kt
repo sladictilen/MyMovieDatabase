@@ -3,7 +3,6 @@ package com.sladictilen.moviedatabase.ui.presentation.watchlist
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -18,7 +17,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.sladictilen.moviedatabase.R
 import com.sladictilen.moviedatabase.ui.presentation.watchlist.components.MovieItem
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun WatchListScreen(
     viewModel: WatchListViewModel = hiltViewModel()
@@ -46,8 +44,8 @@ fun WatchListScreen(
         }
         val watchList = viewModel.watchList.collectAsState(initial = emptyList())
 
-        Row() {
-            LazyColumn() {
+        Row {
+            LazyColumn {
                 items(watchList.value) {
                     MovieItem(
                         movie = it,
