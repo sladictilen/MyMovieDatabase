@@ -194,7 +194,6 @@ fun MovieProfileContent(viewModel: MovieProfileViewModel){
         }
         Row() {
             LazyRow() {
-
                 items(viewModel.similarMovies) {
                     Column(
                         modifier = Modifier
