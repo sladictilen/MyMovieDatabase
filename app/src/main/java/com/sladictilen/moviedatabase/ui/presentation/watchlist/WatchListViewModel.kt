@@ -25,7 +25,14 @@ class WatchListViewModel @Inject constructor(
                 }
             }
             is WatchListEvent.OnMarkAsWatchedClicked -> {
-
+                // TODO Add custom dialog to ask user to rate a movie and pick a watch date (else picks today date)
+                /*
+                viewModelScope.launch(Dispatchers.IO){
+                    val movie = localMoviesRepository.getMovieFromWatchedListById(event.id_movie)
+                    if(movie != null){
+                        localMoviesRepository.addToWatched(movie)
+                    }
+                } */
             }
         }
     }

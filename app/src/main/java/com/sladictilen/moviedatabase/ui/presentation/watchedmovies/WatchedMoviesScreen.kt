@@ -11,7 +11,7 @@ fun WatchedMoviesScreen() {
     WatchedMovieItem(
         "/k9tJGdMkzOe17YH2ZCQjNnX5YLz.jpg",
         "Deadpool",
-        "Ryan Reynolds, in ostali čudni šalabajzerji",
+        "Ryan Reynolds, in ostali  test",
         "22.3.2022",
         "2"
     )

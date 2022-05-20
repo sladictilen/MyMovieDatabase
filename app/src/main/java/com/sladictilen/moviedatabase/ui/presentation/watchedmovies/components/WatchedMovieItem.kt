@@ -36,14 +36,21 @@ fun WatchedMovieItem(
                 .clip(RoundedCornerShape(5.dp))
         ) {
             // Poster
-            Column(modifier = Modifier.fillMaxHeight().border(1.dp, Color.Green).width(70.dp)) {
+            Column(modifier = Modifier
+                .fillMaxHeight()
+                .border(1.dp, Color.Green)
+                .width(70.dp)) {
                 GlideImage(
                     imageModel = "https://image.tmdb.org/t/p/w185${posterUrl}",
                     contentScale = ContentScale.FillHeight,
                 )
             }
             // movie info
-            Column(modifier = Modifier.fillMaxHeight().padding(5.dp).border(1.dp, Color.Red)) {
+            Column(modifier = Modifier
+                .fillMaxHeight()
+                .weight(1f)
+                .padding(5.dp)
+                .border(1.dp, Color.Red)) {
                 Row() {
                     Text(text = title)
                 }
@@ -55,7 +62,14 @@ fun WatchedMovieItem(
                 }
             }
             // user rating
-            Column(modifier = Modifier.fillMaxHeight().border(1.dp, Color.Blue), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.End) {
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .border(1.dp, Color.Blue)
+                    .width(IntrinsicSize.Min),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.End
+            ) {
                 GlideImage(imageModel = getUserRatingImage(userRating), Modifier.size(60.dp))
             }
         }
@@ -69,7 +83,7 @@ fun Prev22() {
     WatchedMovieItem(
         "/k9tJGdMkzOe17YH2ZCQjNnX5YLz.jpg",
         "Deadpool",
-        "Ryan Reynolds, in ostali šalabajzerji",
+        "Ryan Reynolds, in ostali  test",
         "22.3.2022",
         "2"
     )
