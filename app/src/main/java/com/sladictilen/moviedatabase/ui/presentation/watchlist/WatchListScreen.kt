@@ -15,12 +15,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sladictilen.moviedatabase.R
+import com.sladictilen.moviedatabase.ui.presentation.watchlist.components.AddToWatchedDialog
 import com.sladictilen.moviedatabase.ui.presentation.watchlist.components.MovieItem
 
 @Composable
 fun WatchListScreen(
     viewModel: WatchListViewModel = hiltViewModel()
 ) {
+    AddToWatchedDialog()
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier
@@ -50,11 +52,19 @@ fun WatchListScreen(
                     MovieItem(
                         movie = it,
                         onRemove = { viewModel.onEvent(WatchListEvent.OnRemoveMovieClick(it.id_movie)) },
-                        onWatched = { viewModel.onEvent(WatchListEvent.OnMarkAsWatchedClicked(it.id_movie)) }
+                        onWatched = {
+                            viewModel.onEvent(
+                                WatchListEvent.OnMarkAsWatchedClicked(
+                                    it.id_movie,
+                                    it.title
+                                )
+                            )
+                        }
                     )
                 }
             }
         }
+
     }
 
 }

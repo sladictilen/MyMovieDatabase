@@ -14,5 +14,6 @@ data class WatchedData(
     val imdbRating: Double,
     val tomatoRating: Int,
     val posterUrl: String,
-    val dateWatched: String
+    val dateWatched: String,
+    val userRating: Int
 )

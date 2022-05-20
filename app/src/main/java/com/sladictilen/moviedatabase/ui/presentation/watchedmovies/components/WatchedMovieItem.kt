@@ -21,7 +21,7 @@ import com.sladictilen.moviedatabase.util.helpers.getUserRatingImage
 fun WatchedMovieItem(
     posterUrl: String,
     title: String,
-    actors: String,
+    genre: String,
     watchedDate: String,
     userRating: String
 ) {
@@ -55,7 +55,7 @@ fun WatchedMovieItem(
                     Text(text = title)
                 }
                 Row() {
-                    Text(text = actors)
+                    Text(text = genre)
                 }
                 Row() {
                     Text(text = watchedDate)
