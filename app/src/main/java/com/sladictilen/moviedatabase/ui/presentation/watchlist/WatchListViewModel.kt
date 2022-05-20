@@ -19,8 +19,11 @@ class WatchListViewModel @Inject constructor(
     val watchList = localMoviesRepository.getWatchList()
     val showDialog = mutableStateOf(false)
 
+
+
     val selectedMovieId = mutableStateOf(0)
     val selectedMovieTitle = mutableStateOf("")
+    val userRating = mutableStateOf("0")
 
     fun onEvent(event: WatchListEvent) {
         when (event) {
@@ -42,7 +45,7 @@ class WatchListViewModel @Inject constructor(
                     val movie = localMoviesRepository.getMovieFromToWatchListById(event.id_movie)
                     if (movie != null) {
                         val current = LocalDateTime.now()
-                        val formatter = DateTimeFormatter.ofPattern("dd. mm.yyyy HH:mm:ss.SSS")
+                        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
                         val formatted = current.format(formatter)
 
                         localMoviesRepository.addToWatched(
@@ -54,8 +57,8 @@ class WatchListViewModel @Inject constructor(
                                 id_movie = movie.id_movie,
                                 imdbRating = movie.imdbRating,
                                 runtime = movie.runtime,
-                                tomatoRating = movie.tomatoRating.toInt(),
-                                userRating = 4, // TODO
+                                tomatoRating = movie.tomatoRating,
+                                userRating = userRating.value, // TODO
                                 year = movie.year
                             )
                         )

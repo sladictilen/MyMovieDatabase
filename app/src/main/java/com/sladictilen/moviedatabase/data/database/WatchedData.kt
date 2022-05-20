@@ -12,8 +12,8 @@ data class WatchedData(
     val year: String,
     val runtime: Int,
     val imdbRating: Double,
-    val tomatoRating: Int,
+    val tomatoRating: String,
     val posterUrl: String,
     val dateWatched: String,
-    val userRating: Int
+    val userRating: String
 )

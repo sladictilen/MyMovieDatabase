@@ -24,25 +24,30 @@ fun AddToWatchedDialog(
         Dialog(onDismissRequest = { viewModel.showDialog.value = false }) {
             Column(
                 modifier = Modifier
-                    .height(300.dp)
                     .width(300.dp)
-                    .background(Color.DarkGray)
                     .clip(RoundedCornerShape(5.dp))
+                    .background(Color.DarkGray)
+                    .padding(10.dp)
             ) {
-                Row() {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                     Text(text = "Add to watched", fontWeight = FontWeight.Bold)
                 }
-                Row() {
+                Row(modifier = Modifier.padding(top = 5.dp)) {
                     Text(text = "Movie ${viewModel.selectedMovieTitle.value} will be marked as watched.")
                 }
-                Row() {
-                    Text(text = "Give this movie your rating!", fontWeight = FontWeight.ExtraLight)
+                Row(modifier = Modifier.padding(top = 5.dp).fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                    Text(text = "Give this movie your rating!", fontWeight = FontWeight.Light)
                 }
-                Row() {
-
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                    RatingPicker(
+                        selectedRating = viewModel.userRating.value,
+                        onRatingClick = { viewModel.userRating.value = it })
                 }
 
-                Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     Column() {
                         Button(onClick = {
                             viewModel.onEvent(
@@ -61,9 +66,6 @@ fun AddToWatchedDialog(
                         }
                     }
 
-                }
-                Row {
-                    RatingPicker()
                 }
 
             }

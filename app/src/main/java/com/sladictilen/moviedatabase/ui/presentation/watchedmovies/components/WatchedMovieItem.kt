@@ -38,7 +38,6 @@ fun WatchedMovieItem(
             // Poster
             Column(modifier = Modifier
                 .fillMaxHeight()
-                .border(1.dp, Color.Green)
                 .width(70.dp)) {
                 GlideImage(
                     imageModel = "https://image.tmdb.org/t/p/w185${posterUrl}",
@@ -49,8 +48,7 @@ fun WatchedMovieItem(
             Column(modifier = Modifier
                 .fillMaxHeight()
                 .weight(1f)
-                .padding(5.dp)
-                .border(1.dp, Color.Red)) {
+                .padding(5.dp)) {
                 Row() {
                     Text(text = title)
                 }
@@ -58,14 +56,13 @@ fun WatchedMovieItem(
                     Text(text = genre)
                 }
                 Row() {
-                    Text(text = watchedDate)
+                    Text(text = "Watched date: $watchedDate")
                 }
             }
             // user rating
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .border(1.dp, Color.Blue)
                     .width(IntrinsicSize.Min),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.End

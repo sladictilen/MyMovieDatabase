@@ -1,66 +1,134 @@
 package com.sladictilen.moviedatabase.ui.presentation.watchlist.components
 
 import android.media.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.skydoves.landscapist.glide.GlideImage
 import com.sladictilen.moviedatabase.util.helpers.getUserRatingImage
 
 @Composable
-fun RatingPicker(selectedRating: String) {
+fun RatingPicker(selectedRating: String, onRatingClick: (String) -> Unit) {
     // TODO READ FROM VIEWMODEL
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(100.dp)
+            .height(60.dp)
     ) {
-        Row(modifier = Modifier.fillMaxSize()) {
-            Column() {
-                IconButton(onClick = { /*TODO*/ }) {
+        Row(modifier = Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                IconButton(onClick = { onRatingClick("1") }) {
                     GlideImage(
                         imageModel = getUserRatingImage("1"),
-                        modifier = Modifier.size(40.dp)
+                        modifier = Modifier.size(50.dp)
+                    )
+                }
+                if (selectedRating == "1") {
+                    Divider(
+                        color = MaterialTheme.colors.primary,
+                        thickness = 3.dp,
+                        modifier = Modifier
+                            .width(30.dp)
+                            .clip(
+                                RoundedCornerShape(20.dp)
+                            )
                     )
                 }
             }
-            Column() {
-                IconButton(onClick = { /*TODO*/ }) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                IconButton(onClick = { onRatingClick("2") }) {
                     GlideImage(
                         imageModel = getUserRatingImage("2"),
-                        modifier = Modifier.size(40.dp)
+                        modifier = Modifier.size(50.dp)
+                    )
+                }
+                if (selectedRating == "2") {
+                    Divider(
+                        color = MaterialTheme.colors.primary,
+                        thickness = 3.dp,
+                        modifier = Modifier
+                            .width(30.dp)
+                            .clip(
+                                RoundedCornerShape(20.dp)
+                            )
                     )
                 }
             }
-            Column() {
-                IconButton(onClick = { /*TODO*/ }) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                IconButton(onClick = { onRatingClick("3") }) {
                     GlideImage(
                         imageModel = getUserRatingImage("3"),
-                        modifier = Modifier.size(40.dp)
+                        modifier = Modifier.size(50.dp)
+                    )
+                }
+                if (selectedRating == "3") {
+                    Divider(
+                        color = MaterialTheme.colors.primary,
+                        thickness = 3.dp,
+                        modifier = Modifier
+                            .width(30.dp)
+                            .clip(
+                                RoundedCornerShape(20.dp)
+                            )
                     )
                 }
             }
-            Column() {
-                IconButton(onClick = { /*TODO*/ }) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                IconButton(onClick = { onRatingClick("4") }) {
                     GlideImage(
                         imageModel = getUserRatingImage("4"),
-                        modifier = Modifier.size(40.dp)
+                        modifier = Modifier.size(50.dp)
+                    )
+                }
+                if (selectedRating == "4") {
+                    Divider(
+                        color = MaterialTheme.colors.primary,
+                        thickness = 3.dp,
+                        modifier = Modifier
+                            .width(30.dp)
+                            .clip(
+                                RoundedCornerShape(20.dp)
+                            )
                     )
                 }
             }
-            Column(modifier = Modifier.width(IntrinsicSize.Min)) {
-                IconButton(onClick = { /*TODO*/ }) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.width(IntrinsicSize.Min)
+            ) {
+                IconButton(onClick = { onRatingClick("5") }) {
                     GlideImage(
                         imageModel = getUserRatingImage("5"),
-                        modifier = Modifier.size(40.dp)
+                        modifier = Modifier.size(50.dp)
+                    )
+                }
+                if (selectedRating == "5") {
+                    Divider(
+                        color = MaterialTheme.colors.primary,
+                        thickness = 3.dp,
+                        modifier = Modifier
+                            .width(30.dp)
+                            .clip(
+                                RoundedCornerShape(20.dp)
+                            )
                     )
                 }
             }
+
         }
     }
 }

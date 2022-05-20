@@ -43,21 +43,22 @@ fun WatchedMoviesScreen(
                 }
             }
         }
-    }
-    val watchedList = viewModel.watchedMovies.collectAsState(initial = emptyList())
-    Row() {
-        LazyColumn() {
-            items(watchedList.value) {
-                WatchedMovieItem(
-                    posterUrl = it.posterUrl,
-                    title = it.title,
-                    genre = it.genre, //todo fix database
-                    watchedDate = it.dateWatched,
-                    userRating = it.userRating.toString()
-                )
+        val watchedList = viewModel.watchedMovies.collectAsState(initial = emptyList())
+        Row() {
+            LazyColumn() {
+                items(watchedList.value) {
+                    WatchedMovieItem(
+                        posterUrl = it.posterUrl,
+                        title = it.title,
+                        genre = it.genre, //todo fix database
+                        watchedDate = it.dateWatched,
+                        userRating = it.userRating.toString()
+                    )
+                }
             }
         }
     }
+
 
 
 }
