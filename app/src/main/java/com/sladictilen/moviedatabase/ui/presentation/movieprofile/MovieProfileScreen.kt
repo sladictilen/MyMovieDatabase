@@ -21,7 +21,7 @@ import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.Mov
 import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.MovieProfileHeader
 import com.sladictilen.moviedatabase.util.UiEvent
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MovieProfileScreen(
     viewModel: MovieProfileViewModel = hiltViewModel(),

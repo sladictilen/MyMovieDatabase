@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sladictilen.moviedatabase.R
+import com.sladictilen.moviedatabase.ui.presentation.watchedmovies.components.EditWatchedMovieDialog
 import com.sladictilen.moviedatabase.ui.presentation.watchedmovies.components.WatchedMovieItem
 
 
@@ -22,6 +23,7 @@ import com.sladictilen.moviedatabase.ui.presentation.watchedmovies.components.Wa
 fun WatchedMoviesScreen(
     viewModel: WatchedMoviesViewModel = hiltViewModel()
 ) {
+    EditWatchedMovieDialog()
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
             modifier = Modifier
@@ -52,13 +54,15 @@ fun WatchedMoviesScreen(
                         title = it.title,
                         genre = it.genre, //todo fix database
                         watchedDate = it.dateWatched,
-                        userRating = it.userRating.toString()
+                        userRating = it.userRating.toString(),
+                        onLongPress = {
+                            viewModel.onEvent(WatchedMoviesEvent.OpenEditDialog(it))
+                        }
                     )
                 }
             }
         }
     }
-
 
 
 }
