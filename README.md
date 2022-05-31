@@ -8,7 +8,7 @@ App uses 3 different data sources:
 - TMDB - where we get movie info, popular list, similar movies
 - Local database - where we store only your To-Watch List and Watched movies.
 
-This project is not finished - still in development. Not ready for daily use just for testing.
+This project is not finished - **still in development**. Not ready for daily use just for testing.
 
 To do:
 - various bug fixes
