@@ -37,8 +37,6 @@ class MovieProfileViewModel @Inject constructor(
 ) : ViewModel() {
     private lateinit var movieDetails: MovieDetailResponse
 
-    private lateinit var movieRatings: OmdbMovieResponse
-
     var title by mutableStateOf("")
         private set
     var overview by mutableStateOf("")
@@ -117,8 +115,6 @@ class MovieProfileViewModel @Inject constructor(
                     imdbId = movieDetails.imdb_id
 
 
-                    Log.d("Info", imdbId)
-
                     when (val ratings = ratingsRepository.getRatings(imdbId)) {
                         is Resource.Success -> {
                             val response = ratings.data!!
@@ -130,7 +126,6 @@ class MovieProfileViewModel @Inject constructor(
                                     break
                                 }
                             }
-                            Log.d("Info", "RATING: $rottenTomatoesRating")
                         }
                         is Resource.Error -> {
                             Log.d("Info", "${ratings.message}")

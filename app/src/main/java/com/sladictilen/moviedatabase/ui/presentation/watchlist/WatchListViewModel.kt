@@ -58,7 +58,7 @@ class WatchListViewModel @Inject constructor(
                                 imdbRating = movie.imdbRating,
                                 runtime = movie.runtime,
                                 tomatoRating = movie.tomatoRating,
-                                userRating = userRating.value, // TODO
+                                userRating = userRating.value,
                                 year = movie.year
                             )
                         )

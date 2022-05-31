@@ -1,5 +1,6 @@
 package com.sladictilen.moviedatabase.ui.presentation.watchedmovies
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -7,6 +8,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,12 +19,23 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.sladictilen.moviedatabase.R
 import com.sladictilen.moviedatabase.ui.presentation.watchedmovies.components.EditWatchedMovieDialog
 import com.sladictilen.moviedatabase.ui.presentation.watchedmovies.components.WatchedMovieItem
+import com.sladictilen.moviedatabase.util.UiEvent
 
 
 @Composable
 fun WatchedMoviesScreen(
-    viewModel: WatchedMoviesViewModel = hiltViewModel()
+    viewModel: WatchedMoviesViewModel = hiltViewModel(),
+    onNavigate: (UiEvent.Navigate) -> Unit
 ) {
+    LaunchedEffect(key1 = true) {
+        viewModel.uiEvent.collect { event ->
+            when (event) {
+                is UiEvent.Navigate -> onNavigate(event)
+                else -> {}
+            }
+        }
+    }
+
     EditWatchedMovieDialog()
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
@@ -36,7 +49,7 @@ fun WatchedMoviesScreen(
                 Text(text = "Watched", fontSize = 20.sp)
             }
             Column(verticalArrangement = Arrangement.Center) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { /*TODO Order watched movies*/ }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_sort),
                         contentDescription = "Sort button",
@@ -50,6 +63,7 @@ fun WatchedMoviesScreen(
             LazyColumn() {
                 items(watchedList.value) {
                     WatchedMovieItem(
+                        onClick = { viewModel.onEvent(WatchedMoviesEvent.OnWatchedMovieClick(it.id_movie)) },
                         posterUrl = it.posterUrl,
                         title = it.title,
                         genre = it.genre, //todo fix database

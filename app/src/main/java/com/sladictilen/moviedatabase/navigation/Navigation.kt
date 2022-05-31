@@ -86,7 +86,7 @@ fun Navigation() {
                     WatchListScreen()
                 }
                 composable(route = BottomNavScreens.WatchedMovies.route) {
-                    WatchedMoviesScreen()
+                    WatchedMoviesScreen(onNavigate = { navController.navigate(route = it.route) })
                 }
                 composable(
                     route = Screens.MovieProfile.route + "?id={id}",

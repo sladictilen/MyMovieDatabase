@@ -5,8 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sladictilen.moviedatabase.data.database.LocalMoviesRepository
 import com.sladictilen.moviedatabase.data.database.WatchedData
+import com.sladictilen.moviedatabase.navigation.Screens
+import com.sladictilen.moviedatabase.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,6 +21,9 @@ class WatchedMoviesViewModel @Inject constructor(
     var watchedMovies = repository.getWatched()
     var clickedMovie: WatchedData? = null
     var showEditDialog = mutableStateOf(false)
+
+    private val _uiEvent = Channel<UiEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
 
     fun onEvent(event: WatchedMoviesEvent) {
         when (event) {
@@ -47,8 +54,16 @@ class WatchedMoviesViewModel @Inject constructor(
                 viewModelScope.launch(Dispatchers.IO) {
                     repository.deleteWatchedMovie(event.movie)
                 }
-
             }
+            is WatchedMoviesEvent.OnWatchedMovieClick -> {
+                sendUiEvent(UiEvent.Navigate(Screens.MovieProfile.route + "?id=${event.idMovie}"))
+            }
+        }
+    }
+
+    private fun sendUiEvent(event: UiEvent) {
+        viewModelScope.launch {
+            _uiEvent.send(event)
         }
     }
 }
