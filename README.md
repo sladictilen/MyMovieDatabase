@@ -12,13 +12,13 @@ This project is not finished - **still in development**. Not ready for daily use
 
 To do:
 - various bug fixes
-- removing, editing items in "your watched list" (editing date watched, rating)
 - adding tv series with episode list 
 - support for different screen sizes
 - movie profile screen upgrades
 - better UI
 - animations
 - optimisation
+- fix watch list slide to reveal bug
 
 Pictures:
 
