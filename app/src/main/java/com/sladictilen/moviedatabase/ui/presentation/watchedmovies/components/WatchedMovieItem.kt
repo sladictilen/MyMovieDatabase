@@ -38,10 +38,11 @@ fun WatchedMovieItem(
             detectTapGestures(
                 onLongPress = {
                     onLongPress()
-                }
+                },
+                onTap = {onClick()}
             )
         }
-        .clickable { onClick() }
+
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             Row(

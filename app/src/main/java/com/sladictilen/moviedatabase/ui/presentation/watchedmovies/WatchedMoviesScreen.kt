@@ -63,7 +63,6 @@ fun WatchedMoviesScreen(
             LazyColumn() {
                 items(watchedList.value) {
                     WatchedMovieItem(
-                        onClick = { viewModel.onEvent(WatchedMoviesEvent.OnWatchedMovieClick(it.id_movie)) },
                         posterUrl = it.posterUrl,
                         title = it.title,
                         genre = it.genre, //todo fix database
@@ -71,7 +70,8 @@ fun WatchedMoviesScreen(
                         userRating = it.userRating.toString(),
                         onLongPress = {
                             viewModel.onEvent(WatchedMoviesEvent.OpenEditDialog(it))
-                        }
+                        },
+                        onClick = { viewModel.onEvent(WatchedMoviesEvent.OnWatchedMovieClick(it.id_movie)) }
                     )
                 }
             }
