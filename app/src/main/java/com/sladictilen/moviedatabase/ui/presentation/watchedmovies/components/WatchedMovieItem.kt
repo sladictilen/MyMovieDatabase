@@ -39,7 +39,7 @@ fun WatchedMovieItem(
                 onLongPress = {
                     onLongPress()
                 },
-                onTap = {onClick()}
+                onTap = { onClick() }
             )
         }
 

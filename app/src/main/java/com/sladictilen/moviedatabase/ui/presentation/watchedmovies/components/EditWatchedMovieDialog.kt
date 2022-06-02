@@ -2,7 +2,6 @@ package com.sladictilen.moviedatabase.ui.presentation.watchedmovies.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -75,7 +74,12 @@ fun EditWatchedMovieDialog(
                             editRatingVisibility = false
                             removeVisibility = false
                             editDateVisibility = !editDateVisibility
-                            selectedItem = SelectedItem.ChangeWatchDate
+                            selectedItem = if (selectedItem == SelectedItem.ChangeWatchDate) {
+                                SelectedItem.None
+                            } else {
+                                SelectedItem.ChangeWatchDate
+                            }
+
                         }
                         .padding(top = 5.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -102,7 +106,11 @@ fun EditWatchedMovieDialog(
                             editDateVisibility = false
                             removeVisibility = false
                             editRatingVisibility = !editRatingVisibility
-                            selectedItem = SelectedItem.ChangeMovieRating
+                            selectedItem = if (selectedItem == SelectedItem.ChangeMovieRating) {
+                                SelectedItem.None
+                            } else {
+                                SelectedItem.ChangeMovieRating
+                            }
                         }
                         .padding(top = 5.dp, bottom = 5.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -131,7 +139,12 @@ fun EditWatchedMovieDialog(
                             editRatingVisibility = false
                             editDateVisibility = false
                             removeVisibility = !removeVisibility
-                            selectedItem = SelectedItem.RemoveMovie
+                            selectedItem = if (selectedItem == SelectedItem.RemoveMovie) {
+                                SelectedItem.None
+                            } else {
+                                SelectedItem.RemoveMovie
+                            }
+
                         }
                         .padding(bottom = 5.dp),
                     verticalAlignment = Alignment.CenterVertically

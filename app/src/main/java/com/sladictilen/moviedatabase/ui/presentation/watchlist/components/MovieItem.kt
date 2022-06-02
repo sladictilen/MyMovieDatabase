@@ -30,7 +30,7 @@ import kotlin.math.roundToInt
 fun MovieItem(
     movie: ToWatchData,
     onRemove: () -> Unit,
-    onWatched: () -> Unit
+    onWatched: () -> Unit,
 ) {
     val buttonState = remember {
         mutableStateOf(false)
@@ -45,6 +45,7 @@ fun MovieItem(
         }
     }
     val squareSize = 200.dp
+
 
     val sizePx = with(LocalDensity.current) { squareSize.toPx() }
     val anchors = mapOf(0f to 0, -sizePx to 1)
@@ -104,7 +105,10 @@ fun MovieItem(
                         verticalArrangement = Arrangement.Center
                     ) {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                            IconButton(onClick = { onWatched() }, enabled = buttonState.value) {
+                            IconButton(onClick = {
+                                onWatched()
+                                swipeableState.currentValue
+                            }, enabled = buttonState.value) {
                                 Image(
                                     painter = painterResource(id = R.drawable.ic_green_checkmark),
                                     contentDescription = "add to watched",
