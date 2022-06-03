@@ -18,7 +18,6 @@ To do:
 - better UI
 - animations
 - optimisation
-- fix watch list slide to reveal bug
 
 Known bugs:
 - On Watched screen when updating your rating or watched date and then updating again it uses previous data
