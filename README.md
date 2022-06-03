@@ -20,6 +20,9 @@ To do:
 - optimisation
 - fix watch list slide to reveal bug
 
+Known bugs:
+- On Watched screen when updating your rating or watched date and then updating again it uses previous data
+
 Pictures:
 
 <img src="https://user-images.githubusercontent.com/85624506/169522884-df22bbae-2470-4164-92e9-bde529649f7b.png" width="200">
