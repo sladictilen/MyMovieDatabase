@@ -77,15 +77,19 @@ fun Navigation() {
                 startDestination = BottomNavScreens.DiscoverScreen.route
             ) {
                 composable(route = BottomNavScreens.DiscoverScreen.route) {
+                    selectedItem = 0
                     DiscoverScreen(onNavigate = { navController.navigate(route = it.route) })
                 }
                 composable(route = BottomNavScreens.SearchScreen.route) {
+                    selectedItem = 1
                     SearchScreen(onNavigate = { navController.navigate(route = it.route) })
                 }
                 composable(route = BottomNavScreens.WatchListScreen.route) {
+                    selectedItem = 2
                     WatchListScreen()
                 }
                 composable(route = BottomNavScreens.WatchedMovies.route) {
+                    selectedItem = 3
                     WatchedMoviesScreen(onNavigate = { navController.navigate(route = it.route) })
                 }
                 composable(
