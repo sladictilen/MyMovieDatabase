@@ -20,13 +20,6 @@ To do:
 - optimisation
 
 
-Pictures:
-
-<img src="https://user-images.githubusercontent.com/85624506/169522884-df22bbae-2470-4164-92e9-bde529649f7b.png" width="200">
-<img src="https://user-images.githubusercontent.com/85624506/169522920-d4fde0b6-4cc9-4dfe-b134-4cd7199a376f.png" width="200">
-<img src="https://user-images.githubusercontent.com/85624506/169522924-1b12d5a5-ef0f-44b6-8347-bc3b5d403d27.png" width="200">
-<img src="https://user-images.githubusercontent.com/85624506/169522929-4205e3e1-4049-46d1-8adf-0603891787cf.png" width="200">
-<img src="https://user-images.githubusercontent.com/85624506/169600479-84dbd265-996f-47a5-9573-aef2f7d92954.png" width="200">
-<img src="https://user-images.githubusercontent.com/85624506/169600617-bbeec41c-b98f-452e-9162-c3a8c9595177.png" width="200">
-<img src="https://user-images.githubusercontent.com/85624506/169600652-bd631a33-cf8e-4d27-aecd-2c0e81eed960.png" width="200">
-
+## Pictures:
+# Discover Screen
+<img src = "/screenshots/Discover-screen">
