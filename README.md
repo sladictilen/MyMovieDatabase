@@ -22,4 +22,4 @@ To do:
 
 ## Pictures:
 # Discover Screen
-<img src = "/screenshots/Discover-screen">
+<img src="/screenshots/Discover-screen.png" width="100">
