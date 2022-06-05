@@ -1,6 +1,5 @@
 package com.sladictilen.moviedatabase.ui.presentation.watchedmovies
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -59,15 +58,15 @@ fun WatchedMoviesScreen(
             }
         }
         val watchedList = viewModel.watchedMovies.collectAsState(initial = emptyList())
-        Row() {
-            LazyColumn() {
+        Row {
+            LazyColumn {
                 items(watchedList.value) {
                     WatchedMovieItem(
                         posterUrl = it.posterUrl,
                         title = it.title,
-                        genre = it.genre, //todo fix database
+                        genre = it.genre,
                         watchedDate = it.dateWatched,
-                        userRating = it.userRating.toString(),
+                        userRating = it.userRating,
                         onLongPress = {
                             viewModel.onEvent(WatchedMoviesEvent.OpenEditDialog(it))
                         },
