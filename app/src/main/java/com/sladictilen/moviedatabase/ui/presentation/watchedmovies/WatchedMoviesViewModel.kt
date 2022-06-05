@@ -28,7 +28,13 @@ class WatchedMoviesViewModel @Inject constructor(
     fun onEvent(event: WatchedMoviesEvent) {
         when (event) {
             is WatchedMoviesEvent.OpenEditDialog -> {
-                clickedMovie = event.movie
+                viewModelScope.launch(Dispatchers.IO) {
+                    val clickedMovieData =
+                        repository.getMovieFromWatchedListById(event.movie.id_movie)
+                    clickedMovie = clickedMovieData
+                }
+
+
                 showEditDialog.value = true
             }
             is WatchedMoviesEvent.OnSaveClick -> {

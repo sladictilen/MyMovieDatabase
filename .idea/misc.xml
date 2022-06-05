@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/sladi/Documents/MyMovieDatabase/app/src/main/res/drawable/ic_imdb.xml" value="0.1915" />
+        <entry key="app/src/main/res/drawable/ic_excelent.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_great.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_okay.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_very_bad.xml" value="0.1" />
       </map>
     </option>
   </component>

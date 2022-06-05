@@ -15,7 +15,6 @@ import com.sladictilen.moviedatabase.util.helpers.getUserRatingImage
 
 @Composable
 fun RatingPicker(selectedRating: String, onRatingClick: (String) -> Unit) {
-    // TODO READ FROM VIEWMODEL
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -26,7 +25,7 @@ fun RatingPicker(selectedRating: String, onRatingClick: (String) -> Unit) {
                 IconButton(onClick = { onRatingClick("1") }) {
                     GlideImage(
                         imageModel = getUserRatingImage("1"),
-                        modifier = Modifier.size(50.dp)
+                        modifier = Modifier.size(40.dp)
                     )
                 }
                 if (selectedRating == "1") {
@@ -45,7 +44,7 @@ fun RatingPicker(selectedRating: String, onRatingClick: (String) -> Unit) {
                 IconButton(onClick = { onRatingClick("2") }) {
                     GlideImage(
                         imageModel = getUserRatingImage("2"),
-                        modifier = Modifier.size(50.dp)
+                        modifier = Modifier.size(40.dp)
                     )
                 }
                 if (selectedRating == "2") {
@@ -64,7 +63,7 @@ fun RatingPicker(selectedRating: String, onRatingClick: (String) -> Unit) {
                 IconButton(onClick = { onRatingClick("3") }) {
                     GlideImage(
                         imageModel = getUserRatingImage("3"),
-                        modifier = Modifier.size(50.dp)
+                        modifier = Modifier.size(40.dp)
                     )
                 }
                 if (selectedRating == "3") {
@@ -83,7 +82,7 @@ fun RatingPicker(selectedRating: String, onRatingClick: (String) -> Unit) {
                 IconButton(onClick = { onRatingClick("4") }) {
                     GlideImage(
                         imageModel = getUserRatingImage("4"),
-                        modifier = Modifier.size(50.dp)
+                        modifier = Modifier.size(40.dp)
                     )
                 }
                 if (selectedRating == "4") {
@@ -105,7 +104,7 @@ fun RatingPicker(selectedRating: String, onRatingClick: (String) -> Unit) {
                 IconButton(onClick = { onRatingClick("5") }) {
                     GlideImage(
                         imageModel = getUserRatingImage("5"),
-                        modifier = Modifier.size(50.dp)
+                        modifier = Modifier.size(40.dp)
                     )
                 }
                 if (selectedRating == "5") {
