@@ -33,8 +33,6 @@ class WatchedMoviesViewModel @Inject constructor(
                         repository.getMovieFromWatchedListById(event.movie.id_movie)
                     clickedMovie = clickedMovieData
                 }
-
-
                 showEditDialog.value = true
             }
             is WatchedMoviesEvent.OnSaveClick -> {
