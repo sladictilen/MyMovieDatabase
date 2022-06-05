@@ -1,5 +1,6 @@
 # MyMovieDatabase
-Latest APK download (05.06.2022): [MyMovieDB-latest.apk.zip](https://github.com/sladictilen/MyMovieDatabase/files/8840067/MyMovieDB-latest.apk.zip)
+Latest APK download (05.06.2022): [MyMovieDB-Latest.apk.zip](https://github.com/sladictilen/MyMovieDatabase/files/8840563/MyMovieDB-Latest.apk.zip)
+
 
 
 
