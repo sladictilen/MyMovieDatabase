@@ -1,5 +1,6 @@
 # MyMovieDatabase
-Latest APK download (20.5.2022): [mymoviedatabase-unsigned.zip](https://github.com/sladictilen/MyMovieDatabase/files/8743679/mymoviedatabase-unsigned.zip)
+Latest APK download (05.06.2022): [mymoviedatabase_latest.apk.zip](https://github.com/sladictilen/MyMovieDatabase/files/8840051/mymoviedatabase_latest.apk.zip)
+
 
 Add movies you would like to watch to your To-Watch list and track your already watched movies. 
 
