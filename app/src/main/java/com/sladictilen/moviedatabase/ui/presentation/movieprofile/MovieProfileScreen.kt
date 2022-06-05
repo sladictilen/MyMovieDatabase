@@ -45,12 +45,11 @@ fun MovieProfileScreen(
         }
     }
 
-
     val swipingState = rememberSwipeableState(initialValue = SwipingStates.EXPANDED)
     val connection = remember {
         object : NestedScrollConnection {
 
-            override fun onPreScroll( // Desides if use the sroll for parent (Swipe) or pass it to the childern
+            override fun onPreScroll(
                 available: Offset,
                 source: NestedScrollSource
             ): Offset {
@@ -62,7 +61,7 @@ fun MovieProfileScreen(
                 }
             }
 
-            override fun onPostScroll( // If there is any leftover sroll from childern, let's try to use it on parent swipe
+            override fun onPostScroll(
                 consumed: Offset,
                 available: Offset,
                 source: NestedScrollSource
@@ -71,7 +70,7 @@ fun MovieProfileScreen(
                 return swipingState.performDrag(delta).toOffset()
             }
 
-            override suspend fun onPostFling( // Let's try to use fling on parent and pass all leftover to children
+            override suspend fun onPostFling(
                 consumed: Velocity,
                 available: Velocity
             ): Velocity {
@@ -85,14 +84,14 @@ fun MovieProfileScreen(
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
 
         val heightInPx =
-            with(LocalDensity.current) { maxHeight.toPx() } // Get height of the available space
+            with(LocalDensity.current) { maxHeight.toPx() }
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .swipeable(
                     state = swipingState,
-                    thresholds = { _, _ -> FractionalThreshold(0.5f) }, // Threshold defining progress fraction in which should animation automatically snap to target anchor
+                    thresholds = { _, _ -> FractionalThreshold(0.5f) },
                     orientation = Orientation.Vertical,
                     anchors = mapOf(
                         // Maps anchor points (in px) to states
