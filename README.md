@@ -14,6 +14,7 @@ App uses 3 different data sources:
 This project is not finished - **still in development**. Not ready for daily use just for testing.
 
 To do:
+- new movie profile screen, better motion layout header
 - various bug fixes
 - adding tv series with episode list 
 - support for different screen sizes
