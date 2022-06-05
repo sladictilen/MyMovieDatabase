@@ -6,7 +6,7 @@ Add movies you would like to watch to your To-Watch list and track your already 
 App uses 3 different data sources:
 - OMDB - where we get movie ratings
 - TMDB - where we get movie info, popular list, similar movies
-- Local database - where we store only your To-Watch List and Watched movies.
+- Local database - where we store only your To-Watch List and Watched movies
 
 This project is not finished - **still in development**. Not ready for daily use just for testing.
 
@@ -18,8 +18,16 @@ To do:
 - better UI
 - animations
 - optimisation
-
+- splash screen
+- logo
 
 ## Pictures:
-# Discover Screen
-<img src="/screenshots/Discover-screen.png" width="100">
+
+<p align="center">
+  <img src="/screenshots/Discover-screen.png" width="200">
+  <img src="/screenshots/Movie-profile.screen.png" width="200">
+  <img src="/screenshots/Search-screen.png" width="200">
+  <img src="/screenshots/Watched-screen.png" width="200">
+  <img src="/screenshots/Watchlist-screen.png" width="200">
+  <img src="/screenshots/edit-watched-screen.png" width="200">
+</p>
