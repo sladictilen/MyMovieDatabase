@@ -53,10 +53,10 @@ fun ActorItem(
             Column(modifier = Modifier
                 .padding(start = 5.dp, top = 5.dp)
                 .weight(2f)) {
-                Row() {
+                Row {
                     Text(name, fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colors.primary)
                 }
-                Row() {
+                Row {
                     Text("as $characterName", fontWeight = FontWeight.Light, color = Color.LightGray)
                 }
             }

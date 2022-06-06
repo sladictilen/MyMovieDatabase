@@ -19,8 +19,6 @@ class WatchListViewModel @Inject constructor(
     val watchList = localMoviesRepository.getWatchList()
     val showDialog = mutableStateOf(false)
 
-
-
     val selectedMovieId = mutableStateOf(0)
     val selectedMovieTitle = mutableStateOf("")
     val userRating = mutableStateOf("0")
@@ -63,7 +61,15 @@ class WatchListViewModel @Inject constructor(
                             )
                         )
                     }
+                    WatchListEvent.OnRemoveMovieClick(movie!!.id_movie)
                 }
+                viewModelScope.launch(Dispatchers.IO) {
+                    val movie = localMoviesRepository.getMovieFromToWatchListById(event.id_movie)
+                    if (movie != null) {
+                        localMoviesRepository.deleteWatchListMovie(movie)
+                    }
+                }
+
             }
         }
     }

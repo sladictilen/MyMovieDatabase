@@ -23,13 +23,13 @@ fun SimilarMovieItem(posterUrl: String, title: String, onClick: () -> Unit) {
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            Row() {
+            Row {
                 GlideImage(
                     imageModel = "https://image.tmdb.org/t/p/w185$posterUrl",
                     contentScale = ContentScale.FillHeight
                 )
             }
-            Row() {
+            Row {
                 Text(text = title)
             }
         }

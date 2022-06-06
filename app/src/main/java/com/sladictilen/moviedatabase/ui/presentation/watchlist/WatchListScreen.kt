@@ -18,7 +18,6 @@ import com.sladictilen.moviedatabase.R
 import com.sladictilen.moviedatabase.ui.presentation.watchlist.components.AddToWatchedDialog
 import com.sladictilen.moviedatabase.ui.presentation.watchlist.components.MovieItem
 
-// TODO maybe add dialog if you are sure to remove
 
 @Composable
 fun WatchListScreen(

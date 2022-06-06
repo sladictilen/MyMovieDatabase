@@ -95,7 +95,7 @@ fun EditWatchedMovieDialog(
 
                         }
                     }
-                    Column() {
+                    Column {
                         Text(text = "Change watched date.", fontWeight = FontWeight.Light)
                     }
                 }
@@ -127,7 +127,7 @@ fun EditWatchedMovieDialog(
 
                         }
                     }
-                    Column() {
+                    Column {
                         Text(text = "Change my movie rating.", fontWeight = FontWeight.Light)
                     }
 
@@ -159,7 +159,7 @@ fun EditWatchedMovieDialog(
                             )
                         }
                     }
-                    Column() {
+                    Column {
                         Text(
                             text = "Remove from Watched list.",
                             fontWeight = FontWeight.Light
@@ -187,7 +187,7 @@ fun EditWatchedMovieDialog(
                                 .fillMaxWidth()
                                 .padding(top = 5.dp)
                         ) {
-                            Column() {
+                            Column {
                                 Button(onClick = {
                                     viewModel.onEvent(
                                         WatchedMoviesEvent.OnSaveClick(
@@ -200,7 +200,7 @@ fun EditWatchedMovieDialog(
                                     Text(text = "Update date")
                                 }
                             }
-                            Column() {
+                            Column {
                                 Button(onClick = { viewModel.showEditDialog.value = false }) {
                                     Text(text = "Cancel")
                                 }
@@ -214,8 +214,8 @@ fun EditWatchedMovieDialog(
                 var rating by remember { mutableStateOf(viewModel.clickedMovie!!.userRating) }
                 AnimatedVisibility(visible = editRatingVisibility) {
                     var updateRatingBT by remember { mutableStateOf(false) }
-                    Column() {
-                        Row() {
+                    Column {
+                        Row {
                             RatingPicker(
                                 selectedRating = rating,
                                 onRatingClick = {
@@ -230,7 +230,7 @@ fun EditWatchedMovieDialog(
                                 .fillMaxWidth()
                                 .padding(top = 5.dp)
                         ) {
-                            Column() {
+                            Column {
                                 Button(onClick = {
                                     viewModel.onEvent(
                                         WatchedMoviesEvent.OnSaveClick(
@@ -243,7 +243,7 @@ fun EditWatchedMovieDialog(
                                     Text(text = "Update rating")
                                 }
                             }
-                            Column() {
+                            Column {
                                 Button(
                                     onClick = { viewModel.showEditDialog.value = false }
                                 ) {
@@ -260,8 +260,8 @@ fun EditWatchedMovieDialog(
                     mutableStateOf(false)
                 }
                 AnimatedVisibility(visible = removeVisibility) {
-                    Column() {
-                        Row() {
+                    Column {
+                        Row {
                             Text(text = "Are you sure you want to remove this movie from your Watched list?")
                         }
                         Row(
@@ -269,13 +269,13 @@ fun EditWatchedMovieDialog(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Column() {
+                            Column {
                                 Checkbox(
                                     checked = removeButtonStatus,
                                     onCheckedChange = { removeButtonStatus = !removeButtonStatus }
                                 )
                             }
-                            Column() {
+                            Column {
                                 Text(text = "Confirm.")
                             }
 
@@ -286,7 +286,7 @@ fun EditWatchedMovieDialog(
                                 .fillMaxWidth()
                                 .padding(top = 5.dp)
                         ) {
-                            Column() {
+                            Column {
                                 Button(onClick = {
                                     viewModel.onEvent(
                                         WatchedMoviesEvent.OnRemoveWatchedMovieClick(viewModel.clickedMovie!!)
@@ -297,7 +297,7 @@ fun EditWatchedMovieDialog(
                                     Text(text = "Remove")
                                 }
                             }
-                            Column() {
+                            Column {
                                 Button(onClick = { viewModel.showEditDialog.value = false }) {
                                     Text(text = "Cancel")
                                 }
