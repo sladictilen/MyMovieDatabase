@@ -13,7 +13,7 @@ App uses 3 different data sources:
 
 This project is not finished - **still in development**. Not ready for daily use just for testing.
 
-# To do:
+### To do:
 - new movie profile screen, better motion layout header
 - various bug fixes
 - adding tv series with episode list 
@@ -25,7 +25,7 @@ This project is not finished - **still in development**. Not ready for daily use
 - splash screen
 - logo
 
-# Known bugs: 
+### Known bugs: 
 - Adding to watch list from movie profile screen and then clicking back on a button won't go back
 - toasts not showing 
 
