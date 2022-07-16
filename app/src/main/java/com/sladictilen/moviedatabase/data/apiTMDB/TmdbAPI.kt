@@ -5,6 +5,8 @@ import com.sladictilen.moviedatabase.data.apiTMDB.cast.CastResponse
 import com.sladictilen.moviedatabase.data.apiTMDB.featuredmovies.TrendingWeeklyMoviesResponse
 import com.sladictilen.moviedatabase.data.apiTMDB.moviedetail.MovieDetailResponse
 import com.sladictilen.moviedatabase.data.apiTMDB.moviesearch.MoviesSearchResponse
+import com.sladictilen.moviedatabase.data.apiTMDB.movietrailer.MovieTrailerData
+import com.sladictilen.moviedatabase.data.apiTMDB.movietrailer.MovieTrailerResponse
 import com.sladictilen.moviedatabase.data.apiTMDB.popularmovies.PopularMoviesResponse
 import com.sladictilen.moviedatabase.data.apiTMDB.similarmovies.SimilarMoviesResponse
 import com.sladictilen.moviedatabase.util.Constants.Companion.TMDB_API_KEY
@@ -55,4 +57,10 @@ interface TmdbAPI {
     suspend fun getPopularMovies(
         @Query("api_key") apiKey: String = TMDB_API_KEY
     ): PopularMoviesResponse
+
+    @GET("movie/{id}/videos")
+    suspend fun getMovieTrailer(
+        @Path("id") id: Int,
+        @Query("api_key") apiKey: String = TMDB_API_KEY
+    ): MovieTrailerResponse
 }

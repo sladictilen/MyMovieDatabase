@@ -24,7 +24,7 @@ interface DatabaseDao {
     fun getWatched(): Flow<List<WatchedData>>
 
     @Query("SELECT * FROM WatchedData WHERE id_movie = :id")
-    suspend fun getMovieFromWatchedListById(id: Int): WatchedData?
+    fun getMovieFromWatchedListById(id: Int): WatchedData?
 
     @Query("SELECT * FROM ToWatchData WHERE id_movie = :id")
     suspend fun getMovieFromToWatchListById(id: Int): ToWatchData?

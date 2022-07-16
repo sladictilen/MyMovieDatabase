@@ -33,7 +33,6 @@ fun DiscoverScreen(
                 }
                 else -> {}
             }
-
         }
     }
 
@@ -97,25 +96,25 @@ fun DiscoverScreen(
                 }
                 Row() {
                     LazyRow() {
-                        items(viewModel.popularMovies) {
+                        items(viewModel.popularMovies) { movie ->
                             Column(Modifier.padding(end = 10.dp)) {
                                 MoviePosterItem(
-                                    idMovie = it.id,
-                                    posterUrl = it.poster_path,
+                                    idMovie = movie.id,
+                                    posterUrl = movie.poster_path,
                                     isWatched = false,
                                     isOnWatchList = false,
-                                    onClick = { viewModel.onEvent(DiscoverEvent.OnMovieClick(it.id)) },
+                                    onClick = { viewModel.onEvent(DiscoverEvent.OnMovieClick(movie.id)) },
                                     onAddToWatchListClick = {
                                         viewModel.onEvent(
                                             DiscoverEvent.OnAddToWatchListClick(
-                                                it.id
+                                                movie.id
                                             )
                                         )
                                     },
                                     onRemoveFromToWatchListClick = {
                                         viewModel.onEvent(
                                             DiscoverEvent.OnRemoveFromToWatchListClick(
-                                                it.id
+                                                movie.id
                                             )
                                         )
                                     }

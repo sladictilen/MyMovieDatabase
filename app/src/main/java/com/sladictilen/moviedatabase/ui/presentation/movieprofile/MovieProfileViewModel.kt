@@ -2,10 +2,13 @@ package com.sladictilen.moviedatabase.ui.presentation.movieprofile
 
 import android.util.Log
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -37,6 +40,9 @@ class MovieProfileViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private lateinit var movieDetails: MovieDetailResponse
+
+    val fabState = mutableStateOf(FabButtonState.COLLAPSED)
+
 
     var title by mutableStateOf("")
         private set
@@ -77,6 +83,8 @@ class MovieProfileViewModel @Inject constructor(
         private set
 
     var youtubeTrailerURL by mutableStateOf("")
+        private set
+    var youtubeKey by mutableStateOf("")
         private set
 
 
@@ -136,6 +144,30 @@ class MovieProfileViewModel @Inject constructor(
                             /* todo */
                         }
                     }
+                    when (val trailers =
+                        repository.getYTTrailer(savedStateHandle.get<Int>("id")!!)) {
+                        is Resource.Success -> {
+                            val response = trailers.data!!
+
+                            for (x in response.results) {
+                                if (x.site == "YouTube") {
+                                    youtubeTrailerURL = "https://www.youtube.com/watch?v=${x.key}"
+                                    youtubeKey = x.key
+                                    break
+                                }
+                            }
+                        }
+                        is Resource.Error -> {
+                            Log.d(
+                                "Response Error",
+                                "Error getting movie trailer. e: " + result.message
+                            )
+                        }
+                        is Resource.Loading -> {
+                            /* TODO LOADING */
+                        }
+                    }
+
                     allLoaded = true
                     Log.d("Info", "Got movie data")
                 }
@@ -170,6 +202,9 @@ class MovieProfileViewModel @Inject constructor(
                 }
                 is Resource.Loading -> {
                     /* TODO loading */
+                    title = "Loading..."
+                    runtime = 0
+                    genre = "Loading genre..."
                 }
             }
         }
@@ -258,8 +293,12 @@ class MovieProfileViewModel @Inject constructor(
     }
 
     private fun sendUiEvent(event: UiEvent) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _uiEvent.send(event)
         }
     }
+}
+
+enum class FabButtonState {
+    COLLAPSED, EXTENDED
 }

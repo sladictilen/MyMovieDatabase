@@ -1,13 +1,11 @@
 package com.sladictilen.moviedatabase.ui.presentation.movieprofile
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -15,13 +13,15 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Velocity
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.MotionHeader
 import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.MovieProfileContent
-import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.MovieProfileHeader
+import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.MultiFabItem
 import com.sladictilen.moviedatabase.util.UiEvent
+import kotlin.math.abs
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MovieProfileScreen(
     viewModel: MovieProfileViewModel = hiltViewModel(),
@@ -44,81 +44,80 @@ fun MovieProfileScreen(
 
         }
     }
-
-    val swipingState = rememberSwipeableState(initialValue = SwipingStates.EXPANDED)
-    val connection = remember {
-        object : NestedScrollConnection {
-
-            override fun onPreScroll(
-                available: Offset,
-                source: NestedScrollSource
-            ): Offset {
-                val delta = available.y
-                return if (delta < 0) {
-                    swipingState.performDrag(delta).toOffset()
-                } else {
-                    Offset.Zero
-                }
-            }
-
-            override fun onPostScroll(
-                consumed: Offset,
-                available: Offset,
-                source: NestedScrollSource
-            ): Offset {
-                val delta = available.y
-                return swipingState.performDrag(delta).toOffset()
-            }
-
-            override suspend fun onPostFling(
-                consumed: Velocity,
-                available: Velocity
-            ): Velocity {
-                swipingState.performFling(velocity = available.y)
-                return super.onPostFling(consumed, available)
-            }
-
-            private fun Float.toOffset() = Offset(0f, this)
+    val toolbarHeight = 230.dp - 56.dp
+    val toolbarHeightPx = with(LocalDensity.current) { toolbarHeight.roundToPx().toFloat() }
+    val toolbarOffsetHeightPx = remember { mutableStateOf(0f) }
+    val connection = object : NestedScrollConnection {
+        override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+            val delta = available.y
+            val newOffset = toolbarOffsetHeightPx.value + delta
+            toolbarOffsetHeightPx.value = newOffset.coerceIn(-toolbarHeightPx, 0f)
+            return Offset.Zero
         }
     }
-    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
-
-        val heightInPx =
-            with(LocalDensity.current) { maxHeight.toPx() }
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .swipeable(
-                    state = swipingState,
-                    thresholds = { _, _ -> FractionalThreshold(0.5f) },
-                    orientation = Orientation.Vertical,
-                    anchors = mapOf(
-                        // Maps anchor points (in px) to states
-                        0f to SwipingStates.COLLAPSED,
-                        heightInPx to SwipingStates.EXPANDED,
+    when (viewModel.allLoaded) {
+        true -> {
+            Scaffold(
+                floatingActionButton = {
+                    MultiFabItem(
+                        onClick = {
+                            if (viewModel.fabState.value == FabButtonState.EXTENDED) {
+                                viewModel.fabState.value = FabButtonState.COLLAPSED
+                            } else {
+                                viewModel.fabState.value = FabButtonState.EXTENDED
+                            }
+                        },
+                        onAddToWatchListClick = {
+                            viewModel.onEvent(MovieProfileEvent.OnAddToWatchListButtonClick)
+                            viewModel.fabState.value = FabButtonState.COLLAPSED
+                        },
+                        onMarkAsWatchedClick = {
+                            viewModel.onEvent(MovieProfileEvent.OnAddToWatchedListButtonClick)
+                            viewModel.fabState.value = FabButtonState.COLLAPSED
+                        },
+                        fabState = viewModel.fabState.value
                     )
-                )
-                .nestedScroll(connection)
-        ) {
-
-                MovieProfileHeader(
-                    progress =
-                    if (swipingState.progress.to == SwipingStates.COLLAPSED) swipingState.progress.fraction
-                    else 1f - swipingState.progress.fraction,
-                    onBackClick = { viewModel.onEvent(MovieProfileEvent.OnBackPressed) }
-                ) {
-                    MovieProfileContent(viewModel = viewModel)
                 }
+            ) {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(it)
+                        .nestedScroll(connection)
+                ) {
+                    LazyColumn(contentPadding = PaddingValues(top = toolbarHeight + 56.dp)) {
+                        item {
+                            MovieProfileContent(viewModel)
+                        }
+                    }
+                    MotionHeader(
+                        title = viewModel.title,
+                        genre = viewModel.genre,
+                        length = "${viewModel.runtime} min",
+                        imageUrl = "https://image.tmdb.org/t/p/w500/${viewModel.backdropImageUrl}",
+                        progress = abs(toolbarOffsetHeightPx.value) / toolbarHeightPx,
+                        modifier = Modifier
+                            .offset {
+                                IntOffset(
+                                    x = 0,
+                                    y = 0
+                                ) // no need for offset as motion layout changes height
+                            },
+                        onBackClick = { onPopBackStack() }
+                    )
+                }
+            }
+
 
         }
+        else -> {
+            /* TODO add loading */
+        }
+
     }
-
-
 }
 
-enum class SwipingStates {
-    EXPANDED,
-    COLLAPSED
-}
+
+
+
 

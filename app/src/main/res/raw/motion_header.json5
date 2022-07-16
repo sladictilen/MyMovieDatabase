@@ -1,0 +1,63 @@
+{
+  ConstraintSets: {
+    start: {
+      image: {
+        width: 'spread',
+        height: 230,
+        start: ['parent', 'start'],
+        top: ['parent', 'start'],
+        custom: {
+          blur: 0
+        }
+      },
+      short_info: {
+        start: ['parent', 'start', 5],
+        bottom: ['image', 'bottom', 10],
+        alpha: 1.0
+      },
+      black_bar: {
+        start: ['parent', 'start'],
+        bottom: ['image', 'bottom'],
+        alpha: 1.0
+      },
+      title: {
+        start: ['parent', 'start', 5],
+        bottom: ['short_info', 'top', 5]
+      },
+      back: {
+        start: ['parent', 'start', 5],
+        top: ['parent', 'top', 5]
+      }
+    },
+    end: {
+      image: {
+        height: 56,
+        start: ['parent', 'start'],
+        top: ['parent', 'start'],
+        custom: {
+          blur: 10
+        }
+      },
+      short_info: {
+        start: ['parent', 'start'],
+        bottom: ['image', 'bottom', 10],
+        alpha: 0.0
+      },
+      black_bar: {
+        start: ['parent', 'start'],
+        bottom: ['image', 'bottom'],
+        alpha: 0.0
+      },
+      title: {
+        start: ['parent', 'start'],
+        end: ['parent', 'end'],
+        top: ['image', 'top'],
+        bottom: ['image', 'bottom']
+      },
+      back: {
+        start: ['parent', 'start', 5],
+        top: ['parent', 'top', 5]
+      }
+    }
+  }
+}

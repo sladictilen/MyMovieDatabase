@@ -30,7 +30,6 @@ class DiscoverViewModel @Inject constructor(
 ) : ViewModel() {
     var featuredWeeklyMovies by mutableStateOf(listOf<TrendingWeeklyMovies>())
     var popularMovies by mutableStateOf(listOf<PopularMovie>())
-    var toWatchList = localRepository.getWatchList()
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
@@ -135,7 +134,7 @@ class DiscoverViewModel @Inject constructor(
 
 
     private fun sendUiEvent(event: UiEvent) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _uiEvent.send(event)
         }
     }

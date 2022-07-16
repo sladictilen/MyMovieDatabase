@@ -25,12 +25,9 @@ fun SimilarMovieItem(posterUrl: String, title: String, onClick: () -> Unit) {
         ) {
             Row {
                 GlideImage(
-                    imageModel = "https://image.tmdb.org/t/p/w185$posterUrl",
-                    contentScale = ContentScale.FillHeight
+                    imageModel = "https://image.tmdb.org/t/p/w500$posterUrl",
+                    contentScale = ContentScale.FillWidth
                 )
-            }
-            Row {
-                Text(text = title)
             }
         }
     }

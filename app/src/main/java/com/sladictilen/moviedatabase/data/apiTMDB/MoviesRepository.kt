@@ -4,6 +4,8 @@ import com.sladictilen.moviedatabase.data.apiTMDB.cast.CastResponse
 import com.sladictilen.moviedatabase.data.apiTMDB.featuredmovies.TrendingWeeklyMoviesResponse
 import com.sladictilen.moviedatabase.data.apiTMDB.moviedetail.MovieDetailResponse
 import com.sladictilen.moviedatabase.data.apiTMDB.moviesearch.MoviesSearchResponse
+import com.sladictilen.moviedatabase.data.apiTMDB.movietrailer.MovieTrailerData
+import com.sladictilen.moviedatabase.data.apiTMDB.movietrailer.MovieTrailerResponse
 import com.sladictilen.moviedatabase.data.apiTMDB.popularmovies.PopularMoviesResponse
 import com.sladictilen.moviedatabase.data.apiTMDB.similarmovies.SimilarMoviesResponse
 import com.sladictilen.moviedatabase.util.Resource
@@ -65,6 +67,15 @@ class MoviesRepository @Inject constructor(
             api.getPopularMovies()
         } catch (e: Exception) {
             return Resource.Error("Error getting Popular movies.")
+        }
+        return Resource.Success(response)
+    }
+
+    suspend fun getYTTrailer(id: Int): Resource<MovieTrailerResponse> {
+        val response = try {
+            api.getMovieTrailer(id)
+        } catch (e: Exception) {
+            return Resource.Error("Error getting movie trailer.")
         }
         return Resource.Success(response)
     }
