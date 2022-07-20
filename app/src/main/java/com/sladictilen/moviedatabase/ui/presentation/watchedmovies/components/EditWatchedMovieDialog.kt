@@ -21,7 +21,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.sladictilen.moviedatabase.R
 import com.sladictilen.moviedatabase.ui.presentation.watchedmovies.WatchedMoviesEvent
 import com.sladictilen.moviedatabase.ui.presentation.watchedmovies.WatchedMoviesViewModel
-import com.sladictilen.moviedatabase.ui.presentation.watchlist.components.RatingPicker
+import com.sladictilen.moviedatabase.util.components.EditDateComponent
+import com.sladictilen.moviedatabase.util.components.RatingPicker
 
 enum class SelectedItem {
     ChangeWatchDate,

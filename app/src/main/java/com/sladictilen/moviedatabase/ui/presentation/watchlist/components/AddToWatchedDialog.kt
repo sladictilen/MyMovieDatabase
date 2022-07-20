@@ -15,6 +15,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sladictilen.moviedatabase.ui.presentation.watchlist.WatchListEvent
 import com.sladictilen.moviedatabase.ui.presentation.watchlist.WatchListViewModel
+import com.sladictilen.moviedatabase.util.components.RatingPicker
 
 @Composable
 fun AddToWatchedDialog(

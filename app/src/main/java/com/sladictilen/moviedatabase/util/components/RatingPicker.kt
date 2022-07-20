@@ -1,4 +1,4 @@
-package com.sladictilen.moviedatabase.ui.presentation.watchlist.components
+package com.sladictilen.moviedatabase.util.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape

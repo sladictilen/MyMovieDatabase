@@ -1,6 +1,5 @@
-package com.sladictilen.moviedatabase.ui.presentation.watchedmovies.components
+package com.sladictilen.moviedatabase.util.components
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*

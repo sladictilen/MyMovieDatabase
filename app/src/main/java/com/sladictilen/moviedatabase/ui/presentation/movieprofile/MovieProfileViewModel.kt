@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sladictilen.moviedatabase.data.apiOMDB.OmdbMovieResponse
 import com.sladictilen.moviedatabase.data.apiOMDB.RatingsRepository
 import com.sladictilen.moviedatabase.data.apiTMDB.MoviesRepository
@@ -22,6 +23,7 @@ import com.sladictilen.moviedatabase.data.apiTMDB.moviedetail.SpokenLanguage
 import com.sladictilen.moviedatabase.data.apiTMDB.similarmovies.SimilarMoviesData
 import com.sladictilen.moviedatabase.data.database.LocalMoviesRepository
 import com.sladictilen.moviedatabase.data.database.ToWatchData
+import com.sladictilen.moviedatabase.data.database.WatchedData
 import com.sladictilen.moviedatabase.navigation.Screens
 import com.sladictilen.moviedatabase.util.Resource
 import com.sladictilen.moviedatabase.util.UiEvent
@@ -30,6 +32,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,6 +46,7 @@ class MovieProfileViewModel @Inject constructor(
     private lateinit var movieDetails: MovieDetailResponse
 
     val fabState = mutableStateOf(FabButtonState.COLLAPSED)
+    val showDialog = mutableStateOf(false)
 
 
     var title by mutableStateOf("")
@@ -97,11 +102,19 @@ class MovieProfileViewModel @Inject constructor(
     var tagline by mutableStateOf("")
         private set
 
+    // MarkAsWatched dialog variables
+    var selectedRating = mutableStateOf("0")
+    var selectedDate = mutableStateOf("")
+
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
 
     init {
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        selectedDate.value = current.format(formatter)
+
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = repository.getIdDetails(savedStateHandle.get<Int>("id")!!)) {
                 is Resource.Success -> {
@@ -254,8 +267,25 @@ class MovieProfileViewModel @Inject constructor(
 
                 }
             }
-            is MovieProfileEvent.OnAddToWatchedListButtonClick -> {
-                /* TODO */
+            is MovieProfileEvent.OnConfirmAddToWatchedListButtonClick -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    localRepository.addToWatched(
+                        watchedData = WatchedData(
+                            id_movie = movieDetails.id,
+                            genre = genre,
+                            runtime = runtime,
+                            title = title,
+                            year = releaseDate,
+                            imdbRating = imdbRating.toDouble(),
+                            tomatoRating = rottenTomatoesRating,
+                            posterUrl = posterUrl,
+                            userRating = selectedRating.value,
+                            dateWatched = selectedDate.value,
+                        )
+                    )
+                    setWatchStatus(movieDetails.id)
+                }
+
             }
         }
     }

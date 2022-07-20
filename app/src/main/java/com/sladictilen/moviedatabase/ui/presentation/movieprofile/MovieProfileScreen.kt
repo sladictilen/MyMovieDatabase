@@ -20,6 +20,7 @@ import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.Mot
 import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.MovieProfileContent
 import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.MultiFabItem
 import com.sladictilen.moviedatabase.util.UiEvent
+import com.sladictilen.moviedatabase.ui.presentation.movieprofile.components.MarkAsWatchedDialog
 import kotlin.math.abs
 
 @Composable
@@ -28,6 +29,7 @@ fun MovieProfileScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     onPopBackStack: () -> Unit
 ) {
+    MarkAsWatchedDialog()
     val scaffoldState = rememberScaffoldState()
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
@@ -72,8 +74,8 @@ fun MovieProfileScreen(
                             viewModel.fabState.value = FabButtonState.COLLAPSED
                         },
                         onMarkAsWatchedClick = {
-                            viewModel.onEvent(MovieProfileEvent.OnAddToWatchedListButtonClick)
                             viewModel.fabState.value = FabButtonState.COLLAPSED
+                            viewModel.showDialog.value = true
                         },
                         fabState = viewModel.fabState.value
                     )
