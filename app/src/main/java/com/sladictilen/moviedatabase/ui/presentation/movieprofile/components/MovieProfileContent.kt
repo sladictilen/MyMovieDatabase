@@ -1,5 +1,6 @@
 package com.sladictilen.moviedatabase.ui.presentation.movieprofile.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -30,12 +32,19 @@ fun MovieProfileContent(viewModel: MovieProfileViewModel) {
     val sectionDividerAlpha = 0.3f
     val uriHandler = LocalUriHandler.current
 
-    Column(modifier = Modifier.padding(top = 10.dp)) {
-        // Release date
+    Column(modifier = Modifier
+        .padding(top = 10.dp)
+        .fillMaxWidth()) {
+
         Row(
-            Modifier.padding(start = 10.dp, end = 5.dp, bottom = 10.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+            Modifier
+                .padding(start = 10.dp, end = 5.dp, bottom = 10.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly
+
+            ) {
+            // Release date
             Column() {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_release_date),
@@ -58,6 +67,29 @@ fun MovieProfileContent(viewModel: MovieProfileViewModel) {
             }
             Column(modifier = Modifier.padding(start = 5.dp)) {
                 Text(text = viewModel.watched, color = Color.Gray, fontSize = 14.sp)
+            }
+
+            // IMDB rating
+            Column(modifier = Modifier.padding(start = 10.dp)) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_imdb),
+                    contentDescription = null,
+                    modifier = Modifier.height(20.dp),
+                )
+            }
+            Column(modifier = Modifier.padding(start = 5.dp)) {
+                Text(text = viewModel.imdbRating, color = Color.Gray, fontSize = 14.sp)
+            }
+            // Tomato rating
+            Column(modifier = Modifier.padding(start = 10.dp)) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_rotten_tomatoes),
+                    contentDescription = null,
+                    modifier = Modifier.height(20.dp),
+                )
+            }
+            Column(modifier = Modifier.padding(start = 5.dp)) {
+                Text(text = viewModel.rottenTomatoesRating, color = Color.Gray, fontSize = 14.sp)
             }
         }
 
