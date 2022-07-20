@@ -3,7 +3,6 @@ Latest APK download (05.06.2022): [MyMovieDB-Latest.apk.zip](https://github.com/
 
 
 
-
 Add movies you would like to watch to your To-Watch list and track your already watched movies. 
 
 App uses 3 different data sources:
@@ -19,18 +18,21 @@ This project is not finished - **still in development**. Not ready for daily use
 - adding tv series with episode list 
 - support for different screen sizes
 - ~~movie profile screen upgrades~~
-- better UI
+- better UI/UX
 - animations
 - optimisation
 - splash screen
 - logo
 - Get rid of !! in code with catch
+- cache as much as possible 
+- Search screen UI/UX improvements
+- Placeholders and loading animations
 
 ### Known bugs: 
 - Adding to watch list from movie profile screen and then clicking back on a button won't go back
 - toasts not showing 
 
-## Pictures:
+## Pictures (Not up to date):
 
 <p align="center">
   <img src="/screenshots/Discover-screen.png" width="200">
