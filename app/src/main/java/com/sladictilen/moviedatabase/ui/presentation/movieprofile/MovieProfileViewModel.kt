@@ -1,19 +1,13 @@
 package com.sladictilen.moviedatabase.ui.presentation.movieprofile
 
 import android.util.Log
-import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.sladictilen.moviedatabase.data.apiOMDB.OmdbMovieResponse
 import com.sladictilen.moviedatabase.data.apiOMDB.RatingsRepository
 import com.sladictilen.moviedatabase.data.apiTMDB.MoviesRepository
 import com.sladictilen.moviedatabase.data.apiTMDB.cast.Cast
@@ -269,6 +263,7 @@ class MovieProfileViewModel @Inject constructor(
             }
             is MovieProfileEvent.OnConfirmAddToWatchedListButtonClick -> {
                 viewModelScope.launch(Dispatchers.IO) {
+
                     localRepository.addToWatched(
                         watchedData = WatchedData(
                             id_movie = movieDetails.id,
@@ -283,8 +278,18 @@ class MovieProfileViewModel @Inject constructor(
                             dateWatched = selectedDate.value,
                         )
                     )
-                    setWatchStatus(movieDetails.id)
+
+                    if (isOnWatchList) {
+                        viewModelScope.launch(Dispatchers.IO) {
+                            val movie = localRepository.getMovieFromToWatchListById(movieDetails.id)
+                            if (movie != null) {
+                                localRepository.deleteWatchListMovie(movie)
+                            }
+                        }
+                    }
+
                 }
+                watched = "Watched"
 
             }
         }
@@ -293,7 +298,7 @@ class MovieProfileViewModel @Inject constructor(
 
     private suspend fun setWatchStatus(id: Int) {
         if (localRepository.getMovieFromToWatchListById(id) != null) {
-            watched = "On your To-Watch List"
+            watched = "On To-Watch List"
             watchedColor = Color.Yellow
             isOnWatchList = true
         } else {

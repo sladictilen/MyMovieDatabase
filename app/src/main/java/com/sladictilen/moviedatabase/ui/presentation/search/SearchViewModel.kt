@@ -28,10 +28,8 @@ class SearchViewModel @Inject constructor(
     var searchResults by mutableStateOf<List<Result>>(listOf())
         private set
 
-    var searching = false
-
-    var cachedSearch = ""
-    var cachedSearchResults = listOf<Result>()
+    var searchingState by mutableStateOf(SearchState.EmptySearch)
+        private set
 
 
     private var job: Job? = null
@@ -46,20 +44,25 @@ class SearchViewModel @Inject constructor(
         job?.cancel("Change happened.")
         if (searchText.length >= 3) {
             job = viewModelScope.launch(Dispatchers.IO) {
+                searchingState = SearchState.Searching
                 delay(500L)
                 when (val result = repository.searchMovies(searchText, 1)) {
                     is Resource.Success -> {
                         searchResults = result.data?.results!!
-                        cachedSearchResults = searchResults
-                        Log.d("Info", "Accessing API")
+                        searchingState = if (searchResults.isEmpty()) {
+                            SearchState.NoResult
+                        } else {
+                            SearchState.ResultFound
+                        }
                     }
                     is Resource.Error -> {
-                        Log.d("Info", "Accessing API")
+                        searchingState = SearchState.NoResult
                     }
                     is Resource.Loading -> {
-                        /* TODO */
+                        searchingState = SearchState.Searching
                     }
                 }
+
             }
         }
     }
@@ -72,15 +75,13 @@ class SearchViewModel @Inject constructor(
         when (event) {
             is SearchEvent.OnSearchValueChange -> {
                 searchText = event.searchText
-                cachedSearch = searchText
                 //canceling so we don't put more "jobs" in queue
                 startSearching()
             }
             is SearchEvent.OnClearSearchClick -> {
                 searchText = ""
-                cachedSearch = ""
                 searchResults = listOf()
-                cachedSearchResults = listOf()
+                searchingState = SearchState.EmptySearch
             }
             is SearchEvent.OnSearchedItemClick -> {
                 sendUiEvent(UiEvent.Navigate(Screens.MovieProfile.route + "?id=${event.id}"))
@@ -93,4 +94,8 @@ class SearchViewModel @Inject constructor(
             _uiEvent.send(event)
         }
     }
+}
+
+enum class SearchState {
+    Searching, ResultFound, NoResult, EmptySearch
 }

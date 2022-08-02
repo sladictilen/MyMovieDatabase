@@ -7,9 +7,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.Placeholder
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sladictilen.moviedatabase.R
@@ -78,34 +82,115 @@ fun SearchScreen(
             )
         }
 
-        // Bottom padding so it wont go under bottom navbar
-        Row(
-            modifier = Modifier.padding(top = 10.dp, bottom = 40.dp)
-        ) {
-            LazyColumn() {
-                items(viewModel.searchResults) {
-                    if (it.poster_path != null) {
-                        Row(
-                            modifier = Modifier
-                                .padding(bottom = 10.dp)
-                                .fillMaxWidth()
-                        ) {
-                            Log.d("Info", "${it.title}year: ${it.release_date}")
-                            SearchItem(
-                                title = it.title,
-                                year = it.release_date,
-                                poster = it.poster_path,
-                                onClick = {
-                                    viewModel.onEvent(SearchEvent.OnSearchedItemClick(it.id))
-                                }
-                            )
-                        }
+        // Search
+        when (viewModel.searchingState) {
+            SearchState.ResultFound -> {
+                ResultsFoundComp(viewModel = viewModel)
+            }
+            SearchState.EmptySearch -> {
+                EmptySearchComp()
+            }
+            SearchState.Searching -> {
+                SearchingComp()
+            }
+            SearchState.NoResult -> {
+                NoResultComp()
+            }
+        }
+    }
+}
 
+@Composable
+fun EmptySearchComp() {
+    Row(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row {
+                Text(
+                    text = "What are\nyou searching for?",
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                )
+            }
+            Row() {
+                Text(
+                    text = "Search for a movie or TV show!",
+                    fontWeight = FontWeight.ExtraLight,
+                    textAlign = TextAlign.Center,
+                    color = Color.Gray
+                )
+            }
+        }
+
+    }
+}
+
+@Composable
+fun SearchingComp() {
+    Row(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row {
+                CircularProgressIndicator()
+            }
+        }
+
+    }
+}
+
+@Composable
+fun NoResultComp() {
+    Row(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row {
+                Text(
+                    text = "No results found.",
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                )
+            }
+        }
+
+    }
+}
+
+@Composable
+fun ResultsFoundComp(viewModel: SearchViewModel) {
+    Row {
+        LazyColumn() {
+            items(viewModel.searchResults) {
+                if (it.poster_path != null) {
+                    Row(
+                        modifier = Modifier
+                            .padding(bottom = 10.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Log.d("Info", "${it.title}year: ${it.release_date}")
+                        SearchItem(
+                            title = it.title,
+                            year = it.release_date,
+                            poster = it.poster_path,
+                            onClick = {
+                                viewModel.onEvent(SearchEvent.OnSearchedItemClick(it.id))
+                            }
+                        )
                     }
+
                 }
             }
         }
     }
 }
+
 
 
