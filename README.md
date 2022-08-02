@@ -25,7 +25,7 @@ This project is not finished - **still in development**. Not ready for daily use
 - logo
 - Get rid of !! in code with catch
 - cache as much as possible 
-- Search screen UI/UX improvements
+- ~~Search screen UI/UX improvements~~
 - Placeholders and loading animations
 
 ### Known bugs: 
