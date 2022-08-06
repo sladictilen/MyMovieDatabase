@@ -17,7 +17,6 @@ This project is not finished - **still in development**. Not ready for daily use
 - various bug fixes
 - adding tv series with episode list 
 - support for different screen sizes
-- ~~movie profile screen upgrades~~
 - better UI/UX
 - animations
 - optimisation
@@ -25,8 +24,8 @@ This project is not finished - **still in development**. Not ready for daily use
 - logo
 - Get rid of !! in code with catch
 - cache as much as possible 
-- ~~Search screen UI/UX improvements~~
 - Placeholders and loading animations
+- Watched list & To-Watch list UI/UX improvements
 
 ### Known bugs: 
 - Adding to watch list from movie profile screen and then clicking back on a button won't go back
